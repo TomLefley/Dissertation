@@ -48,8 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\DirectCompute\BufferExample.cs" />
      <Compile Include="Assets\Scripts\DirectCompute\KernelExample.cs" />
-     <None Include="Assets\Scripts\DirectCompute\Shaders\BufferShader.shader" />
-     <None Include="Assets\Scripts\DirectCompute\Shaders\Kernel Example.compute" />
+     <None Include="Assets\Shaders\DirectCompute\BufferShader.shader" />
+     <None Include="Assets\Shaders\DirectCompute\Kernel Example.compute" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>

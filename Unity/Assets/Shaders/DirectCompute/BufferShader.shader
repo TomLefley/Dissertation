@@ -1,4 +1,4 @@
-﻿Shader "Custom/NewShader" {
+﻿Shader "Custom/BufferShader" {
 	SubShader
     {
        Pass
