@@ -1,8 +1,10 @@
 ﻿#pragma kernel CSMain1
  
+RWStructuredBuffer<int> buffer1;
+ 
 [numthreads(4,1,1)]
  
-void CSMain1()
+void CSMain1(int3 threadID : SV_GroupThreadID, int3 groupID : SV_GroupID)
 {
- 
+    buffer1[threadID.x + groupID.x*4] = threadID.x;
 }
