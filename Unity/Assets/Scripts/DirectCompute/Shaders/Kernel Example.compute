@@ -1,0 +1,8 @@
+﻿#pragma kernel CSMain1
+ 
+[numthreads(4,1,1)]
+ 
+void CSMain1()
+{
+ 
+}
