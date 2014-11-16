@@ -81,20 +81,58 @@ namespace Voxelisation {
     };
 
     public class Job : ThreadedJob {
-        public Vector3[] InData;  // arbitary job data
-        public Vector3[] OutData; // arbitary job data
+
+        public bool[, ,] cubeSet;
+        public short[, ,] cubeNormalSum;
+
+        public Voxelisation.Voxelization.AABCGrid grid;
+        public Vector3[] triangle;
+        public Vector3 origin;
+        public float side;
+        public bool storeNormalSum;
+        public float ignoreNormalRange;
+
+        short x, y, z;
 
         protected override void ThreadFunction() {
-            // Do your threaded task. DON'T use the Unity API here
-            for (int i = 0; i < 100000000; i++) {
-                InData[i % InData.Length] += InData[(i + 1) % InData.Length];
+            // Find the triangle AABB, select a sub grid.
+            short startX = (short)Mathf.FloorToInt((Mathf.Min(triangle[0].x, triangle[1].x, triangle[2].x) - origin.x) / side);
+            short startY = (short)Mathf.FloorToInt((Mathf.Min(triangle[0].y, triangle[1].y, triangle[2].y) - origin.y) / side);
+            short startZ = (short)Mathf.FloorToInt((Mathf.Min(triangle[0].z, triangle[1].z, triangle[2].z) - origin.z) / side);
+            short endX = (short)Mathf.CeilToInt((Mathf.Max(triangle[0].x, triangle[1].x, triangle[2].x) - origin.x) / side);
+            short endY = (short)Mathf.CeilToInt((Mathf.Max(triangle[0].y, triangle[1].y, triangle[2].y) - origin.y) / side);
+            short endZ = (short)Mathf.CeilToInt((Mathf.Max(triangle[0].z, triangle[1].z, triangle[2].z) - origin.z) / side);
+            if (storeNormalSum) {
+                for (x = startX; x <= endX; ++x) {
+                    for (y = startY; y <= endY; ++y) {
+                        for (z = startZ; z <= endZ; ++z) {
+                            if (grid.TriangleIntersectAABC(triangle, x, y, z)) {
+                                var triangleNormal = Voxelization.GetTriangleNormal(triangle);
+                                cubeSet[x, y, z] = true;
+                                if (triangleNormal.z < 0 - ignoreNormalRange) {
+                                    cubeNormalSum[x, y, z]++;
+                                } else if (triangleNormal.z > 0 + ignoreNormalRange) {
+                                    cubeNormalSum[x, y, z]--;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (x = startX; x < endX; ++x) {
+                    for (y = startY; y < endY; ++y) {
+                        for (z = startZ; z < endZ; ++z) {
+                            if (!grid.IsAABCSet(x, y, z) && grid.TriangleIntersectAABC(triangle, x, y, z)) {
+                                cubeSet[x, y, z] = true;
+                            }
+                        }
+                    }
+                }
             }
         }
         protected override void OnFinished() {
             // This is executed by the Unity main thread when the job is finished
-            for (int i = 0; i < InData.Length; i++) {
-                Debug.Log("Results(" + i + "): " + InData[i]);
-            }
+            
         }
     };
 
@@ -468,17 +506,15 @@ namespace Voxelisation {
             }
 
             public void FillGridWithGameObjectMeshShell(GameObject gameObj, bool storeNormalSum) {
+                List<Job> jobs = new List<Job>();
+
                 Mesh gameObjMesh = gameObj.GetComponent<MeshFilter>().mesh;
                 Transform gameObjTransf = gameObj.transform;
-                Vector3[] triangle = new Vector3[3];
                 float startTime = Time.realtimeSinceStartup;
                 Vector3[] meshVertices = gameObjMesh.vertices;
                 int[] meshTriangles = gameObjMesh.triangles;
                 int meshTrianglesCount = meshTriangles.Length / 3;
-                short x;
-                short y;
-                short z;
-                float ignoreNormalRange = 0;
+
                 // In this method we can also evaluate stores the normals of the triangles 
                 // that intersect the cube.
                 if (storeNormalSum) {
@@ -497,44 +533,38 @@ namespace Voxelisation {
 
                 // For each triangle, perform SAT intersection check with the AABCs within the triangle AABB.
                 for (int i = 0; i < meshTrianglesCount; ++i) {
+                    Vector3[] triangle = new Vector3[3];
                     triangle[0] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3]]);
                     triangle[1] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 1]]);
                     triangle[2] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]);
-                    // Find the triangle AABB, select a sub grid.
-                    short startX = (short)Mathf.FloorToInt((Mathf.Min(triangle[0].x, triangle[1].x, triangle[2].x) - origin.x) / side);
-                    short startY = (short)Mathf.FloorToInt((Mathf.Min(triangle[0].y, triangle[1].y, triangle[2].y) - origin.y) / side);
-                    short startZ = (short)Mathf.FloorToInt((Mathf.Min(triangle[0].z, triangle[1].z, triangle[2].z) - origin.z) / side);
-                    short endX = (short)Mathf.CeilToInt((Mathf.Max(triangle[0].x, triangle[1].x, triangle[2].x) - origin.x) / side);
-                    short endY = (short)Mathf.CeilToInt((Mathf.Max(triangle[0].y, triangle[1].y, triangle[2].y) - origin.y) / side);
-                    short endZ = (short)Mathf.CeilToInt((Mathf.Max(triangle[0].z, triangle[1].z, triangle[2].z) - origin.z) / side);
-                    if (storeNormalSum) {
-                        for (x = startX; x <= endX; ++x) {
-                            for (y = startY; y <= endY; ++y) {
-                                for (z = startZ; z <= endZ; ++z) {
-                                    if (TriangleIntersectAABC(triangle, x, y, z)) {
-                                        var triangleNormal = GetTriangleNormal(triangle);
-                                        cubeSet[x, y, z] = true;
-                                        if (triangleNormal.z < 0 - ignoreNormalRange) {
-                                            cubeNormalSum[x, y, z]++;
-                                        } else if (triangleNormal.z > 0 + ignoreNormalRange) {
-                                            cubeNormalSum[x, y, z]--;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        for (x = startX; x < endX; ++x) {
-                            for (y = startY; y < endY; ++y) {
-                                for (z = startZ; z < endZ; ++z) {
-                                    if (!IsAABCSet(x, y, z) && TriangleIntersectAABC(triangle, x, y, z)) {
-                                        cubeSet[x, y, z] = true;
-                                    }
-                                }
+
+                    Job myJob = new Job();
+                    myJob.grid = this;
+                    myJob.side = side;
+                    myJob.ignoreNormalRange = 0;
+                    myJob.origin = origin;
+                    myJob.storeNormalSum = storeNormalSum;
+                    myJob.triangle = triangle;
+
+                    jobs.Add(myJob);
+
+                    myJob.Start();
+
+                }
+
+                bool finished = false;
+
+                /*while (!finished) {
+                    finished = true;
+                    foreach (Job job in jobs) {
+                        if (job != null) {
+                            if (!job.Update()) {
+                                finished = false;
                             }
                         }
                     }
-                }
+                }*/
+
                 if (debug) {
                     Debug.Log("Grid Evaluation Ended!");
                     Debug.Log("Time spent: " + (Time.realtimeSinceStartup - startTime) + "s");
