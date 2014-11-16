@@ -1,5 +1,5 @@
 ﻿// Each #kernel tells which function to compile; you can have many kernels
-#pragma kernel CSMain
+/*#pragma kernel CSMain
 
 struct Vector {
 	float x,y,z;
@@ -264,12 +264,12 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 			}
 		}
 	} else {
-		for (int x = 0; x < 10; ++x) {
-			for (int y = 0; y < 10; ++y) {
-				for (int z = 0; z < 10; ++z) {
+		for (int x = startX; x < endX; ++x) {
+			for (int y = startY; y < endY; ++y) {
+				for (int z = startZ; z < endZ; ++z) {
 					float center[3] = {x,y,z};
 					float r[3] = {side,side,side};
-					if (/*!IsAABCSet(x, y, z) && */isectboxtri(center, r, triverts)) {
+					if (!IsAABCSet(x, y, z) && isectboxtri(center, r, triverts)) {
 						//Result[x, y, z] = 1;
 					}
 				}
@@ -278,4 +278,4 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 	}
 
 
-}
+}*/ 
