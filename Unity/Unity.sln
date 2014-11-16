@@ -23,7 +23,11 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+<<<<<<< HEAD
 																																GlobalSection(MonoDevelopProperties) = preSolution
+=======
+															GlobalSection(MonoDevelopProperties) = preSolution
+>>>>>>> parent of e705305... Rewrote Javascript as c#
 =======
 															GlobalSection(MonoDevelopProperties) = preSolution
 >>>>>>> parent of e705305... Rewrote Javascript as c#
