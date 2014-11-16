@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\DirectCompute\BufferExample.cs" />
      <Compile Include="Assets\Scripts\DirectCompute\KernelExample.cs" />
      <Compile Include="Assets\Scripts\Voxelisation.cs" />
+     <Compile Include="Assets\Scripts\VoxelisationTest.cs" />
      <None Include="Assets\Shaders\DirectCompute\BufferShader.shader" />
      <None Include="Assets\Shaders\DirectCompute\Kernel Example.compute" />
      <None Include="Assets\Scripts\Voxelisation.compute" />

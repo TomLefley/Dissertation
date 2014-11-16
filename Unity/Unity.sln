@@ -23,10 +23,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																GlobalSection(MonoDevelopProperties) = preSolution
-=======
-															GlobalSection(MonoDevelopProperties) = preSolution
->>>>>>> parent of e705305... Rewrote Javascript as c#
+																															GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
