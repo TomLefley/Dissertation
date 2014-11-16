@@ -46,7 +46,7 @@ private var depth : short;
 private var origin : Vector3;
 private var cubeSet : boolean[,,];
 private var	cubeNormalSum : short[,,];
-private var debug = true;
+private var debug = false;
 
 protected class AABCPosition {
 
@@ -447,11 +447,6 @@ public function FillGridWithGameObjectMeshShell(gameObj : GameObject, storeNorma
 		var endX = Mathf.Ceil((Mathf.Max([triangle[0].x, triangle[1].x, triangle[2].x]) - origin.x) / side);
 		var endY = Mathf.Ceil((Mathf.Max([triangle[0].y, triangle[1].y, triangle[2].y]) - origin.y) / side);
 		var endZ = Mathf.Ceil((Mathf.Max([triangle[0].z, triangle[1].z, triangle[2].z]) - origin.z) / side);
-		if(debug) {
-		    Debug.Log(endX-startX);
-		    Debug.Log(endY-startY);
-		    Debug.Log(endZ-startZ);
-		}
 		if (storeNormalSum) {
 			for (x = startX; x <= endX; ++x) {
 				for (y = startY; y <= endY; ++y) {
