@@ -48,12 +48,10 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\DirectCompute\BufferExample.cs" />
      <Compile Include="Assets\Scripts\DirectCompute\KernelExample.cs" />
-<<<<<<< HEAD
      <Compile Include="Assets\Scripts\Voxelisation.cs" />
-=======
->>>>>>> parent of e705305... Rewrote Javascript as c#
      <None Include="Assets\Shaders\DirectCompute\BufferShader.shader" />
      <None Include="Assets\Shaders\DirectCompute\Kernel Example.compute" />
+     <None Include="Assets\Scripts\Voxelisation.compute" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
