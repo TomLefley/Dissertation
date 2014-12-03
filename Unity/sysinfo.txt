@@ -1,0 +1,408 @@
+System:
+  OS: Windows 8.1  (6.3.9600) 64bit
+  CPU: Intel(R) Core(TM) i5-4670K CPU @ 3.40GHz, count: 4
+  Physical RAM: 8081 MB
+  Addressable RAM: 2048 MB
+
+D3D9:
+  Renderer: AMD Radeon HD 7900 Series
+  VendorID: 1002
+  Driver: aticfx32.dll 8.17.10.1315
+  VRAM: 3054 (via DXGI)
+
+OpenGL:
+  Version: 4.4.13084 Compatibility Profile Context 14.301.1001.0
+  Vendor: ATI Technologies Inc.
+  Renderer: AMD Radeon HD 7900 Series
+  VRAM: 3054 (via DXGI)
+  Extensions: GL_AMDX_debug_output GL_AMD_blend_minmax_factor GL_AMD_conservative_depth GL_AMD_debug_output GL_AMD_depth_clamp_separate GL_AMD_draw_buffers_blend GL_AMD_framebuffer_sample_positions GL_AMD_gcn_shader GL_AMD_gpu_shader_int64 GL_AMD_interleaved_elements GL_AMD_multi_draw_indirect GL_AMD_name_gen_delete GL_AMD_performance_monitor GL_AMD_pinned_memory GL_AMD_query_buffer_object GL_AMD_sample_positions GL_AMD_seamless_cubemap_per_texture GL_AMD_shader_atomic_counter_ops GL_AMD_shader_stencil_export GL_AMD_shader_stencil_value_export GL_AMD_shader_trace GL_AMD_shader_trinary_minmax GL_AMD_sparse_texture GL_AMD_stencil_operation_extended GL_AMD_texture_cube_map_array GL_AMD_texture_texture4 GL_AMD_transform_feedback3_lines_triangles GL_AMD_transform_feedback4 GL_AMD_vertex_shader_layer GL_AMD_vertex_shader_viewport_index GL_ARB_ES2_compatibility GL_ARB_ES3_compatibility GL_ARB_arrays_of_arrays GL_ARB_base_instance GL_ARB_bindless_texture GL_ARB_blend_func_extended GL_ARB_buffer_storage GL_ARB_clear_buffer_object GL_ARB_clear_texture GL_ARB_color_buffer_float GL_ARB_compatibility GL_ARB_compressed_texture_pixel_storage GL_ARB_compute_shader GL_ARB_conservative_depth GL_ARB_copy_buffer GL_ARB_copy_image GL_ARB_debug_output GL_ARB_depth_buffer_float GL_ARB_depth_clamp GL_ARB_depth_texture GL_ARB_draw_buffers GL_ARB_draw_buffers_blend GL_ARB_draw_elements_base_vertex GL_ARB_draw_indirect GL_ARB_draw_instanced GL_ARB_enhanced_layouts GL_ARB_explicit_attrib_location GL_ARB_explicit_uniform_location GL_ARB_fragment_coord_conventions GL_ARB_fragment_layer_viewport GL_ARB_fragment_program GL_ARB_fragment_program_shadow GL_ARB_fragment_shader GL_ARB_framebuffer_no_attachments GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_geometry_shader4 GL_ARB_get_program_binary GL_ARB_gpu_shader5 GL_ARB_gpu_shader_fp64 GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_imaging GL_ARB_indirect_parameters GL_ARB_instanced_arrays GL_ARB_internalformat_query GL_ARB_internalformat_query2 GL_ARB_invalidate_subdata GL_ARB_map_buffer_alignment GL_ARB_map_buffer_range GL_ARB_multi_bind GL_ARB_multi_draw_indirect GL_ARB_multisample GL_ARB_multitexture GL_ARB_occlusion_query GL_ARB_occlusion_query2 GL_ARB_pixel_buffer_object GL_ARB_point_parameters GL_ARB_point_sprite GL_ARB_program_interface_query GL_ARB_provoking_vertex GL_ARB_query_buffer_object GL_ARB_sample_shading GL_ARB_sampler_objects GL_ARB_seamless_cube_map GL_ARB_seamless_cubemap_per_texture GL_ARB_separate_shader_objects GL_ARB_shader_atomic_counters GL_ARB_shader_bit_encoding GL_ARB_shader_draw_parameters GL_ARB_shader_group_vote GL_ARB_shader_image_load_store GL_ARB_shader_image_size GL_ARB_shader_objects GL_ARB_shader_precision GL_ARB_shader_stencil_export GL_ARB_shader_storage_buffer_object GL_ARB_shader_subroutine GL_ARB_shader_texture_lod GL_ARB_shading_language_100 GL_ARB_shading_language_420pack GL_ARB_shading_language_packing GL_ARB_shadow GL_ARB_shadow_ambient GL_ARB_sparse_texture GL_ARB_stencil_texturing GL_ARB_sync GL_ARB_tessellation_shader GL_ARB_texture_border_clamp GL_ARB_texture_buffer_object GL_ARB_texture_buffer_object_rgb32 GL_ARB_texture_buffer_range GL_ARB_texture_compression GL_ARB_texture_compression_bptc GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map GL_ARB_texture_cube_map_array GL_ARB_texture_env_add GL_ARB_texture_env_combine GL_ARB_texture_env_crossbar GL_ARB_texture_env_dot3 GL_ARB_texture_float GL_ARB_texture_gather GL_ARB_texture_mirror_clamp_to_edge GL_ARB_texture_mirrored_repeat GL_ARB_texture_multisample GL_ARB_texture_non_power_of_two GL_ARB_texture_query_levels GL_ARB_texture_query_lod GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_texture_rgb10_a2ui GL_ARB_texture_snorm GL_ARB_texture_stencil8 GL_ARB_texture_storage GL_ARB_texture_storage_multisample GL_ARB_texture_swizzle GL_ARB_texture_view GL_ARB_timer_query GL_ARB_transform_feedback2 GL_ARB_transform_feedback3 GL_ARB_transform_feedback_instanced GL_ARB_transpose_matrix GL_ARB_uniform_buffer_object GL_ARB_vertex_array_bgra GL_ARB_vertex_array_object GL_ARB_vertex_attrib_64bit GL_ARB_vertex_attrib_binding GL_ARB_vertex_buffer_object GL_ARB_vertex_program GL_ARB_vertex_shader GL_ARB_vertex_type_10f_11f_11f_rev GL_ARB_vertex_type_2_10_10_10_rev GL_ARB_viewport_array GL_ARB_window_pos GL_ATI_draw_buffers GL_ATI_envmap_bumpmap GL_ATI_fragment_shader GL_ATI_separate_stencil GL_ATI_texture_compression_3dc GL_ATI_texture_env_combine3 GL_ATI_texture_float GL_ATI_texture_mirror_once GL_EXT_abgr GL_EXT_bgra GL_EXT_bindable_uniform GL_EXT_blend_color GL_EXT_blend_equation_separate GL_EXT_blend_func_separate GL_EXT_blend_minmax GL_EXT_blend_subtract GL_EXT_compiled_vertex_array GL_EXT_copy_buffer GL_EXT_copy_texture GL_EXT_depth_bounds_test GL_EXT_direct_state_access GL_EXT_draw_buffers2 GL_EXT_draw_instanced GL_EXT_draw_range_elements GL_EXT_fog_coord GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXT_framebuffer_object GL_EXT_framebuffer_sRGB GL_EXT_geometry_shader4 GL_EXT_gpu_program_parameters GL_EXT_gpu_shader4 GL_EXT_histogram GL_EXT_multi_draw_arrays GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_packed_pixels GL_EXT_pixel_buffer_object GL_EXT_point_parameters GL_EXT_provoking_vertex GL_EXT_rescale_normal GL_EXT_secondary_color GL_EXT_separate_specular_color GL_EXT_shader_image_load_store GL_EXT_shader_integer_mix GL_EXT_shadow_funcs GL_EXT_stencil_wrap GL_EXT_subtexture GL_EXT_texgen_reflection GL_EXT_texture3D GL_EXT_texture_array GL_EXT_texture_buffer_object GL_EXT_texture_compression_bptc GL_EXT_texture_compression_latc GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc GL_EXT_texture_cube_map GL_EXT_texture_edge_clamp GL_EXT_texture_env_add GL_EXT_texture_env_combine GL_EXT_texture_env_dot3 GL_EXT_texture_filter_anisotropic GL_EXT_texture_integer GL_EXT_texture_lod GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp GL_EXT_texture_object GL_EXT_texture_rectangle GL_EXT_texture_sRGB GL_EXT_texture_sRGB_decode GL_EXT_texture_shared_exponent GL_EXT_texture_snorm GL_EXT_texture_storage GL_EXT_texture_swizzle GL_EXT_timer_query GL_EXT_transform_feedback GL_EXT_vertex_array GL_EXT_vertex_array_bgra GL_EXT_vertex_attrib_64bit GL_IBM_texture_mirrored_repeat GL_INTEL_fragment_shader_ordering GL_KHR_debug GL_KTX_buffer_region GL_NV_blend_square GL_NV_conditional_render GL_NV_copy_depth_to_color GL_NV_copy_image GL_NV_depth_buffer_float GL_NV_explicit_multisample GL_NV_float_buffer GL_NV_half_float GL_NV_primitive_restart GL_NV_texgen_reflection GL_NV_texture_barrier GL_SGIS_generate_mipmap GL_SGIS_texture_edge_clamp GL_SGIS_texture_lod GL_SUN_multi_draw_arrays GL_WIN_swap_hint WGL_EXT_swap_control
+
+User locale: en-GB
+System locale: en-GB
+
+Running processes:
+iCloudServices.exe (6140)
+    path: C:\Program Files (x86)\Common Files\Apple\Internet Services\iCloudServices.exe
+    company:  Apple Inc.
+    product:  iCloud
+    filedesc: iCloud
+    filever:  3.2.23.1
+    prodver:  0.0.0.0
+ApplePhotoStreams.exe (1080)
+    path: C:\Program Files (x86)\Common Files\Apple\Internet Services\ApplePhotoStreams.exe
+    company:  Apple Inc.
+    product:  iCloud Control Panel
+    filedesc: iCloud Photos
+    filever:  7.16.3.1
+    prodver:  0.0.0.0
+APSDaemon.exe (1796)
+    path: C:\Program Files (x86)\Common Files\Apple\Apple Application Support\APSDaemon.exe
+    company:  Apple Inc.
+    product:  Apple Push
+    filedesc: Apple Push
+    filever:  2.4.3.36
+    prodver:  0.0.0.0
+iCloudDrive.exe (4012)
+    path: C:\Program Files (x86)\Common Files\Apple\Internet Services\iCloudDrive.exe
+    company:  Apple Inc.
+    product:  iCloud for Windows
+    filedesc: iCloud Drive
+    filever:  1.2.34.1
+    prodver:  4.0.0.0
+Amazon Music Helper.exe (5448)
+    path: C:\Users\Tom\AppData\Local\Amazon Music\Amazon Music Helper.exe
+    company:  
+    product:  
+    filedesc: 
+    filever:  0.0.0.0
+    prodver:  0.0.0.0
+googledrivesync.exe (3968)
+    path: C:\Program Files (x86)\Google\Drive\googledrivesync.exe
+    company:  Google
+    product:  Google Drive
+    filedesc: Google Drive
+    filever:  1.18.7821.2489
+    prodver:  1.18.7821.2489
+googledrivesync.exe (3956)
+    path: C:\Program Files (x86)\Google\Drive\googledrivesync.exe
+    company:  Google
+    product:  Google Drive
+    filedesc: Google Drive
+    filever:  1.18.7821.2489
+    prodver:  1.18.7821.2489
+chrome.exe (5792)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (6188)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (6244)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (6268)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (6284)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (6292)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+cmd.exe (6596)
+    path: C:\WINDOWS\SysWOW64\cmd.exe
+    company:  Microsoft Corporation
+    product:  Microsoft® Windows® Operating System
+    filedesc: Windows Command Processor
+    filever:  6.3.9600.16384
+    prodver:  6.3.9600.16384
+AppleChromeDAV.exe (6620)
+    path: C:\Program Files (x86)\Common Files\Apple\Internet Services\AppleChromeDAV.exe
+    company:  Apple Inc.
+    product:  iCloud for Windows
+    filedesc: Apple Chrome DAV
+    filever:  1.4.10.0
+    prodver:  1.4.10.0
+RzSynapse.exe (6764)
+    path: C:\Program Files (x86)\Razer\Synapse\RzSynapse.exe
+    company:  Razer Inc.
+    product:  Razer Synapse
+    filedesc: Razer Synapse
+    filever:  1.18.18.23036
+    prodver:  1.18.18.23036
+iTunesHelper.exe (7212)
+    path: C:\Program Files (x86)\iTunes\iTunesHelper.exe
+    company:  Apple Inc.
+    product:  iTunes
+    filedesc: iTunesHelper
+    filever:  12.0.1.26
+    prodver:  12.0.1.26
+RzStats.Manager.exe (7776)
+    path: C:\ProgramData\Razer\Synapse\RzStats\RzStats.Manager.exe
+    company:  
+    product:  RzStats.Manager
+    filedesc: RzStats.Manager
+    filever:  1.0.0.32
+    prodver:  1.0.0.32
+RazerIngameEngine.exe (7812)
+    path: C:\Program Files (x86)\Razer\InGameEngine\32bit\RazerIngameEngine.exe
+    company:  Razer, Inc.
+    product:  
+    filedesc: RazerIngameEngine
+    filever:  1.0.12.3915
+    prodver:  1.0.12.3915
+RzCefRenderProcess.exe (8116)
+    path: C:\Users\Tom\AppData\Local\razer\InGameEngine\cache\RzStats.Manager\RzCefRenderProcess.exe
+    company:  Razer, Inc.
+    product:  
+    filedesc: Razer Chromium Render Process
+    filever:  1.0.12.3915
+    prodver:  1.0.12.3915
+chrome.exe (2164)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8176)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (5520)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (1552)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (3348)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (3244)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (6888)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (1676)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8200)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8232)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8352)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8364)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8380)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8396)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8500)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8596)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8644)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8808)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (8816)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (9040)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (9140)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (7188)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+Steam.exe (1536)
+    path: C:\Program Files (x86)\Steam\Steam.exe
+    company:  Valve Corporation
+    product:  Steam Client Bootstrapper
+    filedesc: Steam Client Bootstrapper
+    filever:  2.50.25.37
+    prodver:  1.0.0.1
+steamwebhelper.exe (11472)
+    path: C:\Program Files (x86)\Steam\bin\steamwebhelper.exe
+    company:  Valve Corporation
+    product:  Steam Client WebHelper
+    filedesc: Steam Client WebHelper
+    filever:  2.50.25.37
+    prodver:  1.0.0.1
+steamwebhelper.exe (2168)
+    path: C:\Program Files (x86)\Steam\bin\steamwebhelper.exe
+    company:  Valve Corporation
+    product:  Steam Client WebHelper
+    filedesc: Steam Client WebHelper
+    filever:  2.50.25.37
+    prodver:  1.0.0.1
+chrome.exe (9012)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+iTunes.exe (12720)
+    path: C:\Program Files (x86)\iTunes\iTunes.exe
+    company:  Apple Inc.
+    product:  iTunes
+    filedesc: iTunes
+    filever:  12.0.1.26
+    prodver:  12.0.1.26
+AppleMobileDeviceHelper.exe (12468)
+    path: C:\Program Files (x86)\Common Files\Apple\Mobile Device Support\AppleMobileDeviceHelper.exe
+    company:  Apple Inc.
+    product:  
+    filedesc: MobileDeviceHelper
+    filever:  17.929.0.68
+    prodver:  3.3.0.0
+distnoted.exe (10196)
+    path: C:\Program Files (x86)\Common Files\Apple\Apple Application Support\distnoted.exe
+    company:  Apple Inc.
+    product:  distnoted
+    filedesc: distnoted
+    filever:  1.750.29.0
+    prodver:  1.750.29.0
+chrome.exe (13616)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+chrome.exe (13596)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+devenv.exe (7756)
+    path: C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe
+    company:  Microsoft Corporation
+    product:  Microsoft® Visual Studio® 2013
+    filedesc: Microsoft Visual Studio 2013
+    filever:  12.0.21005.1
+    prodver:  12.0.21005.1
+Microsoft.Alm.Shared.Remoting.RemoteContainer.dll (12660)
+    path: C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.Alm.Shared.Remoting.RemoteContainer\v4.0_12.0.0.0__b03f5f7f11d50a3a\Microsoft.Alm.Shared.Remoting.RemoteContainer.dll
+    company:  Microsoft Corporation
+    product:  Microsoft® Visual Studio® 2013
+    filedesc: Microsoft.Alm.Shared.Remoting.RemoteContainer.dll
+    filever:  12.0.21005.1
+    prodver:  12.0.21005.1
+chrome.exe (13816)
+    path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    company:  Google Inc.
+    product:  Google Chrome
+    filedesc: Google Chrome
+    filever:  39.0.2171.71
+    prodver:  39.0.2171.71
+UnityBugReporter.exe (13848)
+    path: C:\Program Files (x86)\Unity\Editor\UnityBugReporter.exe
+    company:  Unity Technologies ApS
+    product:  Unity Bug Reporter
+    filedesc: Unity Bug Reporter
+    filever:  4.6.0.31489
+    prodver:  4.6.0.31489

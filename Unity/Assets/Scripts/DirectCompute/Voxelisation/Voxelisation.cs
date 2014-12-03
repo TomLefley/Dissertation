@@ -9,6 +9,7 @@
 
 //Translated to C# by Tom Lefley 16/11/2014
 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,70 +37,8 @@ namespace Voxelisation {
 
     };
 
-    public class ThreadedJob {
-        private bool m_IsDone = false;
-        private object m_Handle = new object();
-        private System.Threading.Thread m_Thread = null;
-        public bool IsDone {
-            get {
-                bool tmp;
-                lock (m_Handle) {
-                    tmp = m_IsDone;
-                }
-                return tmp;
-            }
-            set {
-                lock (m_Handle) {
-                    m_IsDone = value;
-                }
-            }
-        }
-
-        public virtual void Start() {
-            m_Thread = new System.Threading.Thread(Run);
-            m_Thread.Start();
-        }
-        public virtual void Abort() {
-            m_Thread.Abort();
-        }
-
-        protected virtual void ThreadFunction() { }
-
-        protected virtual void OnFinished() { }
-
-        public virtual bool Update() {
-            if (IsDone) {
-                OnFinished();
-                return true;
-            }
-            return false;
-        }
-        private void Run() {
-            ThreadFunction();
-            IsDone = true;
-        }
-    };
-
-    public class Job : ThreadedJob {
-        public Vector3[] InData;  // arbitary job data
-        public Vector3[] OutData; // arbitary job data
-
-        protected override void ThreadFunction() {
-            // Do your threaded task. DON'T use the Unity API here
-            for (int i = 0; i < 100000000; i++) {
-                InData[i % InData.Length] += InData[(i + 1) % InData.Length];
-            }
-        }
-        protected override void OnFinished() {
-            // This is executed by the Unity main thread when the job is finished
-            for (int i = 0; i < InData.Length; i++) {
-                Debug.Log("Results(" + i + "): " + InData[i]);
-            }
-        }
-    };
-
-    static public class Voxelization {
-
+    static public class Voxelization  {
+         
         public class AABCGrid {
 
             private float side;
@@ -463,27 +402,24 @@ namespace Voxelisation {
                 }
             }
 
-            public void FillGridWithGameObjectMeshShell(GameObject gameObj) {
-                FillGridWithGameObjectMeshShell(gameObj, false);
+            public IEnumerator FillGridWithGameObjectMeshShell(VoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
+                yield return driver.StartCoroutine(FillGridWithGameObjectMeshShell(gameObj, false, shader));
             }
 
-            public void FillGridWithGameObjectMeshShell(GameObject gameObj, bool storeNormalSum) {
+            public IEnumerator FillGridWithGameObjectMeshShell(GameObject gameObj, bool storeNormalSum, ComputeShader shader) {
                 Mesh gameObjMesh = gameObj.GetComponent<MeshFilter>().mesh;
                 Transform gameObjTransf = gameObj.transform;
-                Vector3[] triangle = new Vector3[3];
                 float startTime = Time.realtimeSinceStartup;
                 Vector3[] meshVertices = gameObjMesh.vertices;
                 int[] meshTriangles = gameObjMesh.triangles;
                 int meshTrianglesCount = meshTriangles.Length / 3;
-                short x;
-                short y;
-                short z;
-                float ignoreNormalRange = 0;
-                // In this method we can also evaluate stores the normals of the triangles 
-                // that intersect the cube.
-                if (storeNormalSum) {
-                    cubeNormalSum = new short[width, height, depth];
-                }
+
+                float[] g_Vertices = new float[meshTriangles.Length*3];
+                int[] g_Indices = new int[meshTriangles.Length];
+
+                ComputeBuffer g_bufVertices = new ComputeBuffer(meshTriangles.Length * 3, sizeof(float));
+                ComputeBuffer g_bufIndices = new ComputeBuffer(meshTriangles.Length, sizeof(int));
+
                 if (debug) {
                     Debug.Log("Start:");
                     Debug.Log("Time: " + startTime);
@@ -496,45 +432,50 @@ namespace Voxelisation {
                 }
 
                 // For each triangle, perform SAT intersection check with the AABCs within the triangle AABB.
-                for (int i = 0; i < meshTrianglesCount; ++i) {
-                    triangle[0] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3]]);
-                    triangle[1] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 1]]);
-                    triangle[2] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]);
-                    // Find the triangle AABB, select a sub grid.
-                    short startX = (short)Mathf.FloorToInt((Mathf.Min(triangle[0].x, triangle[1].x, triangle[2].x) - origin.x) / side);
-                    short startY = (short)Mathf.FloorToInt((Mathf.Min(triangle[0].y, triangle[1].y, triangle[2].y) - origin.y) / side);
-                    short startZ = (short)Mathf.FloorToInt((Mathf.Min(triangle[0].z, triangle[1].z, triangle[2].z) - origin.z) / side);
-                    short endX = (short)Mathf.CeilToInt((Mathf.Max(triangle[0].x, triangle[1].x, triangle[2].x) - origin.x) / side);
-                    short endY = (short)Mathf.CeilToInt((Mathf.Max(triangle[0].y, triangle[1].y, triangle[2].y) - origin.y) / side);
-                    short endZ = (short)Mathf.CeilToInt((Mathf.Max(triangle[0].z, triangle[1].z, triangle[2].z) - origin.z) / side);
-                    if (storeNormalSum) {
-                        for (x = startX; x <= endX; ++x) {
-                            for (y = startY; y <= endY; ++y) {
-                                for (z = startZ; z <= endZ; ++z) {
-                                    if (TriangleIntersectAABC(triangle, x, y, z)) {
-                                        var triangleNormal = GetTriangleNormal(triangle);
-                                        cubeSet[x, y, z] = true;
-                                        if (triangleNormal.z < 0 - ignoreNormalRange) {
-                                            cubeNormalSum[x, y, z]++;
-                                        } else if (triangleNormal.z > 0 + ignoreNormalRange) {
-                                            cubeNormalSum[x, y, z]--;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        for (x = startX; x < endX; ++x) {
-                            for (y = startY; y < endY; ++y) {
-                                for (z = startZ; z < endZ; ++z) {
-                                    if (!IsAABCSet(x, y, z) && TriangleIntersectAABC(triangle, x, y, z)) {
-                                        cubeSet[x, y, z] = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                for (int i = 0; i < meshTrianglesCount; i++) {
+                    
+                    g_Indices[i * 3] = 9*i;
+                    g_Indices[i * 3 + 1] = 9*i + 3;
+                    g_Indices[i * 3 + 2] = 9*i + 6;
+
+                    g_Vertices[i * 9 + 0] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3]]).x;
+                    g_Vertices[i * 9 + 1] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3]]).y;
+                    g_Vertices[i * 9 + 2] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3]]).z;
+
+                    g_Vertices[i * 9 + 3] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 1]]).x;
+                    g_Vertices[i * 9 + 4] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 1]]).y;
+                    g_Vertices[i * 9 + 5] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 1]]).z;
+
+                    g_Vertices[i * 9 + 6] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]).x;
+                    g_Vertices[i * 9 + 7] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]).y;
+                    g_Vertices[i * 9 + 8] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]).z;
+
+                    yield return new WaitForSeconds(0f);
+
                 }
+
+                g_bufIndices.SetData(g_Indices);
+                g_bufVertices.SetData(g_Vertices);
+
+                int kernel = shader.FindKernel("CS_VoxelizeSolid");
+
+                shader.SetBuffer(kernel, "g_bufIndices", g_bufIndices);
+                shader.SetBuffer(kernel, "g_bufVertices", g_bufVertices);
+
+                int numThreads = meshTrianglesCount;
+                int threadsPerBlock = 256;
+
+                shader.Dispatch(kernel, 256, (numThreads + (threadsPerBlock * 256 - 1)) / (threadsPerBlock * 256), 1);
+
+                /*kernel = shader.FindKernel("CS_VoxelizeSolid_Propagate");
+
+                numThreads = g_strideY;
+                threadsPerBlock = 256;
+
+                pd3dImmediateContext->Dispatch(256, (numThreads + (threadsPerBlock * 256 - 1)) / (threadsPerBlock * 256), 1);*/
+
+                //ComputeBuffer g_rwbufVoxels = new ComputeBuffer();
+
                 if (debug) {
                     Debug.Log("Grid Evaluation Ended!");
                     Debug.Log("Time spent: " + (Time.realtimeSinceStartup - startTime) + "s");
@@ -542,8 +483,8 @@ namespace Voxelisation {
                 }
             }
 
-            public void FillGridWithGameObjectMesh(GameObject gameObj) {
-                FillGridWithGameObjectMeshShell(gameObj, true);
+            public IEnumerator FillGridWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
+                yield return driver.StartCoroutine(FillGridWithGameObjectMeshShell(gameObj, true, shader));
 
                 for (var x = 0; x < width; ++x) {
                     for (var y = 0; y < height; ++y) {
@@ -720,8 +661,9 @@ namespace Voxelisation {
         // Warning: this method creates a grid at least as big as the total bounding box of the
         // game object, if children are included there may be empty space. Consider to use 
         // CreateMultipleGridsWithGameObjectMeshShell in order to save memory.
-        public static AABCGrid CreateGridWithGameObjectMesh(GameObject gameObj,
-                                        float cubeSide, bool includeChildren, bool includeInside) {
+        public static IEnumerator CreateGridWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj,
+                                        float cubeSide, bool includeChildren, bool includeInside, bool debug, ComputeShader shader) {
+            
             AABCGrid aABCGrid;
             short width;
             short height;
@@ -752,21 +694,23 @@ namespace Voxelisation {
             depth = (short)(Mathf.Ceil((gridBoundsMax.z - gridBoundsMin.z) / cubeSide) + 2);
             origin = gridBoundsMin - new Vector3(cubeSide, cubeSide, cubeSide);
             aABCGrid = new AABCGrid(width, height, depth, cubeSide, origin);
+
+            aABCGrid.SetDebug(debug);
+
             foreach (GameObject gameObjectWithMesh in gameObjectsWithMesh) {
                 if (includeInside) {
-                    aABCGrid.FillGridWithGameObjectMesh(gameObjectWithMesh);
+                    yield return driver.StartCoroutine(aABCGrid.FillGridWithGameObjectMesh(driver, gameObjectWithMesh, shader));
                 } else {
-                    aABCGrid.FillGridWithGameObjectMeshShell(gameObjectWithMesh);
+                    yield return driver.StartCoroutine(aABCGrid.FillGridWithGameObjectMeshShell(driver, gameObjectWithMesh, shader));
                 }
             }
 
-            return aABCGrid;
+            gameObj.BroadcastMessage("addGrid",aABCGrid);
         }
 
-        public static List<AABCGrid> CreateMultipleGridsWithGameObjectMesh(GameObject gameObj,
-                                        float cubeSide, bool includeMeshInside) {
+        public static IEnumerator CreateMultipleGridsWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj,
+                                        float cubeSide, bool includeMeshInside, bool debug, ComputeShader shader) {
             List<GameObject> gameObjectsWithMesh;
-            var grids = new List<AABCGrid>();
 
             gameObjectsWithMesh = GetChildrenWithMesh(gameObj);
             if (gameObj.renderer) {
@@ -774,10 +718,8 @@ namespace Voxelisation {
             }
 
             foreach (GameObject gameObjWithMesh in gameObjectsWithMesh) {
-                grids.Add(CreateGridWithGameObjectMesh(gameObjWithMesh, cubeSide, false, includeMeshInside));
+                yield return driver.StartCoroutine(CreateGridWithGameObjectMesh(driver, gameObjWithMesh, cubeSide, false, includeMeshInside, debug, shader));
             }
-
-            return grids;
         }
 
     };
