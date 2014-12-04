@@ -35,7 +35,7 @@ namespace Voxelisation {
         }
 
         public void addGrid(Voxelisation.Voxelization.AABCGrid aABCGrid) {
-            if (!(aABCGrids == null)) {
+            if (aABCGrids == null) {
                 aABCGrids = new List<Voxelisation.Voxelization.AABCGrid>();
             }
             this.aABCGrids.Add(aABCGrid);

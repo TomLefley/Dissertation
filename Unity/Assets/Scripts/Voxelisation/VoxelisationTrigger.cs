@@ -17,7 +17,10 @@ public class VoxelisationTrigger : MonoBehaviour {
 
     void OnTriggerEnter(Collider collider) {
 
+        if (collider.gameObject.Equals(gameObjectToVoxelise)) return;
+
         gameObjectToVoxelise.BroadcastMessage("StartVoxelise");
+        
 
     }
 }
