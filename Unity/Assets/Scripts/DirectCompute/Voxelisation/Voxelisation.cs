@@ -407,6 +407,7 @@ namespace Voxelisation {
             }
 
             public IEnumerator FillGridWithGameObjectMeshShell(GameObject gameObj, bool storeNormalSum, ComputeShader shader) {
+
                 Mesh gameObjMesh = gameObj.GetComponent<MeshFilter>().mesh;
                 Transform gameObjTransf = gameObj.transform;
                 float startTime = Time.realtimeSinceStartup;
@@ -450,9 +451,11 @@ namespace Voxelisation {
                     g_Vertices[i * 9 + 7] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]).y;
                     g_Vertices[i * 9 + 8] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]).z;
 
-                    yield return new WaitForSeconds(0f);
+                    if (i==meshTrianglesCount /2 ) yield return null;
 
                 }
+
+                yield return null;
 
                 g_bufIndices.SetData(g_Indices);
                 g_bufVertices.SetData(g_Vertices);

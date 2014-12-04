@@ -42,9 +42,7 @@ namespace Voxelisation {
         }
 
         public void StartVoxelise() {
-            while (true) {
-                StartCoroutine(Voxelise());
-            }
+            StartCoroutine(Voxelise());
         }
 
         IEnumerator Voxelise() {
