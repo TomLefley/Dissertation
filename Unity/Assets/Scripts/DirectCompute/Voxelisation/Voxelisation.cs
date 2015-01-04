@@ -45,8 +45,12 @@ namespace Voxelisation {
             private short width;
             private short height;
             private short depth;
+
+            private int strideX;
+            private int strideY;
+
             private Vector3 origin;
-            private bool[, ,] cubeSet;
+            private int[] cubeSet;
             private short[, ,] cubeNormalSum;
             private bool debug = true;
 
@@ -208,9 +212,13 @@ namespace Voxelisation {
                 width = x;
                 height = y;
                 depth = z;
+
+                strideX = (depth + 31) / 32;
+                strideY = strideX * width;
+
                 side = sideLength;
                 origin = new Vector3();
-                cubeSet = new bool[width, height, depth];
+                cubeSet = new int[(width*height*depth)/32];
             }
 
             public AABCGrid(short x, short y, short z, float sideLength, Vector3 ori) {
@@ -218,13 +226,16 @@ namespace Voxelisation {
                 height = y;
                 depth = z;
 
+                strideX = (depth + 31) / 32;
+                strideY = strideX * width;
+
                 side = sideLength;
                 origin = ori;
-                cubeSet = new bool[width, height, depth];
+                cubeSet = new int[(width * height * depth) / 32];
             }
 
             public void CleanGrid() {
-                cubeSet = new bool[width, height, depth];
+                cubeSet = new int[(width * height * depth) / 32];
             }
 
             public void SetDebug(bool debug) {
@@ -347,7 +358,11 @@ namespace Voxelisation {
             }
 
             protected bool IsAABCSetUnchecked(short x, short y, short z) {
-                return cubeSet[x, y, z];
+                int position = (x + (width * y) + (height * z))/32;
+                int offset = x % 32;
+
+                int atPosition = cubeSet[position];
+                return ((atPosition & (1 << offset)) == 1);
             }
 
             protected bool TriangleIntersectAABC(Vector3[] triangle, AABCPosition pos) {
@@ -418,8 +433,12 @@ namespace Voxelisation {
                 float[] g_Vertices = new float[meshTriangles.Length*3];
                 int[] g_Indices = new int[meshTriangles.Length];
 
+                //IN
                 ComputeBuffer g_bufVertices = new ComputeBuffer(meshTriangles.Length * 3, sizeof(float));
                 ComputeBuffer g_bufIndices = new ComputeBuffer(meshTriangles.Length, sizeof(int));
+
+                //OUT
+                ComputeBuffer g_rwbufVoxels = new ComputeBuffer((width * height * depth) / 32, sizeof(int));
 
                 if (debug) {
                     Debug.Log("Start:");
@@ -457,6 +476,10 @@ namespace Voxelisation {
 
                 yield return null;
 
+                Debug.Log(g_Vertices[0]);
+
+                PrepareShader(shader, gameObj.renderer.bounds, meshTrianglesCount);
+
                 g_bufIndices.SetData(g_Indices);
                 g_bufVertices.SetData(g_Vertices);
 
@@ -465,25 +488,49 @@ namespace Voxelisation {
                 shader.SetBuffer(kernel, "g_bufIndices", g_bufIndices);
                 shader.SetBuffer(kernel, "g_bufVertices", g_bufVertices);
 
+                shader.SetBuffer(kernel, "g_rwbufVoxels", g_rwbufVoxels);
+
                 int numThreads = meshTrianglesCount;
                 int threadsPerBlock = 256;
 
+                ComputeBuffer buffer = new ComputeBuffer(numThreads, sizeof(float));
+
+                shader.SetBuffer(kernel, "buffer1", buffer);
+
                 shader.Dispatch(kernel, 256, (numThreads + (threadsPerBlock * 256 - 1)) / (threadsPerBlock * 256), 1);
 
-                /*kernel = shader.FindKernel("CS_VoxelizeSolid_Propagate");
+                float[] data = new float[numThreads];
 
-                numThreads = g_strideY;
+                buffer.GetData(data);
+
+                for (int i = 0; i < 1; i++)
+                    Debug.Log(data[i]);
+
+                buffer.Release();
+
+                kernel = shader.FindKernel("CS_VoxelizeSolid_Propagate");
+
+                numThreads = strideY;
                 threadsPerBlock = 256;
 
-                pd3dImmediateContext->Dispatch(256, (numThreads + (threadsPerBlock * 256 - 1)) / (threadsPerBlock * 256), 1);*/
+                shader.Dispatch(kernel, 256, (numThreads + (threadsPerBlock * 256 - 1)) / (threadsPerBlock * 256), 1);
 
-                //ComputeBuffer g_rwbufVoxels = new ComputeBuffer();
+                g_rwbufVoxels.GetData(cubeSet);
+
+                for (int i = 0; i < g_rwbufVoxels.count; i++) {
+                    if (cubeSet[i]>0)
+                    Debug.Log(cubeSet[i]);
+                }
 
                 if (debug) {
                     Debug.Log("Grid Evaluation Ended!");
                     Debug.Log("Time spent: " + (Time.realtimeSinceStartup - startTime) + "s");
                     Debug.Log("End: ");
                 }
+
+                g_bufVertices.Release();
+                g_bufIndices.Release();
+                g_rwbufVoxels.Release();
             }
 
             public IEnumerator FillGridWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
@@ -494,7 +541,11 @@ namespace Voxelisation {
                         var fill = false;
                         var cubeToFill = 0;
                         for (var z = 0; z < depth; ++z) {
-                            if (cubeSet[x, y, z]) {
+                            int position = (x + (width * y) + (height * z)) / 32;
+                            int offset = x % 32;
+
+                            int atPosition = cubeSet[position];
+                            if ((atPosition & (1 << offset)) == 1) {
                                 var normalSum = cubeNormalSum[x, y, z];
                                 if (normalSum != 0) {
                                     if (normalSum > 0) {
@@ -503,7 +554,7 @@ namespace Voxelisation {
                                         fill = false;
                                         while (cubeToFill > 1) {
                                             cubeToFill--;
-                                            cubeSet[x, y, z - cubeToFill] = true;
+                                            cubeSet[position] = atPosition | (1 << offset);
                                         }
                                     }
                                     cubeToFill = 0;
@@ -517,6 +568,57 @@ namespace Voxelisation {
                     }
                 }
                 cubeNormalSum = null;
+            }
+
+            private void PrepareShader(ComputeShader shader, Bounds bounds, int numTriangles) {
+
+                Vector3 extent = bounds.size;
+	            extent.x *= (float)width + 2.0f / (float)width;
+	            extent.y *= (float)height + 2.0f / (float)height;
+	            extent.z *= (float)depth + 2.0f / (float)depth;
+	            if(true)
+		            extent.x = extent.y = extent.z = Mathf.Max(extent.x, Mathf.Max(extent.y, extent.z));
+
+	            Vector3 center = bounds.center;
+	            Vector3 g_voxelSpace = center - 0.5f * extent;
+
+	            Matrix4x4 trans = Matrix4x4.TRS(-g_voxelSpace, Quaternion.identity, Vector3.one);
+	            Matrix4x4 scale = Matrix4x4.Scale(new Vector3((float)width / extent.x, (float)height / extent.y, (float)depth / extent.z));
+	            Matrix4x4 g_matWorldToVoxel = (trans*scale).transpose;
+
+                Debug.Log(g_matWorldToVoxel.ToString());
+
+                Vector4 row = g_matWorldToVoxel.GetRow(0);
+                for (int i = 0; i < 4; i++) {
+                    shader.SetFloat("g_matModelToVoxel"+i, row[i]);
+                }
+                row = g_matWorldToVoxel.GetRow(1);
+                for (int i = 0; i < 4; i++) {
+                    shader.SetFloat("g_matModelToVoxel" + (4+i), row[i]);
+                }
+                row = g_matWorldToVoxel.GetRow(2);
+                for (int i = 0; i < 4; i++) {
+                    shader.SetFloat("g_matModelToVoxel" + (8+i), row[i]);
+                }
+                row = g_matWorldToVoxel.GetRow(3);
+                for (int i = 0; i < 4; i++) {
+                    shader.SetFloat("g_matModelToVoxel" + (12+i), row[i]);
+                }
+
+                //cbVoxelGrid->m_matModelToVoxel = g_matWorldToVoxel * matModelToWorld;
+
+                shader.SetInts("g_stride", new int[]{strideX*4, strideY*4});
+                shader.SetInt("g_stride0", strideX * 4);
+                shader.SetInt("g_stride1", strideY * 4);
+
+                shader.SetInts("g_gridSize", new int[] { width, height, depth });
+                shader.SetInt("g_gridSize0", width);
+                shader.SetInt("g_gridSize1", height);
+                shader.SetInt("g_gridSize2", depth);
+
+                shader.SetInt("g_numModelTriangles", numTriangles);
+                shader.SetInt("g_vertexFloatStride", 1);
+
             }
 
             public ParticleSystem.Particle[] AddParticles(ParticleSystem.Particle[] particles, int particlesToAdd) {
@@ -708,7 +810,7 @@ namespace Voxelisation {
                 }
             }
 
-            gameObj.BroadcastMessage("addGrid",aABCGrid);
+            driver.addGrid(aABCGrid);
         }
 
         public static IEnumerator CreateMultipleGridsWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj,
