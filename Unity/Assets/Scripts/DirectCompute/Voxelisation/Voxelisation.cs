@@ -431,7 +431,7 @@ namespace Voxelisation {
                 int meshTrianglesCount = meshTriangles.Length / 3;
 
                 float[] g_Vertices = new float[meshTriangles.Length*3];
-                int[] g_Indices = new int[meshTriangles.Length];
+                int[] g_Indices = meshTriangles;
 
                 //IN
                 ComputeBuffer g_bufVertices = new ComputeBuffer(meshTriangles.Length * 3, sizeof(float));
@@ -452,25 +452,21 @@ namespace Voxelisation {
                 }
 
                 // For each triangle, perform SAT intersection check with the AABCs within the triangle AABB.
-                for (int i = 0; i < meshTrianglesCount; i++) {
-                    
-                    g_Indices[i * 3] = 9*i;
-                    g_Indices[i * 3 + 1] = 9*i + 3;
-                    g_Indices[i * 3 + 2] = 9*i + 6;
+                for (int i = 0; i < meshTriangles.Length; i+=3) {
 
-                    g_Vertices[i * 9 + 0] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3]]).x;
-                    g_Vertices[i * 9 + 1] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3]]).y;
-                    g_Vertices[i * 9 + 2] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3]]).z;
+                    g_Vertices[(meshTriangles[i] * 3)] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i]]).x;
+                    g_Vertices[(meshTriangles[i] * 3) + 1] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i]]).y;
+                    g_Vertices[(meshTriangles[i] * 3) + 2] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i]]).z;
 
-                    g_Vertices[i * 9 + 3] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 1]]).x;
-                    g_Vertices[i * 9 + 4] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 1]]).y;
-                    g_Vertices[i * 9 + 5] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 1]]).z;
+                    g_Vertices[(meshTriangles[i+1] * 3)] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i+1]]).x;
+                    g_Vertices[(meshTriangles[i + 1] * 3) + 1] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i + 1]]).y;
+                    g_Vertices[(meshTriangles[i + 1] * 3) + 2] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i + 1]]).z;
 
-                    g_Vertices[i * 9 + 6] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]).x;
-                    g_Vertices[i * 9 + 7] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]).y;
-                    g_Vertices[i * 9 + 8] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i * 3 + 2]]).z;
+                    g_Vertices[(meshTriangles[i+2] * 3)] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i+2]]).x;
+                    g_Vertices[(meshTriangles[i + 2] * 3) + 1] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i + 2]]).y;
+                    g_Vertices[(meshTriangles[i + 2] * 3) + 2] = gameObjTransf.TransformPoint(meshVertices[meshTriangles[i + 2]]).z;
 
-                    if (i==meshTrianglesCount /2 ) yield return null;
+                    if (i==meshTrianglesCount /8 ) yield return null;
 
                 }
 
@@ -478,11 +474,11 @@ namespace Voxelisation {
 
 
 
-                for (int i = 0; i < g_Vertices.Length; i+=3) {
-                    Debug.Log(g_Indices[i/3]);
-                    Debug.Log(meshTriangles[i / 3]);
-                    //Debug.Log(g_Vertices[i] + "," + g_Vertices[i + 1] + "," + g_Vertices[i+2]);
-                }
+                /*for (int i = 0; i < g_Indices.Length; i+=3) {
+                    Debug.Log(g_Indices[i] + ": " + g_Vertices[(meshTriangles[i] * 3)] + "," + g_Vertices[(meshTriangles[i] * 3) + 1] + "," + g_Vertices[(meshTriangles[i] * 3) + 2]
+                            + "\n" + g_Indices[i + 1] + ": " + g_Vertices[(meshTriangles[i + 1] * 3)] + "," + g_Vertices[(meshTriangles[i + 1] * 3) + 1] + "," + g_Vertices[(meshTriangles[i + 1] * 3) + 2]
+                            + "\n" + g_Indices[i + 2] + ": " + g_Vertices[(meshTriangles[i + 2] * 3)] + "," + g_Vertices[(meshTriangles[i+2] * 3) + 1] + "," + g_Vertices[(meshTriangles[i+2] * 3) + 2]);
+                }*/
 
                 PrepareShader(shader, gameObj.renderer.bounds, meshTrianglesCount);
 
@@ -523,10 +519,10 @@ namespace Voxelisation {
 
                 g_rwbufVoxels.GetData(cubeSet);
 
-                for (int i = 0; i < g_rwbufVoxels.count; i++) {
+                /*for (int i = 0; i < g_rwbufVoxels.count; i++) {
                     if (cubeSet[i]>0)
                     Debug.Log(cubeSet[i]);
-                }
+                }*/
 
                 if (debug) {
                     Debug.Log("Grid Evaluation Ended!");
@@ -628,7 +624,7 @@ namespace Voxelisation {
                 shader.SetInt("g_gridSize2", depth);
 
                 shader.SetInt("g_numModelTriangles", numTriangles);
-                shader.SetInt("g_vertexFloatStride", 1);
+                shader.SetInt("g_vertexFloatStride", 3);
 
             }
 
