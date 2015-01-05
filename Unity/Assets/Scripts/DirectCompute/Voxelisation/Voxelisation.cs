@@ -358,11 +358,11 @@ namespace Voxelisation {
             }
 
             protected bool IsAABCSetUnchecked(short x, short y, short z) {
-                int position = (x + (width * y) + (height * z))/32;
-                int offset = x % 32;
+                int position = (z + (strideY * y) + (strideX * x))/32;
+                int offset = z % 32;
 
                 int atPosition = cubeSet[position];
-                return ((atPosition & (1 << offset)) == 1);
+                return ((atPosition & (1 << offset)) > 0);
             }
 
             protected bool TriangleIntersectAABC(Vector3[] triangle, AABCPosition pos) {
@@ -476,7 +476,13 @@ namespace Voxelisation {
 
                 yield return null;
 
-                Debug.Log(g_Vertices[0]);
+
+
+                for (int i = 0; i < g_Vertices.Length; i+=3) {
+                    Debug.Log(g_Indices[i/3]);
+                    Debug.Log(meshTriangles[i / 3]);
+                    //Debug.Log(g_Vertices[i] + "," + g_Vertices[i + 1] + "," + g_Vertices[i+2]);
+                }
 
                 PrepareShader(shader, gameObj.renderer.bounds, meshTrianglesCount);
 
@@ -536,7 +542,7 @@ namespace Voxelisation {
             public IEnumerator FillGridWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
                 yield return driver.StartCoroutine(FillGridWithGameObjectMeshShell(gameObj, true, shader));
 
-                for (var x = 0; x < width; ++x) {
+                /*for (var x = 0; x < width; ++x) {
                     for (var y = 0; y < height; ++y) {
                         var fill = false;
                         var cubeToFill = 0;
@@ -567,26 +573,31 @@ namespace Voxelisation {
                         }
                     }
                 }
-                cubeNormalSum = null;
+                cubeNormalSum = null;*/
             }
 
             private void PrepareShader(ComputeShader shader, Bounds bounds, int numTriangles) {
 
                 Vector3 extent = bounds.size;
-	            extent.x *= (float)width + 2.0f / (float)width;
-	            extent.y *= (float)height + 2.0f / (float)height;
-	            extent.z *= (float)depth + 2.0f / (float)depth;
-	            if(true)
-		            extent.x = extent.y = extent.z = Mathf.Max(extent.x, Mathf.Max(extent.y, extent.z));
+
+                Debug.Log(extent.ToString());
+	            extent.x *= ((float)width + 2.0f) / (float)width;
+	            extent.y *= ((float)height + 2.0f) / (float)height;
+	            extent.z *= ((float)depth + 2.0f) / (float)depth;
+                Debug.Log(extent.ToString());
 
 	            Vector3 center = bounds.center;
+                Debug.Log(center.ToString());
 	            Vector3 g_voxelSpace = center - 0.5f * extent;
+                Debug.Log(g_voxelSpace.ToString());
 
 	            Matrix4x4 trans = Matrix4x4.TRS(-g_voxelSpace, Quaternion.identity, Vector3.one);
 	            Matrix4x4 scale = Matrix4x4.Scale(new Vector3((float)width / extent.x, (float)height / extent.y, (float)depth / extent.z));
-	            Matrix4x4 g_matWorldToVoxel = (trans*scale).transpose;
+                Matrix4x4 g_matWorldToVoxel = (trans * scale).transpose;
 
-                Debug.Log(g_matWorldToVoxel.ToString());
+                //g_matWorldToVoxel = Matrix4x4.identity;
+
+                Debug.Log(scale.ToString());
 
                 Vector4 row = g_matWorldToVoxel.GetRow(0);
                 for (int i = 0; i < 4; i++) {

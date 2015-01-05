@@ -49,6 +49,8 @@ void CS_VoxelizeSolid(uint gtidx : SV_GroupIndex, uint3 gid : SV_GroupID) {
 	const uint c_numthreads = 256;
 	const uint c_groupCountX = 256;
 
+	buffer1[0] = gid;
+
 	// determine triangle
 	const uint tri = gtidx + gid.x * c_numthreads + gid.y * c_numthreads * c_groupCountX;
 
@@ -123,7 +125,6 @@ void CS_VoxelizeSolid(uint gtidx : SV_GroupIndex, uint3 gid : SV_GroupID) {
 	                         min(int(g_gridSize.z), int(floor(vMax.y + 0.5))));
 
 	// check if any voxel columns are covered at all
-	buffer1[0] = g_bufVertices[0];
 	if(voxMin.x >= voxMax.x || voxMin.y >= voxMax.y)
 		return;
 
@@ -190,7 +191,6 @@ void CS_VoxelizeSolid(uint gtidx : SV_GroupIndex, uint3 gid : SV_GroupID) {
 			// flip voxel's state
 			uint address = uint(x) * g_stride.x + uint(y) * g_stride.y + (uint(z) >> 5) * 4;
 			g_rwbufVoxels.InterlockedXor(address, 1u << (z & 31));
-			g_rwbufVoxels.Store(address,32);
 
 		}
 	}
