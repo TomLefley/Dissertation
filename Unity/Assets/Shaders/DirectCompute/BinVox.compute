@@ -20,12 +20,11 @@ cbuffer cbVoxelGrid : register(b0) {
 
 	uint g_stride0;
 	uint g_stride1;
-	uint g_stride2;
 	uint2 g_stride;
 
-	uint3 g_gridSize0;
-	uint3 g_gridSize1;
-	uint3 g_gridSize2;
+	uint g_gridSize0;
+	uint g_gridSize1;
+	uint g_gridSize2;
 	uint3 g_gridSize;
 };
 
@@ -42,14 +41,10 @@ RWByteAddressBuffer g_rwbufVoxels : register(u1);
 RWStructuredBuffer<float> g_bufVertices : register(t0);
 RWStructuredBuffer<uint> g_bufIndices : register(t1);
 
-RWStructuredBuffer<float> buffer1;
-
 [numthreads(256, 1, 1)]
 void CS_VoxelizeSolid(uint gtidx : SV_GroupIndex, uint3 gid : SV_GroupID) {
 	const uint c_numthreads = 256;
 	const uint c_groupCountX = 256;
-
-	buffer1[0] = gid;
 
 	// determine triangle
 	const uint tri = gtidx + gid.x * c_numthreads + gid.y * c_numthreads * c_groupCountX;
@@ -133,6 +128,7 @@ void CS_VoxelizeSolid(uint gtidx : SV_GroupIndex, uint3 gid : SV_GroupID) {
 	const float3 e1 = v2-v1;
 	const float3 e2 = v2-v0;
 	const float3 n = cross(e0, e2);
+
 	if(n.y == 0.0)
 		return;
 
@@ -191,13 +187,16 @@ void CS_VoxelizeSolid(uint gtidx : SV_GroupIndex, uint3 gid : SV_GroupID) {
 			// flip voxel's state
 			uint address = uint(x) * g_stride.x + uint(y) * g_stride.y + (uint(z) >> 5) * 4;
 			g_rwbufVoxels.InterlockedXor(address, 1u << (z & 31));
-
 		}
 	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 #pragma kernel CS_VoxelizeSolid_Propagate
+
+RWStructuredBuffer<float> buffer1;
+
+RWByteAddressBuffer g_rwbufVoxelsProp : register(u2);
 
 [numthreads(256, 1, 1)]
 void CS_VoxelizeSolid_Propagate(uint gtidx : SV_GroupIndex, uint3 gid : SV_GroupID) {
@@ -210,15 +209,17 @@ void CS_VoxelizeSolid_Propagate(uint gtidx : SV_GroupIndex, uint3 gid : SV_Group
 		return;
 
 	uint address = section * 4;
-	uint lastBlock = g_rwbufVoxels.Load(address);
+	uint lastBlock = g_rwbufVoxelsProp.Load(address);
 	for(uint y = 1; y < g_gridSize.y; y++) {
 		address += g_stride.y;
 
-		uint currBlock = g_rwbufVoxels.Load(address);
+		uint currBlock = g_rwbufVoxelsProp.Load(address);
 		if(lastBlock != 0) {
 			currBlock = currBlock ^ lastBlock;
-			g_rwbufVoxels.Store(address, currBlock);
+			g_rwbufVoxelsProp.Store(address, currBlock);
+			buffer1[1] = g_gridSize.y;
 		}
+		buffer1[0] = lastBlock;
 		lastBlock = currBlock;
 	}
 }
