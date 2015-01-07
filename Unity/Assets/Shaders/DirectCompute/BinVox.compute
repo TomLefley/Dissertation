@@ -18,13 +18,8 @@ cbuffer cbVoxelGrid : register(b0) {
 	float g_matModelToVoxel15;
 	row_major float4x4 g_matModelToVoxel;
 
-	uint g_stride0;
-	uint g_stride1;
 	uint2 g_stride;
 
-	uint g_gridSize0;
-	uint g_gridSize1;
-	uint g_gridSize2;
 	uint3 g_gridSize;
 };
 
@@ -97,12 +92,12 @@ void CS_VoxelizeSolid(uint gtidx : SV_GroupIndex, uint3 gid : SV_GroupID) {
 	g_matModelToVoxel[3][3] = g_matModelToVoxel15;
 
 
-	g_stride[0] = g_stride0;
-	g_stride[1] = g_stride1;
+	//g_stride[0] = g_stride0;
+	//g_stride[1] = g_stride1;
 
-	g_gridSize[0] = g_gridSize0;
-	g_gridSize[1] = g_gridSize0;
-	g_gridSize[2] = g_gridSize0;
+	//g_gridSize[0] = g_gridSize0;
+	//g_gridSize[1] = g_gridSize1;
+	//g_gridSize[2] = g_gridSize2;
 
 	float4 v;
 	v = mul(g_matModelToVoxel, float4(v0, 1.0)); v0 = v.xyz / v.w;
@@ -217,7 +212,7 @@ void CS_VoxelizeSolid_Propagate(uint gtidx : SV_GroupIndex, uint3 gid : SV_Group
 		if(lastBlock != 0) {
 			currBlock = currBlock ^ lastBlock;
 			g_rwbufVoxelsProp.Store(address, currBlock);
-			buffer1[1] = g_gridSize.y;
+			buffer1[1] = g_stride.y;
 		}
 		buffer1[0] = lastBlock;
 		lastBlock = currBlock;

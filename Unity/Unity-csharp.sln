@@ -17,7 +17,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																									GlobalSection(MonoDevelopProperties) = preSolution
+																																																																										GlobalSection(MonoDevelopProperties) = preSolution
 =======
 																													GlobalSection(MonoDevelopProperties) = preSolution
 >>>>>>> parent of 23e1052... Added cpu multithreading

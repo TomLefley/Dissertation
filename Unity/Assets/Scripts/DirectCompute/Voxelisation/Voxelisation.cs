@@ -211,9 +211,9 @@ namespace Voxelisation {
             public AABCGrid(short x, short y, short z, float sideLength) {
                 width = x;
                 height = y;
-                depth = z;
+                depth = (short)(z + (32 - (z % 32)));
 
-                strideX = (depth + 31) / 32;
+                strideX = depth/32;
                 strideY = strideX * width;
 
                 side = sideLength;
@@ -224,9 +224,9 @@ namespace Voxelisation {
             public AABCGrid(short x, short y, short z, float sideLength, Vector3 ori) {
                 width = x;
                 height = y;
-                depth = z;
+                depth = (short)(z + (32 - (z % 32)));
 
-                strideX = (depth + 31) / 32;
+                strideX = depth/32;
                 strideY = strideX * width;
 
                 side = sideLength;
@@ -253,9 +253,9 @@ namespace Voxelisation {
             public void SetSize(short x, short y, short z, float sideLength) {
                 width = x;
                 height = y;
-                depth = z;
+                depth = (short)(z + (33 - (z % 32)));
 
-                strideX = (depth + 31) / 32;
+                strideX = depth/32;
                 strideY = strideX * width;
 
                 side = sideLength;
@@ -464,11 +464,11 @@ namespace Voxelisation {
                     g_Vertices[(meshTriangles[i] * 3) + 1] = (meshVertices[meshTriangles[i]]).y;
                     g_Vertices[(meshTriangles[i] * 3) + 2] = (meshVertices[meshTriangles[i]]).z;
 
-                    g_Vertices[(meshTriangles[i+1] * 3)] = (meshVertices[meshTriangles[i+1]]).x;
+                    g_Vertices[(meshTriangles[i + 1] * 3)] = (meshVertices[meshTriangles[i+1]]).x;
                     g_Vertices[(meshTriangles[i + 1] * 3) + 1] = (meshVertices[meshTriangles[i + 1]]).y;
                     g_Vertices[(meshTriangles[i + 1] * 3) + 2] = (meshVertices[meshTriangles[i + 1]]).z;
 
-                    g_Vertices[(meshTriangles[i+2] * 3)] = (meshVertices[meshTriangles[i+2]]).x;
+                    g_Vertices[(meshTriangles[i + 2] * 3)] = (meshVertices[meshTriangles[i+2]]).x;
                     g_Vertices[(meshTriangles[i + 2] * 3) + 1] = (meshVertices[meshTriangles[i + 2]]).y;
                     g_Vertices[(meshTriangles[i + 2] * 3) + 2] = (meshVertices[meshTriangles[i + 2]]).z;
 
@@ -530,16 +530,20 @@ namespace Voxelisation {
 
                 g_rwbufVoxelsProp.GetData(cubeSet);
 
-                /*for (int i = 0; i < g_rwbufVoxels.count; i++) {
-                    if (cubeSet[i]>0)
-                    Debug.Log(cubeSet[i]);
+                /*for (int i = 0; i < cubeSet.Length; i++) {
+                    cubeSet[i] = uint.MaxValue;
                 }*/
 
-                if (debug) {
-                    Debug.Log("Grid Evaluation Ended!");
-                    Debug.Log("Time spent: " + (Time.realtimeSinceStartup - startTime) + "s");
-                    Debug.Log("End: ");
-                }
+                    /*for (int i = 0; i < g_rwbufVoxels.count; i++) {
+                        if (cubeSet[i]>0)
+                        Debug.Log(cubeSet[i]);
+                    }*/
+
+                    if (debug) {
+                        Debug.Log("Grid Evaluation Ended!");
+                        Debug.Log("Time spent: " + (Time.realtimeSinceStartup - startTime) + "s");
+                        Debug.Log("End: ");
+                    }
 
                 g_bufVertices.Release();
                 g_bufIndices.Release();
@@ -588,24 +592,16 @@ namespace Voxelisation {
 
                 Vector3 extent = bounds.size;
 
-                Debug.Log(extent.ToString());
 	            extent.x *= ((float)width + 2.0f) / (float)width;
 	            extent.y *= ((float)height + 2.0f) / (float)height;
 	            extent.z *= ((float)depth + 2.0f) / (float)depth;
-                Debug.Log(extent.ToString());
 
 	            Vector3 center = bounds.center;
-                Debug.Log(center.ToString());
-	            Vector3 g_voxelSpace = center - 0.5f * extent;
-                Debug.Log(g_voxelSpace.ToString());
+	            Vector3 g_voxelSpace = center - (0.5f*extent);
 
-	            Matrix4x4 trans = Matrix4x4.TRS(g_voxelSpace, Quaternion.identity, Vector3.one);
+	            Matrix4x4 trans = Matrix4x4.TRS(-g_voxelSpace, Quaternion.identity, Vector3.one);
 	            Matrix4x4 scale = Matrix4x4.Scale(new Vector3((float)width / extent.x, (float)height / extent.y, (float)depth / extent.z));
-                Matrix4x4 g_matWorldToVoxel = (trans * scale).transpose;
-
-                Debug.Log(width + "," + height + "," + depth);
-
-                Debug.Log(g_matWorldToVoxel.ToString());
+                Matrix4x4 g_matWorldToVoxel = (scale*trans);
 
                 Vector4 row = g_matWorldToVoxel.GetRow(0);
                 for (int i = 0; i < 4; i++) {
@@ -624,16 +620,9 @@ namespace Voxelisation {
                     shader.SetFloat("g_matModelToVoxel" + (12+i), row[i]);
                 }
 
-                //cbVoxelGrid->m_matModelToVoxel = g_matWorldToVoxel * matModelToWorld;
-
                 shader.SetInts("g_stride", new int[]{strideX*4, strideY*4});
-                shader.SetInt("g_stride0", strideX * 4);
-                shader.SetInt("g_stride1", strideY * 4);
 
                 shader.SetInts("g_gridSize", new int[] { width, height, depth });
-                shader.SetInt("g_gridSize0", width);
-                shader.SetInt("g_gridSize1", height);
-                shader.SetInt("g_gridSize2", depth);
 
                 shader.SetInt("g_numModelTriangles", numTriangles);
                 shader.SetInt("g_vertexFloatStride", 3);
