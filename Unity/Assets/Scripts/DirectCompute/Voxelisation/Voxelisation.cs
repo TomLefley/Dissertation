@@ -46,6 +46,8 @@ namespace Voxelisation {
             private short height;
             private short depth;
 
+            private short representedDepth;
+
             private int strideX;
             private int strideY;
 
@@ -211,9 +213,11 @@ namespace Voxelisation {
             public AABCGrid(short x, short y, short z, float sideLength) {
                 width = x;
                 height = y;
-                depth = (short)(z + (32 - (z % 32)));
+                depth = z;
 
-                strideX = depth/32;
+                representedDepth = (short)(depth + (33 - (z % 32)));
+
+                strideX = representedDepth / 32;
                 strideY = strideX * width;
 
                 side = sideLength;
@@ -224,9 +228,11 @@ namespace Voxelisation {
             public AABCGrid(short x, short y, short z, float sideLength, Vector3 ori) {
                 width = x;
                 height = y;
-                depth = (short)(z + (32 - (z % 32)));
+                depth = z;
 
-                strideX = depth/32;
+                representedDepth = (short)(depth + (33 - (z % 32)));
+
+                strideX =  representedDepth / 32;
                 strideY = strideX * width;
 
                 side = sideLength;
@@ -253,9 +259,11 @@ namespace Voxelisation {
             public void SetSize(short x, short y, short z, float sideLength) {
                 width = x;
                 height = y;
-                depth = (short)(z + (33 - (z % 32)));
+                depth = z;
 
-                strideX = depth/32;
+                representedDepth = (short)(depth + (33 - (z % 32)));
+
+                strideX = representedDepth / 32;
                 strideY = strideX * width;
 
                 side = sideLength;
@@ -366,7 +374,7 @@ namespace Voxelisation {
                 int offset = z & 31;
 
                 uint atPosition = cubeSet[position];
-                return ((atPosition & (1u << (int)atPosition)) != 0);
+                return ((atPosition & (1u << (int)offset)) != 0);
 
             }
 
@@ -443,8 +451,8 @@ namespace Voxelisation {
                 ComputeBuffer g_bufIndices = new ComputeBuffer(meshTriangles.Length, sizeof(int));
 
                 //OUT
-                ComputeBuffer g_rwbufVoxels = new ComputeBuffer((width * height * depth) / 32, sizeof(int));
-                ComputeBuffer g_rwbufVoxelsProp = new ComputeBuffer((width * height * depth) / 32, sizeof(int));
+                ComputeBuffer g_rwbufVoxels = new ComputeBuffer(strideY*height, sizeof(int));
+                ComputeBuffer g_rwbufVoxelsProp = new ComputeBuffer(strideY * height, sizeof(int));
 
                 if (debug) {
                     Debug.Log("Start:");
@@ -623,6 +631,8 @@ namespace Voxelisation {
                 shader.SetInts("g_stride", new int[]{strideX*4, strideY*4});
 
                 shader.SetInts("g_gridSize", new int[] { width, height, depth });
+
+                Debug.Log("Width: " + width + " Height: " + height + " Depth: " + depth + " StrideX: " + strideX + " StrideY: " + strideY);
 
                 shader.SetInt("g_numModelTriangles", numTriangles);
                 shader.SetInt("g_vertexFloatStride", 3);
