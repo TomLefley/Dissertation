@@ -465,7 +465,7 @@ namespace Voxelisation {
                     Debug.Log("Size: " + width + ',' + height + ',' + depth);
                 }
 
-                // For each triangle, perform SAT intersection check with the AABCs within the triangle AABB.
+                // Set up the Vertices array
                 for (int i = 0; i < meshTriangles.Length; i+=3) {
 
                     g_Vertices[(meshTriangles[i] * 3)] = (meshVertices[meshTriangles[i]]).x;
@@ -486,13 +486,6 @@ namespace Voxelisation {
 
                 yield return null;
 
-
-
-                /*for (int i = 0; i < g_Indices.Length; i+=3) {
-                    Debug.Log(g_Indices[i] + ": " + g_Vertices[(meshTriangles[i] * 3)] + "," + g_Vertices[(meshTriangles[i] * 3) + 1] + "," + g_Vertices[(meshTriangles[i] * 3) + 2]
-                            + "\n" + g_Indices[i + 1] + ": " + g_Vertices[(meshTriangles[i + 1] * 3)] + "," + g_Vertices[(meshTriangles[i + 1] * 3) + 1] + "," + g_Vertices[(meshTriangles[i + 1] * 3) + 2]
-                            + "\n" + g_Indices[i + 2] + ": " + g_Vertices[(meshTriangles[i + 2] * 3)] + "," + g_Vertices[(meshTriangles[i+2] * 3) + 1] + "," + g_Vertices[(meshTriangles[i+2] * 3) + 2]);
-                }*/
 
                 PrepareShader(shader, gameObjMesh.bounds, meshTrianglesCount);
 
@@ -521,37 +514,15 @@ namespace Voxelisation {
                 numThreads = strideY;
                 threadsPerBlock = 256;
 
-                ComputeBuffer buffer = new ComputeBuffer(numThreads, sizeof(float));
-
-                shader.SetBuffer(kernel, "buffer1", buffer);
-
                 shader.Dispatch(kernel, 256, (numThreads + (threadsPerBlock * 256 - 1)) / (threadsPerBlock * 256), 1);
-
-                float[] data = new float[numThreads];
-
-                buffer.GetData(data);
-
-                for (int i = 0; i < 2; i++)
-                    Debug.Log(data[i]);
-
-                buffer.Release();
 
                 g_rwbufVoxelsProp.GetData(cubeSet);
 
-                /*for (int i = 0; i < cubeSet.Length; i++) {
-                    cubeSet[i] = uint.MaxValue;
-                }*/
-
-                    /*for (int i = 0; i < g_rwbufVoxels.count; i++) {
-                        if (cubeSet[i]>0)
-                        Debug.Log(cubeSet[i]);
-                    }*/
-
-                    if (debug) {
-                        Debug.Log("Grid Evaluation Ended!");
-                        Debug.Log("Time spent: " + (Time.realtimeSinceStartup - startTime) + "s");
-                        Debug.Log("End: ");
-                    }
+                if (debug) {
+                    Debug.Log("Grid Evaluation Ended!");
+                    Debug.Log("Time spent: " + (Time.realtimeSinceStartup - startTime) + "s");
+                    Debug.Log("End: ");
+                }
 
                 g_bufVertices.Release();
                 g_bufIndices.Release();
@@ -631,8 +602,6 @@ namespace Voxelisation {
                 shader.SetInts("g_stride", new int[]{strideX*4, strideY*4});
 
                 shader.SetInts("g_gridSize", new int[] { width, height, depth });
-
-                Debug.Log("Width: " + width + " Height: " + height + " Depth: " + depth + " StrideX: " + strideX + " StrideY: " + strideY);
 
                 shader.SetInt("g_numModelTriangles", numTriangles);
                 shader.SetInt("g_vertexFloatStride", 3);

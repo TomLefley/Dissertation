@@ -189,8 +189,6 @@ void CS_VoxelizeSolid(uint gtidx : SV_GroupIndex, uint3 gid : SV_GroupID) {
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 #pragma kernel CS_VoxelizeSolid_Propagate
 
-RWStructuredBuffer<float> buffer1;
-
 RWByteAddressBuffer g_rwbufVoxelsProp : register(u2);
 
 [numthreads(256, 1, 1)]
@@ -212,9 +210,7 @@ void CS_VoxelizeSolid_Propagate(uint gtidx : SV_GroupIndex, uint3 gid : SV_Group
 		if(lastBlock != 0) {
 			currBlock = currBlock ^ lastBlock;
 			g_rwbufVoxelsProp.Store(address, currBlock);
-			buffer1[1] = g_stride.y;
 		}
-		buffer1[0] = lastBlock;
 		lastBlock = currBlock;
 	}
 }

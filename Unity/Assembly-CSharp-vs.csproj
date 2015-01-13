@@ -46,14 +46,15 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\CombineChildren.cs" />
-     <Compile Include="Assets\Scripts\CombineChildrenExtended.cs" />
      <Compile Include="Assets\Scripts\DirectCompute\Examples\BufferExample.cs" />
      <Compile Include="Assets\Scripts\DirectCompute\Examples\KernelExample.cs" />
      <Compile Include="Assets\Scripts\DirectCompute\Voxelisation\Voxelisation.cs" />
      <Compile Include="Assets\Scripts\DirectCompute\Voxelisation\VoxelisationJob.cs" />
      <Compile Include="Assets\Scripts\Interior Check\csObject.cs" />
-     <Compile Include="Assets\Scripts\MeshCombineUtility.cs" />
+     <Compile Include="Assets\Scripts\Mesh\CombineChildren.cs" />
+     <Compile Include="Assets\Scripts\Mesh\CombineChildrenExtended.cs" />
+     <Compile Include="Assets\Scripts\Mesh\MeshCombineUtility.cs" />
+     <Compile Include="Assets\Scripts\Physics\PhysicalProperties.cs" />
      <Compile Include="Assets\Scripts\Threads\ThreadedJob.cs" />
      <Compile Include="Assets\Scripts\Voxelisation\VoxelisationDriver.cs" />
      <Compile Include="Assets\Scripts\Voxelisation\VoxelisationTrigger.cs" />
