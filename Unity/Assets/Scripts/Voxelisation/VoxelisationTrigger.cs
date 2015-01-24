@@ -1,65 +1,69 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class VoxelisationTrigger : MonoBehaviour {
+namespace Voxelisation {
+    public class VoxelisationTrigger : MonoBehaviour {
 
-    public GameObject gameObjectToVoxelise;
+        public GameObject gameObjectToVoxelise;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        // Use this for initialization
+        void Start() {
 
-    void OnTriggerEnter(Collider collider) {
+        }
 
-        if (collider.gameObject.Equals(gameObjectToVoxelise)) return;
+        // Update is called once per frame
+        void Update() {
 
-        PhysicalProperties gameObjectToVoxelisePP = gameObjectToVoxelise.GetComponent<PhysicalProperties>();
-        PhysicalProperties collidingPP = collider.gameObject.GetComponent<PhysicalProperties>();
+        }
 
-        float radius = gameObjectToVoxelisePP.doesBreak(collidingPP.getMomentum());
+        void OnTriggerEnter(Collider collider) {
 
-        RaycastHit willCollidePoint;
+            if (collider.gameObject.Equals(gameObjectToVoxelise)) return;
 
-        Ray ray = new Ray(collider.transform.position, collider.rigidbody.velocity);
+            PhysicalProperties gameObjectToVoxelisePP = gameObjectToVoxelise.GetComponent<PhysicalProperties>();
+            PhysicalProperties collidingPP = collider.gameObject.GetComponent<PhysicalProperties>();
 
-        Physics.Raycast(ray, out willCollidePoint);
+            RaycastHit willCollidePoint;
 
-        Rigidbody willCollideWith = willCollidePoint.rigidbody;
+            Ray ray = new Ray(collider.transform.position, collider.rigidbody.velocity);
 
-        Vector3 velocity1 = willCollideWith ? willCollideWith.velocity : Vector3.zero;
+            Physics.Raycast(ray, out willCollidePoint);
 
-        Vector3 velocity2 = collider.rigidbody.velocity;
+            Rigidbody willCollideWith = willCollidePoint.rigidbody;
 
-        float mass1 = gameObjectToVoxelisePP.mass;
+            if (!willCollideWith) return;
 
-        Debug.Log(mass1);
+            Vector3 velocity1 = willCollideWith.velocity;
 
-        float mass2 = collider.rigidbody.mass;
+            Vector3 velocity2 = collider.rigidbody.velocity;
 
-        Debug.Log(mass2);
+            float mass1 = willCollideWith.mass;
 
-        Vector3 willCollideNormal = willCollidePoint.normal;
-        willCollideNormal.Normalize();
-        willCollideNormal*=2;
+            Debug.Log(mass1);
 
-        float exertedForce = Vector3.Dot(willCollideNormal,(mass2 * velocity1 - mass1 * velocity2)) / (mass1 + mass2);
+            float mass2 = collider.rigidbody.mass;
 
-        exertedForce /= Time.fixedDeltaTime;
+            Debug.Log(mass2);
 
-        Debug.Log(exertedForce);
+            Vector3 willCollideNormal = willCollidePoint.normal;
+            willCollideNormal.Normalize();
+            willCollideNormal *= 2;
 
-        //if (radius == 0f) return;
+            float exertedForce = Vector3.Dot(willCollideNormal, (mass2 * velocity1 - mass1 * velocity2)) / (mass1 + mass2);
 
-        Debug.Log(radius);
+            exertedForce /= Time.fixedDeltaTime;
 
-        gameObjectToVoxelise.BroadcastMessage("StartVoxelise");
-        
+            Debug.Log(exertedForce);
 
+            float aboveThreshold = gameObjectToVoxelisePP.doesBreak(exertedForce);
+
+            if (aboveThreshold <= 0f) return;
+
+            gameObjectToVoxelise.GetComponent<Destruction>().setHitPoint(willCollidePoint.point);
+
+            gameObjectToVoxelise.BroadcastMessage("StartVoxelise");
+
+
+        }
     }
 }

@@ -3,9 +3,10 @@ using System.Collections;
 
 public class PhysicalProperties : MonoBehaviour {
 
-    public float brittleness;
-    public float mass;
+    public float strength;
 
-    private float acceleration;
+    public float doesBreak(float force) {
+        return force - strength;
+    }
 
 }

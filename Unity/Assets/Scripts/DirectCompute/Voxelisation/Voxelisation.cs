@@ -528,6 +528,7 @@ namespace Voxelisation {
                 g_bufIndices.Release();
                 g_rwbufVoxels.Release();
                 g_rwbufVoxelsProp.Release();
+
             }
 
             public IEnumerator FillGridWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
@@ -798,6 +799,7 @@ namespace Voxelisation {
             }
 
             driver.addGrid(aABCGrid);
+            gameObj.GetComponent<Destruction>().setAabc(aABCGrid);
         }
 
         public static IEnumerator CreateMultipleGridsWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj,
