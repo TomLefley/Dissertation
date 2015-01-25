@@ -60,6 +60,7 @@ namespace Voxelisation {
             if (aboveThreshold <= 0f) return;
 
             gameObjectToVoxelise.GetComponent<Destruction>().setHitPoint(willCollidePoint.point);
+            gameObjectToVoxelise.GetComponent<Destruction>().setHitForce(aboveThreshold);
 
             gameObjectToVoxelise.BroadcastMessage("StartVoxelise");
 

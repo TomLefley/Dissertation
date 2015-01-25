@@ -74,10 +74,10 @@ namespace Voxelisation {
                                                 meshShellPositionFromObject;
                                     if (aABCGrid.IsAABCSet(x, y, z)) {
                                         Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
-                                        if (x == destruction.getHitX() && y == destruction.getHitY() && z == destruction.getHitZ()) {
+                                        if (x == destruction.getHit().x && y == destruction.getHit().y && z == destruction.getHit().z) {
                                             Gizmos.color = new Color(0f, 1f, 0f, 1f);
                                         }
-                                        Gizmos.DrawCube(cubeCenter, cubeSize);
+                                        //Gizmos.DrawCube(cubeCenter, cubeSize);
                                     } else if (drawEmptyCube) {
                                         Gizmos.color = new Color(0f, 1f, 0f, 1f);
                                         Gizmos.DrawCube(cubeCenter, cubeSize);
