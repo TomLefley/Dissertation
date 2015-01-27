@@ -504,6 +504,8 @@ namespace Voxelisation {
 
                 shader.Dispatch(kernel, 256, (numThreads + (threadsPerBlock * 256 - 1)) / (threadsPerBlock * 256), 1);
 
+                yield return null;
+
                 g_rwbufVoxels.GetData(cubeSet);
                 g_rwbufVoxelsProp.SetData(cubeSet);
 

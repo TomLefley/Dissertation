@@ -56,7 +56,7 @@ namespace Voxelisation {
 
         void OnDrawGizmos() {
             Gizmos.color = new Color(1.0f, 0.0f, 0.0f, .5f);
-            DrawMeshShell();
+            //DrawMeshShell();
         }
 
         void DrawMeshShell() {
@@ -73,10 +73,18 @@ namespace Voxelisation {
                                             aABCGrid.GetCenter() +
                                                 meshShellPositionFromObject;
                                     if (aABCGrid.IsAABCSet(x, y, z)) {
-                                        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
                                         if (x == destruction.getHit().x && y == destruction.getHit().y && z == destruction.getHit().z) {
                                             Gizmos.color = new Color(0f, 1f, 0f, 1f);
+                                            Gizmos.DrawCube(cubeCenter, cubeSize);
+                                            continue;
                                         }
+                                        foreach (Vector3 point in destruction.getVoronoiPoints()) {
+                                            if (x == point.x && y == point.y && z == point.z) {
+                                                Gizmos.color = new Color(0f, 0f, 1f, 1f);
+                                                Gizmos.DrawCube(cubeCenter, cubeSize);
+                                            }
+                                        }
+                                        //Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
                                         //Gizmos.DrawCube(cubeCenter, cubeSize);
                                     } else if (drawEmptyCube) {
                                         Gizmos.color = new Color(0f, 1f, 0f, 1f);

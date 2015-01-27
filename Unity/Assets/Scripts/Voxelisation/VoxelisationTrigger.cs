@@ -61,6 +61,7 @@ namespace Voxelisation {
 
             gameObjectToVoxelise.GetComponent<Destruction>().setHitPoint(willCollidePoint.point);
             gameObjectToVoxelise.GetComponent<Destruction>().setHitForce(aboveThreshold);
+            gameObjectToVoxelise.GetComponent<Destruction>().setPhysicalProperties(gameObjectToVoxelisePP);
 
             gameObjectToVoxelise.BroadcastMessage("StartVoxelise");
 

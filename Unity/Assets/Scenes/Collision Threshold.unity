@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a3dbe5eddc69d428d31f463e3dfe33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strength: 480
+  strength: 400
   brittleness: 1
 --- !u!54 &1618308010
 Rigidbody:
@@ -516,7 +516,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: strength
-      value: 480
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: brittleness
