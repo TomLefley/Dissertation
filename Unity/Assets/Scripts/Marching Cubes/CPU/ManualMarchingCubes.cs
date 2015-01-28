@@ -1,53 +1,47 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+	
+static public class ManualMarchingCubes
+{
+	//Function delegates, makes using functions pointers easier
+    delegate void MODE_FUNC(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ManualVoxelisation.Voxelization.AABCGrid grid);
+	//Function poiter to what mode to use, cubes or tetrahedrons
+	static MODE_FUNC Mode_Func = MarchCube;
+	//Set the mode to use
+	//Cubes is faster and creates less verts, tetrahedrons is slower and creates more verts but better represents the mesh surface
+	static public void SetModeToCubes() { Mode_Func = MarchCube; }
+	static public void SetModeToTetrahedrons() { Mode_Func = MarchCubeTetrahedron; } 
+	
+	static public void SetTarget(float tar) { target = tar; }
+	static public void SetWindingOrder(int v0, int v1, int v2) { windingOrder = new int[]{ v0, v1, v2 }; }
+	
+	static public Mesh CreateMesh(float[,,] voxels, ManualVoxelisation.Voxelization.AABCGrid grid)
+	{
 
-static public class MarchingCubes {
-    //Function delegates, makes using functions pointers easier
-    delegate void MODE_FUNC(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, Voxelisation.Voxelization.AABCGrid grid);
-    //Function poiter to what mode to use, cubes or tetrahedrons
-    static MODE_FUNC Mode_Func = MarchCube;
-    //Set the mode to use
-    //Cubes is faster and creates less verts, tetrahedrons is slower and creates more verts but better represents the mesh surface
-    static public void SetModeToCubes() { Mode_Func = MarchCube; }
-    static public void SetModeToTetrahedrons() { Mode_Func = MarchCubeTetrahedron; }
+		List<Vector3> verts = new List<Vector3>();
+		List<int> index = new List<int>();
+		
+		float[] cube = new float[8];
+		
+		for(int x = 0; x < voxels.GetLength(0)-1; x++)
+		{
+			for(int y = 0; y < voxels.GetLength(1)-1; y++)
+			{
+				for(int z = 0; z < voxels.GetLength(2)-1; z++)
+				{
+					//Get the values in the 8 neighbours which make up a cube
+					FillCube(x,y,z,voxels,cube);
+					//Perform algorithm
+					Mode_Func(new Vector3(x,y,z), cube, verts, index, grid);
+				}
+			}
+		}
+		
+		Mesh mesh = new Mesh();
 
-    static public void SetTarget(float tar) { target = tar; }
-    static public void SetWindingOrder(int v0, int v1, int v2) { windingOrder = new int[] { v0, v1, v2 }; }
-
-    static public Mesh CreateMesh(float[, ,] voxels, MinMax minMax, Voxelisation.Voxelization.AABCGrid grid) {
-
-        List<Vector3> verts = new List<Vector3>();
-        List<int> index = new List<int>();
-
-        float[] cube = new float[8];
-
-        /*for (short x = minMax.minX; x <= minMax.maxX; x++) {
-            for (short y = minMax.minY; y <= minMax.maxY; y++) {
-                for (short z = minMax.minZ; z <= minMax.maxZ; z++) {
-                    //Get the values in the 8 neighbours which make up a cube
-                    FillCube(x, y, z, voxels, cube);
-                    //Perform algorithm
-                    Mode_Func(new Vector3(x, y, z), cube, verts, index, grid);
-                }
-            }
-        }*/
-
-        for (int x = 0; x < voxels.GetLength(0) - 1; x++) {
-            for (int y = 0; y < voxels.GetLength(1) - 1; y++) {
-                for (int z = 0; z < voxels.GetLength(2) - 1; z++) {
-                    //Get the values in the 8 neighbours which make up a cube
-                    FillCube(x, y, z, voxels, cube);
-                    //Perform algorithm
-                    Mode_Func(new Vector3(x, y, z), cube, verts, index, grid);
-                }
-            }
-        }
-
-        Mesh mesh = new Mesh();
-
-        mesh.vertices = verts.ToArray();
-        mesh.triangles = index.ToArray();
+		mesh.vertices = verts.ToArray();		
+		mesh.triangles = index.ToArray();
 
         /*int i = 0;
         List<Vector3> verts2 = new List<Vector3>();
@@ -57,107 +51,119 @@ static public class MarchingCubes {
             }
             verts2.Add(vert);
         }*/
+		
+		return mesh;
+	}
+	
+	static void FillCube(int x, int y, int z, float[,,] voxels, float[] cube)
+	{
+		for(int i = 0; i < 8; i++)
+			cube[i] = voxels[x + vertexOffset[i,0], y + vertexOffset[i,1], z + vertexOffset[i,2]];
+	}
+	
+	// GetOffset finds the approximate point of intersection of the surface
+	// between two points with the values v1 and v2
+	static float GetOffset(float v1, float v2)
+	{
+	    float delta = v2 - v1;
+	    return (delta == 0.0f) ? 0.5f : (target - v1)/delta;
+	}
+	
+	//MarchCube performs the Marching Cubes algorithm on a single cube
+	static void MarchCube(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ManualVoxelisation.Voxelization.AABCGrid grid)
+	{
+		int i, j, vert, idx;
+		int flagIndex = 0;
+		float offset = 0.0f;
+		
+	    Vector3[] edgeVertex = new Vector3[12];
+	
+	    //Find which vertices are inside of the surface and which are outside
+	    for(i = 0; i < 8; i++) if(cube[i] <= target) flagIndex |= 1<<i;
+	
+	    //Find which edges are intersected by the surface
+	    int edgeFlags = cubeEdgeFlags[flagIndex];
+	
+	    //If the cube is entirely inside or outside of the surface, then there will be no intersections
+	    if(edgeFlags == 0) return;
+	
+	    //Find the point of intersection of the surface with each edge
+	    for(i = 0; i < 12; i++)
+	    {
+	        //if there is an intersection on this edge
+	        if((edgeFlags & (1<<i)) != 0)
+	        {
+	         	offset = GetOffset(cube[edgeConnection[i,0]], cube[edgeConnection[i,1]]);
+	
+                edgeVertex[i].x = pos.x + (vertexOffset[edgeConnection[i,0],0] + offset * edgeDirection[i,0]);
+                edgeVertex[i].y = pos.y + (vertexOffset[edgeConnection[i,0],1] + offset * edgeDirection[i,1]);
+                edgeVertex[i].z = pos.z + (vertexOffset[edgeConnection[i,0],2] + offset * edgeDirection[i,2]);
+	        }
+	    }
+	
+	    //Save the triangles that were found. There can be up to five per cube
+	    for(i = 0; i < 5; i++)
+	    {
+            if(triangleConnectionTable[flagIndex,3*i] < 0) break;
+			
+			idx = vertList.Count;
 
-        return mesh;
-    }
-
-    static void FillCube(int x, int y, int z, float[, ,] voxels, float[] cube) {
-        for (int i = 0; i < 8; i++)
-            cube[i] = voxels[x + vertexOffset[i, 0], y + vertexOffset[i, 1], z + vertexOffset[i, 2]];
-    }
-
-    // GetOffset finds the approximate point of intersection of the surface
-    // between two points with the values v1 and v2
-    static float GetOffset(float v1, float v2) {
-        float delta = v2 - v1;
-        return (delta == 0.0f) ? 0.5f : (target - v1) / delta;
-    }
-
-    //MarchCube performs the Marching Cubes algorithm on a single cube
-    static void MarchCube(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, Voxelisation.Voxelization.AABCGrid grid) {
-        int i, j, vert, idx;
-        int flagIndex = 0;
-        float offset = 0.0f;
-
-        Vector3[] edgeVertex = new Vector3[12];
-
-        //Find which vertices are inside of the surface and which are outside
-        for (i = 0; i < 8; i++) if (cube[i] <= target) flagIndex |= 1 << i;
-
-        //Find which edges are intersected by the surface
-        int edgeFlags = cubeEdgeFlags[flagIndex];
-
-        //If the cube is entirely inside or outside of the surface, then there will be no intersections
-        if (edgeFlags == 0) return;
-
-        //Find the point of intersection of the surface with each edge
-        for (i = 0; i < 12; i++) {
-            //if there is an intersection on this edge
-            if ((edgeFlags & (1 << i)) != 0) {
-                offset = GetOffset(cube[edgeConnection[i, 0]], cube[edgeConnection[i, 1]]);
-
-                edgeVertex[i].x = pos.x + (vertexOffset[edgeConnection[i, 0], 0] + offset * edgeDirection[i, 0]);
-                edgeVertex[i].y = pos.y + (vertexOffset[edgeConnection[i, 0], 1] + offset * edgeDirection[i, 1]);
-                edgeVertex[i].z = pos.z + (vertexOffset[edgeConnection[i, 0], 2] + offset * edgeDirection[i, 2]);
+            for(j = 0; j < 3; j++)
+            {
+                vert = triangleConnectionTable[flagIndex,3*i+j];
+				indexList.Add(idx+windingOrder[j]);
+				vertList.Add(edgeVertex[vert]);
             }
-        }
-
-        //Save the triangles that were found. There can be up to five per cube
-        for (i = 0; i < 5; i++) {
-            if (triangleConnectionTable[flagIndex, 3 * i] < 0) break;
-
-            idx = vertList.Count;
-
-            for (j = 0; j < 3; j++) {
-                vert = triangleConnectionTable[flagIndex, 3 * i + j];
-                indexList.Add(idx + windingOrder[j]);
-                vertList.Add(edgeVertex[vert]);
-            }
-        }
-    }
-
-    //MarchTetrahedron performs the Marching Tetrahedrons algorithm on a single tetrahedron
-    static void MarchTetrahedron(Vector3[] tetrahedronPosition, float[] tetrahedronValue, List<Vector3> vertList, List<int> indexList, Voxelisation.Voxelization.AABCGrid grid) {
+	    }
+	}
+	
+	//MarchTetrahedron performs the Marching Tetrahedrons algorithm on a single tetrahedron
+    static void MarchTetrahedron(Vector3[] tetrahedronPosition, float[] tetrahedronValue, List<Vector3> vertList, List<int> indexList, ManualVoxelisation.Voxelization.AABCGrid grid)
+	{
 
         Dictionary<Vector3, int> indices = new Dictionary<Vector3, int>();
-        Voxelisation.GridSize gridSize = grid.GetSize();
+        ManualVoxelisation.GridSize gridSize = grid.GetSize();
 
-        int i, j, vert, vert0, vert1, idx;
-        int flagIndex = 0, edgeFlags;
-        float offset, invOffset;
+		int i, j, vert, vert0, vert1, idx;
+		int flagIndex = 0, edgeFlags;
+		float offset, invOffset;
+		
+		Vector3[] edgeVertex = new Vector3[6];
+	
+	    //Find which vertices are inside of the surface and which are outside
+	    for(i = 0; i < 4; i++) if(tetrahedronValue[i] <= target) flagIndex |= 1<<i;
+	
+	    //Find which edges are intersected by the surface
+	    edgeFlags = tetrahedronEdgeFlags[flagIndex];
+	
+	    //If the tetrahedron is entirely inside or outside of the surface, then there will be no intersections
+	    if(edgeFlags == 0) return;
 
-        Vector3[] edgeVertex = new Vector3[6];
-
-        //Find which vertices are inside of the surface and which are outside
-        for (i = 0; i < 4; i++) if (tetrahedronValue[i] <= target) flagIndex |= 1 << i;
-
-        //Find which edges are intersected by the surface
-        edgeFlags = tetrahedronEdgeFlags[flagIndex];
-
-        //If the tetrahedron is entirely inside or outside of the surface, then there will be no intersections
-        if (edgeFlags == 0) return;
-
-        //Find the point of intersection of the surface with each edge
-        for (i = 0; i < 6; i++) {
+	    //Find the point of intersection of the surface with each edge
+	    for(i = 0; i < 6; i++)
+	    {
             //if there is an intersection on this edge
-            if ((edgeFlags & (1 << i)) != 0) {
-                vert0 = tetrahedronEdgeConnection[i, 0];
-                vert1 = tetrahedronEdgeConnection[i, 1];
+            if((edgeFlags & (1<<i)) != 0)
+            {
+                vert0 = tetrahedronEdgeConnection[i,0];
+                vert1 = tetrahedronEdgeConnection[i,1];
                 offset = GetOffset(tetrahedronValue[vert0], tetrahedronValue[vert1]);
                 invOffset = 1.0f - offset;
-                edgeVertex[i].x = (invOffset * tetrahedronPosition[vert0].x + offset * tetrahedronPosition[vert1].x - (gridSize.x * 0.5f)) * gridSize.side;
-                edgeVertex[i].y = (invOffset * tetrahedronPosition[vert0].y + offset * tetrahedronPosition[vert1].y - (gridSize.y * 0.5f)) * gridSize.side;
-                edgeVertex[i].z = (invOffset * tetrahedronPosition[vert0].z + offset * tetrahedronPosition[vert1].z - (gridSize.z * 0.5f)) * gridSize.side;
+                edgeVertex[i].x = (invOffset * tetrahedronPosition[vert0].x + offset * tetrahedronPosition[vert1].x - (gridSize.x*0.5f)) * gridSize.side;
+                edgeVertex[i].y = (invOffset * tetrahedronPosition[vert0].y + offset * tetrahedronPosition[vert1].y - (gridSize.y*0.5f)) * gridSize.side;
+                edgeVertex[i].z = (invOffset * tetrahedronPosition[vert0].z + offset * tetrahedronPosition[vert1].z - (gridSize.z*0.5f)) * gridSize.side;     
             }
-        }
+	    }
+		
+	    //Save the triangles that were found. There can be up to 2 per tetrahedron
+	    for(i = 0; i < 2; i++)
+	    {
+            if(tetrahedronTriangles[flagIndex,3*i] < 0) break;
 
-        //Save the triangles that were found. There can be up to 2 per tetrahedron
-        for (i = 0; i < 2; i++) {
-            if (tetrahedronTriangles[flagIndex, 3 * i] < 0) break;
-
-            for (j = 0; j < 3; j++) {
+            for(j = 0; j < 3; j++)
+            {
                 idx = vertList.Count;
-                vert = tetrahedronTriangles[flagIndex, 3 * i + windingOrder[j]];
+                vert = tetrahedronTriangles[flagIndex,3*i+windingOrder[j]];
 
                 Vector3 vertex = edgeVertex[vert];
                 int index = -1;
@@ -174,80 +180,83 @@ static public class MarchingCubes {
             }
 
 
-        }
-    }
-
-    //MarchCubeTetrahedron performs the Marching Tetrahedrons algorithm on a single cube
-    static void MarchCubeTetrahedron(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, Voxelisation.Voxelization.AABCGrid grid) {
-        int i, j, vertexInACube;
-        Vector3[] cubePosition = new Vector3[8];
-        Vector3[] tetrahedronPosition = new Vector3[4];
-        float[] tetrahedronValue = new float[4];
-
-        //Make a local copy of the cube's corner positions
-        for (i = 0; i < 8; i++) cubePosition[i] = new Vector3(pos.x + vertexOffset[i, 0], pos.y + vertexOffset[i, 1], pos.z + vertexOffset[i, 2]);
-
-        for (i = 0; i < 6; i++) {
-            for (j = 0; j < 4; j++) {
-                vertexInACube = tetrahedronsInACube[i, j];
+	    }
+	}
+	
+	//MarchCubeTetrahedron performs the Marching Tetrahedrons algorithm on a single cube
+    static void MarchCubeTetrahedron(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ManualVoxelisation.Voxelization.AABCGrid grid)
+	{
+		int i, j, vertexInACube;
+		Vector3[] cubePosition = new Vector3[8];
+		Vector3[] tetrahedronPosition = new Vector3[4];
+		float[] tetrahedronValue = new float[4];
+		
+		//Make a local copy of the cube's corner positions
+		for(i = 0; i < 8; i++) cubePosition[i] = new Vector3( pos.x + vertexOffset[i,0], pos.y + vertexOffset[i,1], pos.z + vertexOffset[i,2]);
+		
+		for(i = 0; i < 6; i++)
+		{
+	        for(j = 0; j < 4; j++)
+	        {
+                vertexInACube = tetrahedronsInACube[i,j];
                 tetrahedronPosition[j] = cubePosition[vertexInACube];
                 tetrahedronValue[j] = cube[vertexInACube];
-            }
-
-            MarchTetrahedron(tetrahedronPosition, tetrahedronValue, vertList, indexList, grid);
-        }
-    }
-
-    //Target is the value that represents the surface of mesh
-    //For example a range of -1 to 1, 0 would be the mid point were we want the surface to cut through
-    //The target value does not have to be the mid point it can be any value with in the range
-    static float target = 0.5f;
-
-    //Winding order of triangles use 2,1,0 or 0,1,2
-    static int[] windingOrder = new int[] { 0, 1, 2 };
-
-    // vertexOffset lists the positions, relative to vertex0, of each of the 8 vertices of a cube
-    // vertexOffset[8][3]
-
-    static int[,] vertexOffset = new int[,]
+	        }
+			
+	        MarchTetrahedron(tetrahedronPosition, tetrahedronValue, vertList, indexList, grid);
+		}
+	}
+	
+	//Target is the value that represents the surface of mesh
+	//For example a range of -1 to 1, 0 would be the mid point were we want the surface to cut through
+	//The target value does not have to be the mid point it can be any value with in the range
+	static float target = 0.5f;
+	
+	//Winding order of triangles use 2,1,0 or 0,1,2
+	static int[] windingOrder = new int[] { 0, 1, 2 };
+	
+	// vertexOffset lists the positions, relative to vertex0, of each of the 8 vertices of a cube
+	// vertexOffset[8][3]
+	
+	static int[,] vertexOffset = new int[,]
 	{
 	    {0, 0, 0},{1, 0, 0},{1, 1, 0},{0, 1, 0},
 	    {0, 0, 1},{1, 0, 1},{1, 1, 1},{0, 1, 1}
 	};
 
-    // edgeConnection lists the index of the endpoint vertices for each of the 12 edges of the cube
-    // edgeConnection[12][2]
-
-    static int[,] edgeConnection = new int[,] 
+	// edgeConnection lists the index of the endpoint vertices for each of the 12 edges of the cube
+	// edgeConnection[12][2]
+	
+	static int[,] edgeConnection = new int[,] 
 	{
 	    {0,1}, {1,2}, {2,3}, {3,0},
 	    {4,5}, {5,6}, {6,7}, {7,4},
 	    {0,4}, {1,5}, {2,6}, {3,7}
 	};
 
-    // edgeDirection lists the direction vector (vertex1-vertex0) for each edge in the cube
-    // edgeDirection[12][3]
-
-    static float[,] edgeDirection = new float[,]
+	// edgeDirection lists the direction vector (vertex1-vertex0) for each edge in the cube
+	// edgeDirection[12][3]
+	
+	static float[,] edgeDirection = new float[,]
 	{
 	    {1.0f, 0.0f, 0.0f},{0.0f, 1.0f, 0.0f},{-1.0f, 0.0f, 0.0f},{0.0f, -1.0f, 0.0f},
 	    {1.0f, 0.0f, 0.0f},{0.0f, 1.0f, 0.0f},{-1.0f, 0.0f, 0.0f},{0.0f, -1.0f, 0.0f},
 	    {0.0f, 0.0f, 1.0f},{0.0f, 0.0f, 1.0f},{ 0.0f, 0.0f, 1.0f},{0.0f,  0.0f, 1.0f}
 	};
 
-    // tetrahedronEdgeConnection lists the index of the endpoint vertices for each of the 6 edges of the tetrahedron
-    // tetrahedronEdgeConnection[6][2]
-
-    static int[,] tetrahedronEdgeConnection = new int[,]
+	// tetrahedronEdgeConnection lists the index of the endpoint vertices for each of the 6 edges of the tetrahedron
+	// tetrahedronEdgeConnection[6][2]
+	
+	static int[,] tetrahedronEdgeConnection = new int[,]
 	{
 	    {0,1},  {1,2},  {2,0},  {0,3},  {1,3},  {2,3}
 	};
 
-    // tetrahedronEdgeConnection lists the index of verticies from a cube 
-    // that made up each of the six tetrahedrons within the cube
-    // tetrahedronsInACube[6][4]
-
-    static int[,] tetrahedronsInACube = new int[,]
+	// tetrahedronEdgeConnection lists the index of verticies from a cube 
+	// that made up each of the six tetrahedrons within the cube
+	// tetrahedronsInACube[6][4]
+	
+	static int[,] tetrahedronsInACube = new int[,]
 	{
 	    {0,5,1,6},
 	    {0,1,2,6},
@@ -256,27 +265,27 @@ static public class MarchingCubes {
 	    {0,7,4,6},
 	    {0,4,5,6}
 	};
+	
+	// For any edge, if one vertex is inside of the surface and the other is outside of the surface
+	//  then the edge intersects the surface
+	// For each of the 4 vertices of the tetrahedron can be two possible states : either inside or outside of the surface
+	// For any tetrahedron the are 2^4=16 possible sets of vertex states
+	// This table lists the edges intersected by the surface for all 16 possible vertex states
+	// There are 6 edges.  For each entry in the table, if edge #n is intersected, then bit #n is set to 1
+	// tetrahedronEdgeFlags[16]
 
-    // For any edge, if one vertex is inside of the surface and the other is outside of the surface
-    //  then the edge intersects the surface
-    // For each of the 4 vertices of the tetrahedron can be two possible states : either inside or outside of the surface
-    // For any tetrahedron the are 2^4=16 possible sets of vertex states
-    // This table lists the edges intersected by the surface for all 16 possible vertex states
-    // There are 6 edges.  For each entry in the table, if edge #n is intersected, then bit #n is set to 1
-    // tetrahedronEdgeFlags[16]
-
-    static int[] tetrahedronEdgeFlags = new int[]
+	static int[] tetrahedronEdgeFlags = new int[]
 	{
 		0x00, 0x0d, 0x13, 0x1e, 0x26, 0x2b, 0x35, 0x38, 0x38, 0x35, 0x2b, 0x26, 0x1e, 0x13, 0x0d, 0x00
 	};
 
 
-    // For each of the possible vertex states listed in tetrahedronEdgeFlags there is a specific triangulation
-    // of the edge intersection points.  tetrahedronTriangles lists all of them in the form of
-    // 0-2 edge triples with the list terminated by the invalid value -1.
-    // tetrahedronTriangles[16][7]
+	// For each of the possible vertex states listed in tetrahedronEdgeFlags there is a specific triangulation
+	// of the edge intersection points.  tetrahedronTriangles lists all of them in the form of
+	// 0-2 edge triples with the list terminated by the invalid value -1.
+	// tetrahedronTriangles[16][7]
 
-    static int[,] tetrahedronTriangles = new int[,]
+	static int[,] tetrahedronTriangles = new int[,]
 	{
         {-1, -1, -1, -1, -1, -1, -1},
         { 0,  3,  2, -1, -1, -1, -1},
@@ -299,15 +308,15 @@ static public class MarchingCubes {
         {-1, -1, -1, -1, -1, -1, -1}
 	};
 
-    // For any edge, if one vertex is inside of the surface and the other is outside of the surface
-    //  then the edge intersects the surface
-    // For each of the 8 vertices of the cube can be two possible states : either inside or outside of the surface
-    // For any cube the are 2^8=256 possible sets of vertex states
-    // This table lists the edges intersected by the surface for all 256 possible vertex states
-    // There are 12 edges.  For each entry in the table, if edge #n is intersected, then bit #n is set to 1
-    // cubeEdgeFlags[256]
+	// For any edge, if one vertex is inside of the surface and the other is outside of the surface
+	//  then the edge intersects the surface
+	// For each of the 8 vertices of the cube can be two possible states : either inside or outside of the surface
+	// For any cube the are 2^8=256 possible sets of vertex states
+	// This table lists the edges intersected by the surface for all 256 possible vertex states
+	// There are 12 edges.  For each entry in the table, if edge #n is intersected, then bit #n is set to 1
+	// cubeEdgeFlags[256]
 
-    static int[] cubeEdgeFlags = new int[]
+	static int[] cubeEdgeFlags = new int[]
 	{
 		0x000, 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c, 0x80c, 0x905, 0xa0f, 0xb06, 0xc0a, 0xd03, 0xe09, 0xf00, 
 		0x190, 0x099, 0x393, 0x29a, 0x596, 0x49f, 0x795, 0x69c, 0x99c, 0x895, 0xb9f, 0xa96, 0xd9a, 0xc93, 0xf99, 0xe90, 
@@ -326,15 +335,15 @@ static public class MarchingCubes {
 		0xe90, 0xf99, 0xc93, 0xd9a, 0xa96, 0xb9f, 0x895, 0x99c, 0x69c, 0x795, 0x49f, 0x596, 0x29a, 0x393, 0x099, 0x190, 
 		0xf00, 0xe09, 0xd03, 0xc0a, 0xb06, 0xa0f, 0x905, 0x80c, 0x70c, 0x605, 0x50f, 0x406, 0x30a, 0x203, 0x109, 0x000
 	};
+	
+	//  For each of the possible vertex states listed in cubeEdgeFlags there is a specific triangulation
+	//  of the edge intersection points.  triangleConnectionTable lists all of them in the form of
+	//  0-5 edge triples with the list terminated by the invalid value -1.
+	//  For example: triangleConnectionTable[3] list the 2 triangles formed when corner[0] 
+	//  and corner[1] are inside of the surface, but the rest of the cube is not.
+	//  triangleConnectionTable[256][16]
 
-    //  For each of the possible vertex states listed in cubeEdgeFlags there is a specific triangulation
-    //  of the edge intersection points.  triangleConnectionTable lists all of them in the form of
-    //  0-5 edge triples with the list terminated by the invalid value -1.
-    //  For example: triangleConnectionTable[3] list the 2 triangles formed when corner[0] 
-    //  and corner[1] are inside of the surface, but the rest of the cube is not.
-    //  triangleConnectionTable[256][16]
-
-    static int[,] triangleConnectionTable = new int[,]  
+	static int[,] triangleConnectionTable = new int[,]  
 	{
 	    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 	    {0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},

@@ -801,6 +801,7 @@ namespace ManualVoxelisation {
             }
 
             driver.addGrid(aABCGrid);
+            Debug.Log("Voxelised");
         }
 
         public static IEnumerator CreateMultipleGridsWithGameObjectMesh(ManualVoxelisationDriver driver, GameObject gameObj,

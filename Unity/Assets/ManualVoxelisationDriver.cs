@@ -65,7 +65,7 @@ namespace ManualVoxelisation {
 
         void OnDrawGizmos() {
             Gizmos.color = new Color(1.0f, 0.0f, 0.0f, .5f);
-            DrawMeshShell();
+            //DrawMeshShell();
         }
 
         void DrawMeshShell() {

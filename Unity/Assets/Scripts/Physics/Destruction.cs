@@ -16,17 +16,27 @@ namespace Voxelisation {
         private List<Vector3> voronoiPoints = new List<Vector3>();
         private List<Vector3> voronoiWorldPoints = new List<Vector3>();
 
-        private List<List<Vector3>> voronoiDiagram = new List<List<Vector3>>();
+        private List<MinMax> fragmentExtents = new List<MinMax>();
+        private float[, ,] voronoiDiagram;
 
         private Voxelisation.Voxelization.AABCGrid aabcGrid;
 
         private List<Color> colors = new List<Color>();
 
         public void setAabc(Voxelisation.Voxelization.AABCGrid grid) {
+            Clear();
             this.aabcGrid = grid;
             findHitVoxel(hitPoint);
             generateVoronoiPoints(calcRadius(hitForce), calcNumberOfPoints(hitForce));
             colourVoxels();
+        }
+
+        private void Clear() {
+            voronoiPoints = new List<Vector3>();
+            voronoiWorldPoints = new List<Vector3>();
+
+            fragmentExtents = new List<MinMax>();
+
         }
 
         public void setHitPoint(Vector3 hitPoint) {
@@ -64,7 +74,6 @@ namespace Voxelisation {
         }
 
         private float gaussianRandom() {
-
             float u1 = Random.value;
             float u2 = Random.value;
             float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) *
@@ -97,6 +106,9 @@ namespace Voxelisation {
 
         private Vector3 toVoxelGridSpace(Vector3 worldSpace) {
             Vector3 grid = new Vector3((int)(worldSpace.x + hit.x), (int)(worldSpace.y + hit.y), (int)(worldSpace.z + hit.z));
+            if (grid.x < 0 || grid.y < 0 || grid.z < 0) {
+                return Vector3.zero;
+            }
             if (grid.x >= aabcGrid.GetSize().x || grid.y >= aabcGrid.GetSize().y || grid.z >= aabcGrid.GetSize().z) {
                 return Vector3.zero;
             }
@@ -104,7 +116,6 @@ namespace Voxelisation {
                 return grid;
             }
             return Vector3.zero;
-            //TODO outofrange
         }
 
         private void generateVoronoiPoints(float radius, int numPoints) {
@@ -115,9 +126,13 @@ namespace Voxelisation {
                 if (voxelVoronoi != Vector3.zero) {
                     voronoiWorldPoints.Add(voronoi);
                     voronoiPoints.Add(voxelVoronoi);
+                    colors.Add(new Color(Random.value, Random.value, Random.value, 0.5f));
                     i++;
                 }
             }
+
+            colors.Add(new Color(Random.value, Random.value, Random.value, 0.5f));
+            colors.Add(new Color(Random.value, Random.value, Random.value, 0.5f));
         }
 
         private void colourVoxels() {
@@ -125,11 +140,16 @@ namespace Voxelisation {
                 return;
             }
 
-            for (int i = 0; i <= voronoiPoints.Count; i++) { //One more for outside radius
-                voronoiDiagram.Add(new List<Vector3>());
+            var gridSize = aabcGrid.GetSize();
+            voronoiDiagram = new float[gridSize.x, gridSize.y, gridSize.z];
+            fragmentExtents.Add(null);
+
+            for (int i = 0; i <= voronoiPoints.Count; i++) {
+                fragmentExtents.Add(new MinMax());
             }
 
-            var gridSize = aabcGrid.GetSize();
+            Debug.Log(fragmentExtents.Count);
+
             for (short x = 0; x < gridSize.x; ++x) {
                 for (short y = 0; y < gridSize.y; ++y) {
                     for (short z = 0; z < gridSize.z; ++z) {
@@ -138,28 +158,49 @@ namespace Voxelisation {
                             int index = 0;
                             float magnitude = float.MaxValue;
 
-                            for (int i = 0; i < voronoiPoints.Count; i++) {
+                            for (short i = 0; i < voronoiPoints.Count; i++) {
                                 Vector3 point = voronoiPoints[i];
                                 float thisMagnitude = (point - voxel).magnitude;
                                 if (thisMagnitude < magnitude) {
                                     magnitude = thisMagnitude;
-                                    index = i+1;
+                                    index = i+2;
                                 }
                             }
 
                             float radiusMagnitude = ((1.5f*calcRadius(hitForce))/gridSize.side)-((voxel - hit).magnitude);
                             if (radiusMagnitude < magnitude) {
-                                index = 0;
+                                index = 1;
                             }
 
-                            voronoiDiagram[index].Add(voxel);
+                            fragmentExtents[index].UpdateMinX(x);
+                            fragmentExtents[index].UpdateMinY(y);
+                            fragmentExtents[index].UpdateMinZ(z);
+
+                            fragmentExtents[index].UpdateMaxX(x);
+                            fragmentExtents[index].UpdateMaxY(y);
+                            fragmentExtents[index].UpdateMaxZ(z);
+
+                            fragmentExtents[index].colour = index;
+                            fragmentExtents[index].number++;
+
+                            voronoiDiagram[x, y, z] = index;
 
                         }
                     }
                 }
             }
 
+            March();
+            if (fragmentExtents[1].number == 0) {
+                GameObject.DestroyObject(gameObject);
+            }
 
+        }
+
+        private void March() {
+            for (int i = 1; i <= voronoiPoints.Count; i++) {
+                gameObject.GetComponent<MarchingCubesDriver>().StartMarching(voronoiDiagram, fragmentExtents[i], aabcGrid);
+            }
         }
 
         private float calcRadius(float hitForce) {
@@ -182,31 +223,61 @@ namespace Voxelisation {
 
         void OnDrawGizmos() {
             Gizmos.color = new Color(1.0f, 0.0f, 0.0f, .5f);
-            DrawColouring();
+            //DrawColouring();
         }
 
         void DrawColouring() {
-            if (voronoiDiagram.Count > 0) {
+            if (fragmentExtents.Count > 0) {
                 var gridSize = aabcGrid.GetSize();
                 var cubeSize = new Vector3(gridSize.side, gridSize.side, gridSize.side);
 
-                for (int i = 0; i < voronoiDiagram.Count; i++ ) {
-                    if (i == 0) continue;
-                    List<Vector3> list = voronoiDiagram[i];
+                for (short x = 0; x<gridSize.x; x++) {
+                    for (short y = 0; y<gridSize.y; y++) {
+                        for (short z = 0; z<gridSize.z; z++) {
+                            int i = (int)voronoiDiagram[x, y, z];
+                            if (i == 1) continue;
+                            Gizmos.color = colors[i];
+                            var cubeCenter = aabcGrid.GetAABCCenterFromGridCenter(x, y, z) +
+                                    aabcGrid.GetCenter();
+                            Gizmos.DrawCube(cubeCenter, cubeSize);
 
-                    if (colors.Count <= i) {
-                        Color color = new Color(Random.value, Random.value, Random.value, 0.5f);
-                        colors.Add(color);
-                    }
-                    Gizmos.color = colors[i];
-                    foreach (Vector3 vector in list) {
-                        var cubeCenter = aabcGrid.GetAABCCenterFromGridCenter((short)vector.x, (short)vector.y, (short)vector.z) +
-                                aabcGrid.GetCenter();
-                        Gizmos.DrawCube(cubeCenter, cubeSize);
+                        }
                     }
                 }
+                    
             }
         }
 
+    }
+}
+
+public class MinMax {
+    public short minX, minY, minZ = short.MaxValue;
+    public short maxX, maxY, maxZ = short.MinValue;
+    public int colour;
+    public int number = 0;
+
+    public void UpdateMinX(short x) {
+        if (x < minX) minX = x;
+    }
+
+    public void UpdateMinY(short y) {
+        if (y < minY) minY = y;
+    }
+
+    public void UpdateMinZ(short z) {
+        if (z < minZ) minZ = z;
+    }
+
+    public void UpdateMaxX(short x) {
+        if (x > maxX) maxX = x;
+    }
+
+    public void UpdateMaxY(short y) {
+        if (y > maxY) maxY = y;
+    }
+
+    public void UpdateMaxZ(short z) {
+        if (z > maxZ) maxZ = z;
     }
 }

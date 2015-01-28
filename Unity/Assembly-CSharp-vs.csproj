@@ -53,8 +53,10 @@
      <Compile Include="Assets\Scripts\DirectCompute\Voxelisation\Voxelisation.cs" />
      <Compile Include="Assets\Scripts\DirectCompute\Voxelisation\VoxelisationJob.cs" />
      <Compile Include="Assets\Scripts\Interior Check\csObject.cs" />
+     <Compile Include="Assets\Scripts\Marching Cubes\CPU\ManualMarchingCubes.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\ManualMarchingCubesDriver.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\MarchingCubes.cs" />
+     <Compile Include="Assets\Scripts\Marching Cubes\CPU\MarchingCubesDriver.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\PerlinNoise.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\GPU\ImprovedPerlinNoise.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\GPU\MarchingCubesGPU.cs" />
@@ -64,6 +66,7 @@
      <Compile Include="Assets\Scripts\Mesh\CombineChildren.cs" />
      <Compile Include="Assets\Scripts\Mesh\CombineChildrenExtended.cs" />
      <Compile Include="Assets\Scripts\Mesh\MeshCombineUtility.cs" />
+     <Compile Include="Assets\Scripts\Physics\Bullet.cs" />
      <Compile Include="Assets\Scripts\Physics\Destruction.cs" />
      <Compile Include="Assets\Scripts\Physics\PhysicalProperties.cs" />
      <Compile Include="Assets\Scripts\Threads\ThreadedJob.cs" />
