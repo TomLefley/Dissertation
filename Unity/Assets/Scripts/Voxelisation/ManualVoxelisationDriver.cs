@@ -29,9 +29,11 @@ namespace ManualVoxelisation {
 
         void Update() {
             if (Input.GetKeyDown("v")) {
+                Debug.Log("Voxelise Starting: " + Time.realtimeSinceStartup);
                 StartVoxelise();
             }
             if (Input.GetKeyDown("m")) {
+                Debug.Log("Marching Starting: " + Time.realtimeSinceStartup);
                 gameObject.GetComponent<ManualMarchingCubesDriver>().StartMarching(aABCGrids[0]);
             }
         }

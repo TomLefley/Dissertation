@@ -5,12 +5,10 @@ public class ManualMarchingCubesDriver : MonoBehaviour {
 
 public Material m_material;
 
-private PerlinNoise m_perlin;
 private GameObject m_mesh;
 
 public void StartMarching (ManualVoxelisation.Voxelization.AABCGrid grid) 
 {
-	m_perlin = new PerlinNoise(2);
 	
 	//Target is the value that represents the surface of mesh
 	//For example the perlin noise has a range of -1 to 1 so the mid point is were we want the surface to cut through

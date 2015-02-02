@@ -13,7 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Voxelisation {
+namespace ManualVoxelisation {
     public class GridSize {
 
         public int x;
@@ -37,8 +37,8 @@ namespace Voxelisation {
 
     };
 
-    static public class Voxelization  {
-         
+    static public class Voxelization {
+
         public class AABCGrid {
 
             private float side;
@@ -222,7 +222,7 @@ namespace Voxelisation {
 
                 side = sideLength;
                 origin = new Vector3();
-                cubeSet = new uint[strideY*height];
+                cubeSet = new uint[strideY * height];
             }
 
             public AABCGrid(short x, short y, short z, float sideLength, Vector3 ori) {
@@ -232,7 +232,7 @@ namespace Voxelisation {
 
                 representedDepth = (short)(depth + (33 - (z % 32)));
 
-                strideX =  representedDepth / 32;
+                strideX = representedDepth / 32;
                 strideY = strideX * width;
 
                 side = sideLength;
@@ -430,7 +430,7 @@ namespace Voxelisation {
                 }
             }
 
-            public IEnumerator FillGridWithGameObjectMeshShell(VoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
+            public IEnumerator FillGridWithGameObjectMeshShell(ManualVoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
                 yield return driver.StartCoroutine(FillGridWithGameObjectMeshShell(gameObj, false, shader));
             }
 
@@ -443,7 +443,7 @@ namespace Voxelisation {
                 int[] meshTriangles = gameObjMesh.triangles;
                 int meshTrianglesCount = meshTriangles.Length / 3;
 
-                float[] g_Vertices = new float[meshTriangles.Length*3];
+                float[] g_Vertices = new float[meshTriangles.Length * 3];
                 int[] g_Indices = meshTriangles;
 
                 //IN
@@ -451,7 +451,7 @@ namespace Voxelisation {
                 ComputeBuffer g_bufIndices = new ComputeBuffer(meshTriangles.Length, sizeof(int));
 
                 //OUT
-                ComputeBuffer g_rwbufVoxels = new ComputeBuffer(strideY*height, sizeof(int));
+                ComputeBuffer g_rwbufVoxels = new ComputeBuffer(strideY * height, sizeof(int));
                 ComputeBuffer g_rwbufVoxelsProp = new ComputeBuffer(strideY * height, sizeof(int));
 
                 if (debug) {
@@ -466,21 +466,21 @@ namespace Voxelisation {
                 }
 
                 // Set up the Vertices array
-                for (int i = 0; i < meshTriangles.Length; i+=3) {
+                for (int i = 0; i < meshTriangles.Length; i += 3) {
 
                     g_Vertices[(meshTriangles[i] * 3)] = (meshVertices[meshTriangles[i]]).x;
                     g_Vertices[(meshTriangles[i] * 3) + 1] = (meshVertices[meshTriangles[i]]).y;
                     g_Vertices[(meshTriangles[i] * 3) + 2] = (meshVertices[meshTriangles[i]]).z;
 
-                    g_Vertices[(meshTriangles[i + 1] * 3)] = (meshVertices[meshTriangles[i+1]]).x;
+                    g_Vertices[(meshTriangles[i + 1] * 3)] = (meshVertices[meshTriangles[i + 1]]).x;
                     g_Vertices[(meshTriangles[i + 1] * 3) + 1] = (meshVertices[meshTriangles[i + 1]]).y;
                     g_Vertices[(meshTriangles[i + 1] * 3) + 2] = (meshVertices[meshTriangles[i + 1]]).z;
 
-                    g_Vertices[(meshTriangles[i + 2] * 3)] = (meshVertices[meshTriangles[i+2]]).x;
+                    g_Vertices[(meshTriangles[i + 2] * 3)] = (meshVertices[meshTriangles[i + 2]]).x;
                     g_Vertices[(meshTriangles[i + 2] * 3) + 1] = (meshVertices[meshTriangles[i + 2]]).y;
                     g_Vertices[(meshTriangles[i + 2] * 3) + 2] = (meshVertices[meshTriangles[i + 2]]).z;
 
-                    if (i==meshTrianglesCount /8 ) yield return null;
+                    if (i == meshTrianglesCount / 8) yield return null;
 
                 }
 
@@ -533,7 +533,7 @@ namespace Voxelisation {
 
             }
 
-            public IEnumerator FillGridWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
+            public IEnumerator FillGridWithGameObjectMesh(ManualVoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
                 yield return driver.StartCoroutine(FillGridWithGameObjectMeshShell(gameObj, true, shader));
 
                 /*for (var x = 0; x < width; ++x) {
@@ -574,35 +574,35 @@ namespace Voxelisation {
 
                 Vector3 extent = bounds.size;
 
-	            extent.x *= ((float)width + 2.0f) / (float)width;
-	            extent.y *= ((float)height + 2.0f) / (float)height;
-	            extent.z *= ((float)depth + 2.0f) / (float)depth;
+                extent.x *= ((float)width + 2.0f) / (float)width;
+                extent.y *= ((float)height + 2.0f) / (float)height;
+                extent.z *= ((float)depth + 2.0f) / (float)depth;
 
-	            Vector3 center = bounds.center;
-	            Vector3 g_voxelSpace = center - (0.5f*extent);
+                Vector3 center = bounds.center;
+                Vector3 g_voxelSpace = center - (0.5f * extent);
 
-	            Matrix4x4 trans = Matrix4x4.TRS(-g_voxelSpace, Quaternion.identity, Vector3.one);
-	            Matrix4x4 scale = Matrix4x4.Scale(new Vector3((float)width / extent.x, (float)height / extent.y, (float)depth / extent.z));
-                Matrix4x4 g_matWorldToVoxel = (scale*trans);
+                Matrix4x4 trans = Matrix4x4.TRS(-g_voxelSpace, Quaternion.identity, Vector3.one);
+                Matrix4x4 scale = Matrix4x4.Scale(new Vector3((float)width / extent.x, (float)height / extent.y, (float)depth / extent.z));
+                Matrix4x4 g_matWorldToVoxel = (scale * trans);
 
                 Vector4 row = g_matWorldToVoxel.GetRow(0);
                 for (int i = 0; i < 4; i++) {
-                    shader.SetFloat("g_matModelToVoxel"+i, row[i]);
+                    shader.SetFloat("g_matModelToVoxel" + i, row[i]);
                 }
                 row = g_matWorldToVoxel.GetRow(1);
                 for (int i = 0; i < 4; i++) {
-                    shader.SetFloat("g_matModelToVoxel" + (4+i), row[i]);
+                    shader.SetFloat("g_matModelToVoxel" + (4 + i), row[i]);
                 }
                 row = g_matWorldToVoxel.GetRow(2);
                 for (int i = 0; i < 4; i++) {
-                    shader.SetFloat("g_matModelToVoxel" + (8+i), row[i]);
+                    shader.SetFloat("g_matModelToVoxel" + (8 + i), row[i]);
                 }
                 row = g_matWorldToVoxel.GetRow(3);
                 for (int i = 0; i < 4; i++) {
-                    shader.SetFloat("g_matModelToVoxel" + (12+i), row[i]);
+                    shader.SetFloat("g_matModelToVoxel" + (12 + i), row[i]);
                 }
 
-                shader.SetInts("g_stride", new int[]{strideX*4, strideY*4});
+                shader.SetInts("g_stride", new int[] { strideX * 4, strideY * 4 });
 
                 shader.SetInts("g_gridSize", new int[] { width, height, depth });
 
@@ -756,9 +756,9 @@ namespace Voxelisation {
         // Warning: this method creates a grid at least as big as the total bounding box of the
         // game object, if children are included there may be empty space. Consider to use 
         // CreateMultipleGridsWithGameObjectMeshShell in order to save memory.
-        public static IEnumerator CreateGridWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj,
+        public static IEnumerator CreateGridWithGameObjectMesh(ManualVoxelisationDriver driver, GameObject gameObj,
                                         float cubeSide, bool includeChildren, bool includeInside, bool debug, ComputeShader shader) {
-            
+
             AABCGrid aABCGrid;
             short width;
             short height;
@@ -801,10 +801,10 @@ namespace Voxelisation {
             }
 
             driver.addGrid(aABCGrid);
-            gameObj.GetComponent<Destruction>().setAabc(aABCGrid);
+            Debug.Log("Voxelised "+Time.realtimeSinceStartup);
         }
 
-        public static IEnumerator CreateMultipleGridsWithGameObjectMesh(VoxelisationDriver driver, GameObject gameObj,
+        public static IEnumerator CreateMultipleGridsWithGameObjectMesh(ManualVoxelisationDriver driver, GameObject gameObj,
                                         float cubeSide, bool includeMeshInside, bool debug, ComputeShader shader) {
             List<GameObject> gameObjectsWithMesh;
 

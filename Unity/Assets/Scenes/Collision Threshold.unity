@@ -352,12 +352,10 @@ GameObject:
   - 4: {fileID: 1618308004}
   - 33: {fileID: 1618308008}
   - 23: {fileID: 1618308007}
-  - 114: {fileID: 1618308006}
   - 114: {fileID: 1618308009}
   - 54: {fileID: 1618308010}
-  - 114: {fileID: 1618308011}
-  - 114: {fileID: 1618308012}
   - 64: {fileID: 1618308005}
+  - 114: {fileID: 1618308011}
   m_Layer: 0
   m_Name: VoxelCube
   m_TagString: Untagged
@@ -390,28 +388,7 @@ MeshCollider:
   serializedVersion: 2
   m_SmoothSphereCollisions: 0
   m_Convex: 0
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1618308006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400002, guid: 966a6530761a5024a9bf9e244c68da98,
-    type: 2}
-  m_PrefabInternal: {fileID: 1618308884}
-  m_GameObject: {fileID: 1618308003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 672f7d96660e9374883dd2d37f9909b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawMeshShell: 1
-  drawMeshInside: 1
-  drawEmptyCube: 0
-  includeChildren: 1
-  createMultipleGrids: 1
-  meshShellPositionFromObject: {x: 0, y: 0, z: 0}
-  cubeSide: .100000001
-  debug: 0
-  shader: {fileID: 7200000, guid: c6b140698890bf14e96c09531a1a59b3, type: 3}
+  m_Mesh: {fileID: 4300000, guid: eabe38988b14f4546994b001a67ba372, type: 2}
 --- !u!23 &1618308007
 Renderer:
   m_ObjectHideFlags: 0
@@ -440,7 +417,7 @@ MeshFilter:
     type: 2}
   m_PrefabInternal: {fileID: 1618308884}
   m_GameObject: {fileID: 1618308003}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: eabe38988b14f4546994b001a67ba372, type: 2}
 --- !u!114 &1618308009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a3dbe5eddc69d428d31f463e3dfe33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strength: 499
+  strength: 1774
   brittleness: 1
 --- !u!54 &1618308010
 Rigidbody:
@@ -464,9 +441,9 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: .0500000007
+  m_AngularDrag: .100000001
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
@@ -478,20 +455,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1618308003}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2ac38d3f2066b94b96c766e2ee15b5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e648ad5e431dc47b4cd45897b87fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1618308012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1618308003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b54b941a2c9085419766b01b2c85674, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  drawMeshShell: 1
+  drawMeshInside: 1
+  drawEmptyCube: 0
+  includeChildren: 1
+  createMultipleGrids: 1
+  meshShellPositionFromObject: {x: 0, y: 0, z: 0}
+  cubeSide: .5
+  debug: 0
+  shader: {fileID: 7200000, guid: c6b140698890bf14e96c09531a1a59b3, type: 3}
   m_material: {fileID: 2100000, guid: 87147e5941dafbe448a5bc1334df55de, type: 2}
 --- !u!1001 &1618308884
 Prefab:
@@ -542,7 +517,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: strength
-      value: 499
+      value: 1774
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: brittleness
@@ -550,7 +525,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: cubeSide
-      value: .100000001
+      value: .075000003
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: m_LocalScale.x
@@ -571,7 +546,7 @@ Prefab:
     - target: {fileID: 3300000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+      objectReference: {fileID: 4300000, guid: eabe38988b14f4546994b001a67ba372, type: 2}
     - target: {fileID: 400000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: m_LocalScale.x
       value: 4
@@ -586,6 +561,7 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6500000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
+    - {fileID: 11400002, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
   m_RootGameObject: {fileID: 1618308003}
   m_IsPrefabParent: 0

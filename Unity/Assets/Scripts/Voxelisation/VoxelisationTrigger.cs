@@ -20,6 +20,8 @@ namespace Voxelisation {
 
             if (collider.gameObject.Equals(gameObjectToVoxelise)) return;
 
+            Debug.Log("Voxelisation Starting " + Time.realtimeSinceStartup);
+
             PhysicalProperties gameObjectToVoxelisePP = gameObjectToVoxelise.GetComponent<PhysicalProperties>();
             PhysicalProperties collidingPP = collider.gameObject.GetComponent<PhysicalProperties>();
 
@@ -39,11 +41,7 @@ namespace Voxelisation {
 
             float mass1 = willCollideWith.mass;
 
-            Debug.Log(mass1);
-
             float mass2 = collider.rigidbody.mass;
-
-            Debug.Log(mass2);
 
             Vector3 willCollideNormal = willCollidePoint.normal;
             willCollideNormal.Normalize();
@@ -59,11 +57,7 @@ namespace Voxelisation {
 
             if (aboveThreshold <= 0f) return;
 
-            gameObjectToVoxelise.GetComponent<Destruction>().setHitPoint(willCollidePoint.point);
-            gameObjectToVoxelise.GetComponent<Destruction>().setHitForce(aboveThreshold);
-            gameObjectToVoxelise.GetComponent<Destruction>().setPhysicalProperties(gameObjectToVoxelisePP);
-
-            gameObjectToVoxelise.BroadcastMessage("StartVoxelise");
+            gameObjectToVoxelise.GetComponent<ThreadedDestructionDriver>().Destroy(willCollidePoint.point, aboveThreshold, gameObjectToVoxelisePP);
 
 
         }

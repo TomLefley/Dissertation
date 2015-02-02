@@ -190,6 +190,8 @@ namespace Voxelisation {
                 }
             }
 
+            Debug.Log("Destruction Done " + Time.realtimeSinceStartup);
+
             March();
             if (fragmentExtents[1].number == 0) {
                 GameObject.DestroyObject(gameObject);

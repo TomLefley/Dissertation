@@ -234,6 +234,7 @@ GameObject:
   - 114: {fileID: 1319957716}
   - 33: {fileID: 1319957715}
   - 23: {fileID: 1319957712}
+  - 114: {fileID: 1319957711}
   m_Layer: 0
   m_Name: bunny
   m_TagString: Untagged
@@ -261,6 +262,18 @@ MonoBehaviour:
   cubeSide: .100000001
   debug: 0
   shader: {fileID: 7200000, guid: c6b140698890bf14e96c09531a1a59b3, type: 3}
+--- !u!114 &1319957711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1319957709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfc70760e3e81c40890b8b0ba577789, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_material: {fileID: 2100000, guid: 87147e5941dafbe448a5bc1334df55de, type: 2}
 --- !u!23 &1319957712
 Renderer:
   m_ObjectHideFlags: 0
@@ -288,8 +301,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1319957709}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 4.13450003, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -311,7 +324,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1319957709}
-  m_Mesh: {fileID: 4300000, guid: eabe38988b14f4546994b001a67ba372, type: 2}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1319957716
 MonoBehaviour:
   m_ObjectHideFlags: 0

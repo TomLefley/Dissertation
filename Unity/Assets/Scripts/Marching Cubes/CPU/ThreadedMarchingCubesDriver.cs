@@ -1,32 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MarchingCubesDriver : MonoBehaviour {
+public class ThreadedMarchingCubesDriver {
 
-    public Material m_material;
-
-    private GameObject m_mesh;
-
-    public void StartMarching(float[,,] colouredVoxels, MinMax minMax, Voxelisation.Voxelization.AABCGrid grid) {
-        if (minMax.colour == 0) return;
-
-        //m_perlin = new PerlinNoise(2);
+    public MeshInfo StartMarching(float[, ,] colouredVoxels, Colouring minMax, ThreadedVoxelisation.Voxelization.AABCGrid grid) {
 
         //Target is the value that represents the surface of mesh
         //For example the perlin noise has a range of -1 to 1 so the mid point is were we want the surface to cut through
         //The target value does not have to be the mid point it can be any value with in the range
-        MarchingCubes.SetTarget(0.0f);
+        ThreadedMarchingCubes.SetTarget(0.0f);
 
         //Winding order of triangles use 2,1,0 or 0,1,2
-        MarchingCubes.SetWindingOrder(2, 1, 0);
+        ThreadedMarchingCubes.SetWindingOrder(2, 1, 0);
 
         //Set the mode used to create the mesh
         //Cubes is faster and creates less verts, tetrahedrons is slower and creates more verts but better represents the mesh surface
         //MarchingCubes.SetModeToCubes();
-        MarchingCubes.SetModeToTetrahedrons();
+        ThreadedMarchingCubes.SetModeToTetrahedrons();
 
         //The size of voxel array. Be carefull not to make it to large as a mesh in unity can only be made up of 65000 verts
-        Voxelisation.GridSize size = grid.GetSize();
+        ThreadedVoxelisation.GridSize size = grid.GetSize();
 
         float[, ,] voxels = new float[colouredVoxels.GetLength(0), colouredVoxels.GetLength(1), colouredVoxels.GetLength(2)];
 
@@ -47,38 +40,17 @@ public class MarchingCubesDriver : MonoBehaviour {
             for (short y = 0; y < colouredVoxels.GetLength(1); y++) {
                 for (short z = 0; z < colouredVoxels.GetLength(2); z++) {
                     if (colouredVoxels[x, y, z] == minMax.colour) {
-                        voxels[x, y, z] = 0f;
+                        voxels[x, y, z] = -1f;
                     } else {
-                        voxels[x, y, z] =1f;
+                        voxels[x, y, z] = 1f;
                     }
                 }
             }
         }
 
-        Mesh mesh = MarchingCubes.CreateMesh(voxels, minMax, grid);
+        MeshInfo mesh = ThreadedMarchingCubes.CreateMesh(voxels, minMax, grid);
 
-        //The diffuse shader wants uvs so just fill with a empty array, there not actually used
-        mesh.uv = new Vector2[mesh.vertices.Length];
-        mesh.RecalculateNormals();
-
-        if (minMax.colour == 1) {
-            gameObject.GetComponent<MeshFilter>().mesh = mesh;
-            gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
-            transform.localScale = Vector3.one;
-        } else {
-            m_mesh = new GameObject("Fragment"+minMax.colour);
-            m_mesh.AddComponent<MeshFilter>();
-            m_mesh.AddComponent<MeshRenderer>();
-            m_mesh.AddComponent<MeshCollider>();
-            m_mesh.GetComponent<MeshCollider>().convex = true;
-            m_mesh.AddComponent<Rigidbody>();
-            m_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-            m_mesh.renderer.material = m_material;
-            m_mesh.GetComponent<MeshCollider>().sharedMesh = mesh;
-            m_mesh.GetComponent<MeshFilter>().mesh = m_mesh.GetComponent<MeshCollider>().sharedMesh;
-        }
-
-        Debug.Log("Marching Done " + Time.realtimeSinceStartup);
+        return mesh;
 
     }
 

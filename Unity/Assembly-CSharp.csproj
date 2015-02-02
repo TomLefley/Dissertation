@@ -46,30 +46,32 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ManualVoxelisation.cs" />
-     <Compile Include="Assets\ManualVoxelisationDriver.cs" />
-     <Compile Include="Assets\Scripts\DirectCompute\Examples\BufferExample.cs" />
-     <Compile Include="Assets\Scripts\DirectCompute\Examples\KernelExample.cs" />
-     <Compile Include="Assets\Scripts\DirectCompute\Voxelisation\Voxelisation.cs" />
-     <Compile Include="Assets\Scripts\DirectCompute\Voxelisation\VoxelisationJob.cs" />
-     <Compile Include="Assets\Scripts\Interior Check\csObject.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\ManualMarchingCubes.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\ManualMarchingCubesDriver.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\MarchingCubes.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\MarchingCubesDriver.cs" />
-     <Compile Include="Assets\Scripts\Marching Cubes\CPU\PerlinNoise.cs" />
+     <Compile Include="Assets\Scripts\Marching Cubes\CPU\ThreadedMarchingCubes.cs" />
+     <Compile Include="Assets\Scripts\Marching Cubes\CPU\ThreadedMarchingCubesDriver.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\GPU\ImprovedPerlinNoise.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\GPU\MarchingCubesGPU.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\GPU\MarchingCubesGPU_4DNoise.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\GPU\MarchingCubesGPU_DetailTest.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\GPU\MarchingCubesGPU_MeshReadBack.cs" />
+     <Compile Include="Assets\Scripts\Marching Tetrahedra\MarchingTetrahedra.cs" />
      <Compile Include="Assets\Scripts\Mesh\CombineChildren.cs" />
      <Compile Include="Assets\Scripts\Mesh\CombineChildrenExtended.cs" />
      <Compile Include="Assets\Scripts\Mesh\MeshCombineUtility.cs" />
      <Compile Include="Assets\Scripts\Physics\Bullet.cs" />
      <Compile Include="Assets\Scripts\Physics\Destruction.cs" />
      <Compile Include="Assets\Scripts\Physics\PhysicalProperties.cs" />
-     <Compile Include="Assets\Scripts\Threads\ThreadedJob.cs" />
+     <Compile Include="Assets\Scripts\Physics\ThreadedDestruction.cs" />
+     <Compile Include="Assets\Scripts\Threads\ThreadManager.cs" />
+     <Compile Include="Assets\Scripts\Threads\ThreadedDestructionDriver.cs" />
+     <Compile Include="Assets\Scripts\Voxelisation\ManualVoxelisation.cs" />
+     <Compile Include="Assets\Scripts\Voxelisation\ManualVoxelisationDriver.cs" />
+     <Compile Include="Assets\Scripts\Voxelisation\ThreadedVoxelisation.cs" />
+     <Compile Include="Assets\Scripts\Voxelisation\ThreadedVoxelisationDriver.cs" />
+     <Compile Include="Assets\Scripts\Voxelisation\Voxelisation.cs" />
      <Compile Include="Assets\Scripts\Voxelisation\VoxelisationDriver.cs" />
      <Compile Include="Assets\Scripts\Voxelisation\VoxelisationTrigger.cs" />
      <None Include="Assets\Shaders\DirectCompute\Examples\BufferShader.shader" />

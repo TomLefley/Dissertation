@@ -13,7 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ManualVoxelisation {
+namespace ThreadedVoxelisation {
     public class GridSize {
 
         public int x;
@@ -378,63 +378,17 @@ namespace ManualVoxelisation {
 
             }
 
-            protected bool TriangleIntersectAABC(Vector3[] triangle, AABCPosition pos) {
-                CheckBounds(pos.x, pos.y, pos.z);
-                return TriangleIntersectAABCUnchecked(triangle, pos.x, pos.y, pos.z);
-            }
-
-            public bool TriangleIntersectAABC(Vector3[] triangle, short x, short y, short z) {
-                CheckBounds(x, y, z);
-                return TriangleIntersectAABCUnchecked(triangle, x, y, z);
-            }
-
-            protected bool TriangleIntersectAABCUnchecked(Vector3[] triangle, short x, short y, short z) {
-                Vector3[] aabcCorners;
-                Vector3 triangleEdgeA;
-                Vector3 triangleEdgeB;
-                Vector3 triangleEdgeC;
-                Vector3 triangleNormal;
-                Vector3 aabcEdgeA = new Vector3(1, 0, 0);
-                Vector3 aabcEdgeB = new Vector3(0, 1, 0);
-                Vector3 aabcEdgeC = new Vector3(0, 0, 1);
-
-                aabcCorners = GetAABCCornersUnchecked(x, y, z);
-
-                triangleEdgeA = triangle[1] - triangle[0];
-                triangleEdgeB = triangle[2] - triangle[1];
-                triangleEdgeC = triangle[0] - triangle[2];
-
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, Vector3.Cross(triangleEdgeA, aabcEdgeA))) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, Vector3.Cross(triangleEdgeA, aabcEdgeB))) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, Vector3.Cross(triangleEdgeA, aabcEdgeC))) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, Vector3.Cross(triangleEdgeB, aabcEdgeA))) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, Vector3.Cross(triangleEdgeB, aabcEdgeB))) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, Vector3.Cross(triangleEdgeB, aabcEdgeC))) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, Vector3.Cross(triangleEdgeC, aabcEdgeA))) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, Vector3.Cross(triangleEdgeC, aabcEdgeB))) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, Vector3.Cross(triangleEdgeC, aabcEdgeC))) return false;
-
-                triangleNormal = Vector3.Cross(triangleEdgeA, triangleEdgeB);
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, triangleNormal)) return false;
-
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, aabcEdgeA)) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, aabcEdgeB)) return false;
-                if (!ProjectionsIntersectOnAxis(aabcCorners, triangle, aabcEdgeC)) return false;
-
-                return true;
-            }
-
             protected void CheckBounds(short x, short y, short z) {
                 if (x < 0 || y < 0 || z < 0 || x >= width || y >= height || z >= depth) {
-                    throw new System.ArgumentOutOfRangeException("The requested AABC is out of the grid limits.");
+                    throw new System.ArgumentOutOfRangeException("The requested AABC is out of the grid limits. "+x+","+y+","+z);
                 }
             }
 
-            public IEnumerator FillGridWithGameObjectMeshShell(ManualVoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
-                yield return driver.StartCoroutine(FillGridWithGameObjectMeshShell(gameObj, false, shader));
+            public void FillGridWithGameObjectMeshShell(GameObject gameObj, ComputeShader shader) {
+                FillGridWithGameObjectMeshShell(gameObj, false, shader);
             }
 
-            public IEnumerator FillGridWithGameObjectMeshShell(GameObject gameObj, bool storeNormalSum, ComputeShader shader) {
+            public void FillGridWithGameObjectMeshShell(GameObject gameObj, bool storeNormalSum, ComputeShader shader) {
 
                 Mesh gameObjMesh = gameObj.GetComponent<MeshFilter>().mesh;
                 Transform gameObjTransf = gameObj.transform;
@@ -480,12 +434,7 @@ namespace ManualVoxelisation {
                     g_Vertices[(meshTriangles[i + 2] * 3) + 1] = (meshVertices[meshTriangles[i + 2]]).y;
                     g_Vertices[(meshTriangles[i + 2] * 3) + 2] = (meshVertices[meshTriangles[i + 2]]).z;
 
-                    if (i == meshTrianglesCount / 8) yield return null;
-
                 }
-
-                yield return null;
-
 
                 PrepareShader(shader, gameObjMesh.bounds, meshTrianglesCount);
 
@@ -503,8 +452,6 @@ namespace ManualVoxelisation {
                 int threadsPerBlock = 256;
 
                 shader.Dispatch(kernel, 256, (numThreads + (threadsPerBlock * 256 - 1)) / (threadsPerBlock * 256), 1);
-
-                yield return null;
 
                 g_rwbufVoxels.GetData(cubeSet);
                 g_rwbufVoxelsProp.SetData(cubeSet);
@@ -533,41 +480,8 @@ namespace ManualVoxelisation {
 
             }
 
-            public IEnumerator FillGridWithGameObjectMesh(ManualVoxelisationDriver driver, GameObject gameObj, ComputeShader shader) {
-                yield return driver.StartCoroutine(FillGridWithGameObjectMeshShell(gameObj, true, shader));
-
-                /*for (var x = 0; x < width; ++x) {
-                    for (var y = 0; y < height; ++y) {
-                        var fill = false;
-                        var cubeToFill = 0;
-                        for (var z = 0; z < depth; ++z) {
-                            int position = (x + (width * y) + (height * z)) / 32;
-                            int offset = x % 32;
-
-                            int atPosition = cubeSet[position];
-                            if ((atPosition & (1 << offset)) == 1) {
-                                var normalSum = cubeNormalSum[x, y, z];
-                                if (normalSum != 0) {
-                                    if (normalSum > 0) {
-                                        fill = true;
-                                    } else {
-                                        fill = false;
-                                        while (cubeToFill > 1) {
-                                            cubeToFill--;
-                                            cubeSet[position] = atPosition | (1 << offset);
-                                        }
-                                    }
-                                    cubeToFill = 0;
-                                }
-                                continue;
-                            }
-                            if (fill) {
-                                cubeToFill++;
-                            }
-                        }
-                    }
-                }
-                cubeNormalSum = null;*/
+            public void FillGridWithGameObjectMesh(GameObject gameObj, ComputeShader shader) {
+                FillGridWithGameObjectMeshShell(gameObj, true, shader);
             }
 
             private void PrepareShader(ComputeShader shader, Bounds bounds, int numTriangles) {
@@ -611,92 +525,7 @@ namespace ManualVoxelisation {
 
             }
 
-            public ParticleSystem.Particle[] AddParticles(ParticleSystem.Particle[] particles, int particlesToAdd) {
-                var settedAABCCount = GetSetAABCCount();
-                int particlesPerAABC;
-                var randMax = side / 2;
-                var addedParticles = 0;
-                AABC cube;
-                var i = 0;
-
-                if (particlesToAdd <= 0) {
-                    throw new System.ArgumentException("The number of particles to add is < 0");
-                }
-
-                particlesPerAABC = particlesToAdd / settedAABCCount;
-                if (particlesPerAABC <= 0) {
-                    particlesPerAABC = 1;
-                }
-
-                while (particlesToAdd > 0) {
-                    var iter = new AABCGridSetAABCIterator(this);
-                    var cubeFilledCount = 0;
-                    while (iter.HasNext()) {
-                        cube = iter.Next();
-                        for (; i < addedParticles + particlesPerAABC && particlesToAdd > 0; ++i) {
-                            particles[i].position = cube.GetCenter() +
-                                            new Vector3(Random.Range(-randMax, randMax),
-                                                        Random.Range(-randMax, randMax),
-                                                        Random.Range(-randMax, randMax)) / 100;
-                            particlesToAdd--;
-                        }
-                        addedParticles += particlesPerAABC;
-                        cubeFilledCount++;
-                        if (particlesToAdd <= 0) {
-                            break;
-                        }
-                    }
-                    if (particlesToAdd > 0) {
-                        particlesPerAABC = 1;
-                    }
-                }
-
-                return particles;
-            }
-
         };
-
-        public static bool ProjectionsIntersectOnAxis(Vector3[] solidA, Vector3[] solidB, Vector3 axis) {
-            var minSolidA = MinOfProjectionOnAxis(solidA, axis);
-            var maxSolidA = MaxOfProjectionOnAxis(solidA, axis);
-            var minSolidB = MinOfProjectionOnAxis(solidB, axis);
-            var maxSolidB = MaxOfProjectionOnAxis(solidB, axis);
-
-            if (minSolidA > maxSolidB) {
-                return false;
-            }
-            if (maxSolidA < minSolidB) {
-                return false;
-            }
-
-            return true;
-        }
-
-        public static float MinOfProjectionOnAxis(Vector3[] solid, Vector3 axis) {
-            var min = Mathf.Infinity;
-            float dotProd;
-
-            for (var i = 0; i < solid.Length; ++i) {
-                dotProd = Vector3.Dot(solid[i], axis);
-                if (dotProd < min) {
-                    min = dotProd;
-                }
-            }
-            return min;
-        }
-
-        public static float MaxOfProjectionOnAxis(Vector3[] solid, Vector3 axis) {
-            var max = Mathf.NegativeInfinity;
-            float dotProd;
-
-            for (var i = 0; i < solid.Length; ++i) {
-                dotProd = Vector3.Dot(solid[i], axis);
-                if (dotProd > max) {
-                    max = dotProd;
-                }
-            }
-            return max;
-        }
 
         // Return a vector with the minimum components
         public static Vector3 MinVectorComponents(Vector3 a, Vector3 b) {
@@ -716,30 +545,6 @@ namespace ManualVoxelisation {
             return ret;
         }
 
-        public static Vector3 GetTriangleNormal(Vector3[] triangle) {
-            return Vector3.Cross(triangle[1] - triangle[0], triangle[2] - triangle[0]).normalized;
-        }
-
-        // Return an AABB which include the meshes of the object itself and of its children
-        public static Bounds GetTotalBoundsOfGameObject(GameObject gameObj) {
-            var totalBounds = new Bounds();
-            Vector3 min = new Vector3();
-            Vector3 max = new Vector3();
-            if (gameObj.renderer) {
-                min = gameObj.renderer.bounds.min;
-                max = gameObj.renderer.bounds.max;
-            }
-
-            for (var i = 0; i < gameObj.transform.childCount; ++i) {
-                var childObj = gameObj.transform.GetChild(i).gameObject;
-                var childTotalBounds = GetTotalBoundsOfGameObject(childObj);
-                min = MinVectorComponents(min, childTotalBounds.min);
-                max = MaxVectorComponents(max, childTotalBounds.max);
-            }
-
-            totalBounds.SetMinMax(min, max);
-            return totalBounds;
-        }
 
         public static List<GameObject> GetChildrenWithMesh(GameObject gameObj) {
             var ret = new List<GameObject>();
@@ -756,7 +561,7 @@ namespace ManualVoxelisation {
         // Warning: this method creates a grid at least as big as the total bounding box of the
         // game object, if children are included there may be empty space. Consider to use 
         // CreateMultipleGridsWithGameObjectMeshShell in order to save memory.
-        public static IEnumerator CreateGridWithGameObjectMesh(ManualVoxelisationDriver driver, GameObject gameObj,
+        public static AABCGrid CreateGridWithGameObjectMesh(GameObject gameObj,
                                         float cubeSide, bool includeChildren, bool includeInside, bool debug, ComputeShader shader) {
 
             AABCGrid aABCGrid;
@@ -794,19 +599,21 @@ namespace ManualVoxelisation {
 
             foreach (GameObject gameObjectWithMesh in gameObjectsWithMesh) {
                 if (includeInside) {
-                    yield return driver.StartCoroutine(aABCGrid.FillGridWithGameObjectMesh(driver, gameObjectWithMesh, shader));
+                    aABCGrid.FillGridWithGameObjectMesh(gameObjectWithMesh, shader);
                 } else {
-                    yield return driver.StartCoroutine(aABCGrid.FillGridWithGameObjectMeshShell(driver, gameObjectWithMesh, shader));
+                    aABCGrid.FillGridWithGameObjectMeshShell(gameObjectWithMesh, shader);
                 }
             }
 
-            driver.addGrid(aABCGrid);
-            Debug.Log("Voxelised");
+            Debug.Log("Voxelisation Done " + Time.realtimeSinceStartup);
+
+            return aABCGrid;
         }
 
-        public static IEnumerator CreateMultipleGridsWithGameObjectMesh(ManualVoxelisationDriver driver, GameObject gameObj,
+        public static List<AABCGrid> CreateMultipleGridsWithGameObjectMesh(GameObject gameObj,
                                         float cubeSide, bool includeMeshInside, bool debug, ComputeShader shader) {
             List<GameObject> gameObjectsWithMesh;
+            List<AABCGrid> grids = new List<AABCGrid>();
 
             gameObjectsWithMesh = GetChildrenWithMesh(gameObj);
             if (gameObj.renderer) {
@@ -814,8 +621,10 @@ namespace ManualVoxelisation {
             }
 
             foreach (GameObject gameObjWithMesh in gameObjectsWithMesh) {
-                yield return driver.StartCoroutine(CreateGridWithGameObjectMesh(driver, gameObjWithMesh, cubeSide, false, includeMeshInside, debug, shader));
+                grids.Add(CreateGridWithGameObjectMesh(gameObjWithMesh, cubeSide, false, includeMeshInside, debug, shader));
             }
+
+            return grids;
         }
 
     };

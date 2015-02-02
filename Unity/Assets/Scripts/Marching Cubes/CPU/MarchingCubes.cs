@@ -15,6 +15,8 @@ static public class MarchingCubes {
     static public void SetTarget(float tar) { target = tar; }
     static public void SetWindingOrder(int v0, int v1, int v2) { windingOrder = new int[] { v0, v1, v2 }; }
 
+    static Dictionary<string, int> indices = new Dictionary<string, int>();
+
     static public Mesh CreateMesh(float[, ,] voxels, MinMax minMax, Voxelisation.Voxelization.AABCGrid grid) {
 
         List<Vector3> verts = new List<Vector3>();
@@ -43,6 +45,8 @@ static public class MarchingCubes {
                 }
             }
         }
+
+        Debug.Log("MarchingCubes Done " + Time.realtimeSinceStartup);
 
         Mesh mesh = new Mesh();
 
@@ -79,6 +83,8 @@ static public class MarchingCubes {
         int flagIndex = 0;
         float offset = 0.0f;
 
+        Voxelisation.GridSize gridSize = grid.GetSize();
+
         Vector3[] edgeVertex = new Vector3[12];
 
         //Find which vertices are inside of the surface and which are outside
@@ -103,6 +109,30 @@ static public class MarchingCubes {
         }
 
         //Save the triangles that were found. There can be up to five per cube
+        /*for (i = 0; i < 5; i++) {
+            if (triangleConnectionTable[flagIndex, 3 * i] < 0) break;
+
+            for (j = 0; j < 3; j++) {
+                idx = vertList.Count;
+                vert = triangleConnectionTable[flagIndex, 3 * i + windingOrder[j]];
+
+                Vector3 vertex = edgeVertex[vert];
+                string points = vertex.x + "" + vertex.y + "" + vertex.z;
+                int index = -1;
+
+                bool found = indices.TryGetValue(points, out index);
+
+                if (found) {
+                    indexList.Add(index);
+                } else {
+                    indexList.Add(idx);
+                    vertList.Add(edgeVertex[vert]);
+                    indices.Add(points, idx);
+                }
+            }
+
+        }*/
+
         for (i = 0; i < 5; i++) {
             if (triangleConnectionTable[flagIndex, 3 * i] < 0) break;
 
@@ -119,7 +149,6 @@ static public class MarchingCubes {
     //MarchTetrahedron performs the Marching Tetrahedrons algorithm on a single tetrahedron
     static void MarchTetrahedron(Vector3[] tetrahedronPosition, float[] tetrahedronValue, List<Vector3> vertList, List<int> indexList, Voxelisation.Voxelization.AABCGrid grid) {
 
-        Dictionary<Vector3, int> indices = new Dictionary<Vector3, int>();
         Voxelisation.GridSize gridSize = grid.GetSize();
 
         int i, j, vert, vert0, vert1, idx;
@@ -160,16 +189,17 @@ static public class MarchingCubes {
                 vert = tetrahedronTriangles[flagIndex, 3 * i + windingOrder[j]];
 
                 Vector3 vertex = edgeVertex[vert];
+                string points = vertex.x + "" + vertex.y + "" + vertex.z;
                 int index = -1;
 
-                bool found = indices.TryGetValue(vertex, out index);
+                bool found = indices.TryGetValue(points, out index);
 
                 if (found) {
                     indexList.Add(index);
                 } else {
                     indexList.Add(idx);
                     vertList.Add(edgeVertex[vert]);
-                    indices.Add(vertex, idx);
+                    indices.Add(points, idx);
                 }
             }
 

@@ -1,10 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-static public class ManualMarchingCubes {
+static public class ThreadedMarchingCubes {
     //Function delegates, makes using functions pointers easier
-    delegate void MODE_FUNC(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ManualVoxelisation.Voxelization.AABCGrid grid);
+    delegate void MODE_FUNC(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices);
     //Function poiter to what mode to use, cubes or tetrahedrons
     static MODE_FUNC Mode_Func = MarchCube;
     //Set the mode to use
@@ -15,9 +15,9 @@ static public class ManualMarchingCubes {
     static public void SetTarget(float tar) { target = tar; }
     static public void SetWindingOrder(int v0, int v1, int v2) { windingOrder = new int[] { v0, v1, v2 }; }
 
-    static Dictionary<string, int> indices = new Dictionary<string, int>();
+    static public MeshInfo CreateMesh(float[, ,] voxels, Colouring minMax, ThreadedVoxelisation.Voxelization.AABCGrid grid) {
 
-    static public Mesh CreateMesh(float[, ,] voxels, ManualVoxelisation.Voxelization.AABCGrid grid) {
+        Dictionary<string, int> indices = new Dictionary<string, int>();
 
         List<Vector3> verts = new List<Vector3>();
         List<int> index = new List<int>();
@@ -41,26 +41,12 @@ static public class ManualMarchingCubes {
                     //Get the values in the 8 neighbours which make up a cube
                     FillCube(x, y, z, voxels, cube);
                     //Perform algorithm
-                    Mode_Func(new Vector3(x, y, z), cube, verts, index, grid);
+                    Mode_Func(new Vector3(x, y, z), cube, verts, index, grid, indices);
                 }
             }
         }
 
-        Debug.Log("MarchingCubes Done " + Time.realtimeSinceStartup);
-
-        Mesh mesh = new Mesh();
-
-        mesh.vertices = verts.ToArray();
-        mesh.triangles = index.ToArray();
-
-        /*int i = 0;
-        List<Vector3> verts2 = new List<Vector3>();
-        foreach (Vector3 vert in verts) {
-            if (verts2.FindAll(new System.Predicate<Vector3>(x => ((x.x == vert.x) && (x.y == vert.y) && (x.z == vert.z)))).Count > 0) {
-                Debug.Log(++i);
-            }
-            verts2.Add(vert);
-        }*/
+        MeshInfo mesh = new MeshInfo(verts.ToArray(), index.ToArray(), minMax);
 
         return mesh;
     }
@@ -78,12 +64,12 @@ static public class ManualMarchingCubes {
     }
 
     //MarchCube performs the Marching Cubes algorithm on a single cube
-    static void MarchCube(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ManualVoxelisation.Voxelization.AABCGrid grid) {
+    static void MarchCube(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices) {
         int i, j, vert, idx;
         int flagIndex = 0;
         float offset = 0.0f;
 
-        ManualVoxelisation.GridSize gridSize = grid.GetSize();
+        ThreadedVoxelisation.GridSize gridSize = grid.GetSize();
 
         Vector3[] edgeVertex = new Vector3[12];
 
@@ -147,9 +133,9 @@ static public class ManualMarchingCubes {
     }
 
     //MarchTetrahedron performs the Marching Tetrahedrons algorithm on a single tetrahedron
-    static void MarchTetrahedron(Vector3[] tetrahedronPosition, float[] tetrahedronValue, List<Vector3> vertList, List<int> indexList, ManualVoxelisation.Voxelization.AABCGrid grid) {
+    static void MarchTetrahedron(Vector3[] tetrahedronPosition, float[] tetrahedronValue, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices) {
 
-        ManualVoxelisation.GridSize gridSize = grid.GetSize();
+        ThreadedVoxelisation.GridSize gridSize = grid.GetSize();
 
         int i, j, vert, vert0, vert1, idx;
         int flagIndex = 0, edgeFlags;
@@ -208,7 +194,7 @@ static public class ManualMarchingCubes {
     }
 
     //MarchCubeTetrahedron performs the Marching Tetrahedrons algorithm on a single cube
-    static void MarchCubeTetrahedron(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ManualVoxelisation.Voxelization.AABCGrid grid) {
+    static void MarchCubeTetrahedron(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices) {
         int i, j, vertexInACube;
         Vector3[] cubePosition = new Vector3[8];
         Vector3[] tetrahedronPosition = new Vector3[4];
@@ -224,7 +210,7 @@ static public class ManualMarchingCubes {
                 tetrahedronValue[j] = cube[vertexInACube];
             }
 
-            MarchTetrahedron(tetrahedronPosition, tetrahedronValue, vertList, indexList, grid);
+            MarchTetrahedron(tetrahedronPosition, tetrahedronValue, vertList, indexList, grid, indices);
         }
     }
 
@@ -623,4 +609,19 @@ static public class ManualMarchingCubes {
 	    {0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 	    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 	};
+}
+
+public class MeshInfo {
+
+    public Vector3[] verts;
+    public int[] index;
+
+    public Colouring colour;
+
+    public MeshInfo(Vector3[] verts, int[] index, Colouring colour) {
+        this.verts = verts;
+        this.index = index;
+        this.colour = colour;
+    }
+
 }
