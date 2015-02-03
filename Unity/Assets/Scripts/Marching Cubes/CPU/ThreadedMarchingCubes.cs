@@ -24,18 +24,20 @@ static public class ThreadedMarchingCubes {
 
         float[] cube = new float[8];
 
-        /*for (short x = minMax.minX; x <= minMax.maxX; x++) {
-            for (short y = minMax.minY; y <= minMax.maxY; y++) {
-                for (short z = minMax.minZ; z <= minMax.maxZ; z++) {
+        for (int x = minMax.minX-1; x <= minMax.maxX+1; x++) {
+            for (int y = minMax.minY-1; y <= minMax.maxY+1; y++) {
+                for (int z = minMax.minZ-1; z <= minMax.maxZ+1; z++) {
+                    if (x < 0 || y < 0 || z < 0) continue;
+                    if (x >= voxels.GetLength(0)-1 || y >= voxels.GetLength(1)-1 || z >= voxels.GetLength(2)-1) continue;
                     //Get the values in the 8 neighbours which make up a cube
                     FillCube(x, y, z, voxels, cube);
                     //Perform algorithm
-                    Mode_Func(new Vector3(x, y, z), cube, verts, index, grid);
+                    Mode_Func(new Vector3(x, y, z), cube, verts, index, grid, indices);
                 }
             }
-        }*/
+        }
 
-        for (int x = 0; x < voxels.GetLength(0) - 1; x++) {
+        /*for (int x = 0; x < voxels.GetLength(0) - 1; x++) {
             for (int y = 0; y < voxels.GetLength(1) - 1; y++) {
                 for (int z = 0; z < voxels.GetLength(2) - 1; z++) {
                     //Get the values in the 8 neighbours which make up a cube
@@ -44,7 +46,7 @@ static public class ThreadedMarchingCubes {
                     Mode_Func(new Vector3(x, y, z), cube, verts, index, grid, indices);
                 }
             }
-        }
+        }*/
 
         MeshInfo mesh = new MeshInfo(verts.ToArray(), index.ToArray(), minMax);
 

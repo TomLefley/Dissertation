@@ -19,6 +19,7 @@ namespace Voxelisation {
         void OnTriggerEnter(Collider collider) {
 
             if (collider.gameObject.Equals(gameObjectToVoxelise)) return;
+            if (collider.rigidbody == null) return;
 
             Debug.Log("Voxelisation Starting " + Time.realtimeSinceStartup);
 

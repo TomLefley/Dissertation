@@ -18,11 +18,12 @@ public class ThreadedDestructionDriver : MonoBehaviour {
     ThreadedVoxelisation.ThreadedVoxelisationDriver voxelisationDriver;
     ThreadedDestruction destruction;
     ThreadedMarchingCubesDriver marchingDriver;
+    ThreadedConvexHullDriver convexDriver;
 
     ThreadedVoxelisation.Voxelization.AABCGrid grid;
 
-    List<Colouring> fragments;
-    float[, ,] colouring;
+    Dictionary<short, Colouring> fragments;
+    short[, ,] colouring;
 
     public Material m_material;
 
@@ -40,6 +41,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
 
         destruction = new ThreadedDestruction();
         marchingDriver = new ThreadedMarchingCubesDriver();
+        convexDriver = new ThreadedConvexHullDriver();
     }
 
 
@@ -53,12 +55,17 @@ public class ThreadedDestructionDriver : MonoBehaviour {
 
         List<MeshInfo> meshinfos = new List<MeshInfo>();
 
-        int i = 1;
+        short i = 1;
 
         while(i < fragments.Count) {
             ThreadManager.RunAsync(() => {
 
-                meshinfos.Add(new ThreadedMarchingCubesDriver().StartMarching(colouring, fragments[i++], grid));
+                Colouring itColouring;
+                bool found = fragments.TryGetValue(i, out itColouring);
+
+                if (found) {
+                    meshinfos.Add(new ThreadedMarchingCubesDriver().StartMarching(colouring, itColouring, grid));
+                }
 
             });
         }
@@ -113,10 +120,13 @@ public class ThreadedDestructionDriver : MonoBehaviour {
         fragments = destruction.getFragmentExtents();
         colouring = destruction.getVoronoiDiagram();
 
-        foreach (Colouring colour in fragments) {
+        Debug.Log("Length " + fragments.Count);
+
+        foreach (Colouring colour in fragments.Values) {
             if (colour == null) continue;
 
-            MeshInfo meshinfo = marchingDriver.StartMarching(colouring, colour, grid);
+            //MeshInfo meshinfo = marchingDriver.StartMarching(colouring, colour, grid);
+            MeshInfo meshinfo = convexDriver.StartMeshing(colour);
 
             Mesh mesh = new Mesh();
             Colouring coloured = meshinfo.colour;
@@ -129,7 +139,8 @@ public class ThreadedDestructionDriver : MonoBehaviour {
             mesh.RecalculateNormals();
 
             if (coloured.colour == 0) continue;
-            if (coloured.colour == 1) {
+            if (coloured.main) {
+                Debug.Log("Foo2");
                 gameObject.GetComponent<MeshFilter>().mesh = mesh;
                 gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
                 foreach (Transform trans in transform) {

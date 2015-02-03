@@ -15,8 +15,8 @@ public class ThreadedDestruction {
     private List<Vector3> voronoiPoints = new List<Vector3>();
     private List<Vector3> voronoiWorldPoints = new List<Vector3>();
 
-    private List<Colouring> fragmentExtents = new List<Colouring>();
-    private float[, ,] voronoiDiagram;
+    private Dictionary<short, Colouring> fragmentExtents = new Dictionary<short, Colouring>();
+    private short[, ,] voronoiDiagram;
 
     private ThreadedVoxelisation.Voxelization.AABCGrid aabcGrid;
 
@@ -32,13 +32,14 @@ public class ThreadedDestruction {
         findHitVoxel(hitPoint);
         generateVoronoiPoints(calcRadius(hitForce), calcNumberOfPoints(hitForce));
         colourVoxels();
+        FindIslands();
     }
 
     private void Clear() {
         voronoiPoints = new List<Vector3>();
         voronoiWorldPoints = new List<Vector3>();
 
-        fragmentExtents = new List<Colouring>();
+        fragmentExtents = new Dictionary<short, Colouring>();
 
     }
 
@@ -46,9 +47,9 @@ public class ThreadedDestruction {
 
     public List<Vector3> getVoronoiPoints() { return voronoiPoints; }
 
-    public float[,,] getVoronoiDiagram() { return voronoiDiagram; }
+    public short[,,] getVoronoiDiagram() { return voronoiDiagram; }
 
-    public List<Colouring> getFragmentExtents() { return fragmentExtents; }
+    public Dictionary<short, Colouring> getFragmentExtents() { return fragmentExtents; }
 
     private void findHitVoxel(Vector3 hitPoint) {
 
@@ -66,8 +67,6 @@ public class ThreadedDestruction {
         hit.x = (short)(gridSize.x / 2 + xOff);
         hit.y = (short)(gridSize.y / 2 + yOff);
         hit.z = (short)(gridSize.z / 2 + zOff);
-
-        Debug.Log(hit.ToString());
 
     }
 
@@ -96,6 +95,14 @@ public class ThreadedDestruction {
 
     }
 
+    private Vertex3 toWorldSpace(Vertex3 voxelSpace) {
+        ThreadedVoxelisation.GridSize gridSize = aabcGrid.GetSize();
+        double x = (voxelSpace.x - (gridSize.x * 0.5f)) * gridSize.side;
+        double y = (voxelSpace.y - (gridSize.y * 0.5f)) * gridSize.side;
+        double z = (voxelSpace.z - (gridSize.z * 0.5f)) * gridSize.side;
+        return new Vertex3(x, y, z);
+    }
+
     private Vector3 toVoxelSpace(Vector3 worldSpace) {
         float side = aabcGrid.GetSize().side;
 
@@ -104,7 +111,6 @@ public class ThreadedDestruction {
 
     private Vector3 toVoxelGridSpace(Vector3 worldSpace) {
         Vector3 grid = new Vector3((int)(worldSpace.x + hit.x), (int)(worldSpace.y + hit.y), (int)(worldSpace.z + hit.z));
-        Debug.Log("Grid " + grid.ToString());
         if (grid.x < 0 || grid.y < 0 || grid.z < 0) {
             return Vector3.zero;
         }
@@ -126,9 +132,6 @@ public class ThreadedDestruction {
                 voronoiWorldPoints.Add(voronoi);
                 voronoiPoints.Add(voxelVoronoi);
                 colors.Add(new Color(Random.value, Random.value, Random.value, 0.5f));
-                Debug.Log(voronoi.ToString());
-                Debug.Log(toVoxelSpace(voronoi).ToString());
-                Debug.Log(voxelVoronoi.ToString());
                 i++;
             }
         }
@@ -143,19 +146,20 @@ public class ThreadedDestruction {
         }
 
         var gridSize = aabcGrid.GetSize();
-        voronoiDiagram = new float[gridSize.x, gridSize.y, gridSize.z];
-        fragmentExtents.Add(null);
+        voronoiDiagram = new short[gridSize.x, gridSize.y, gridSize.z];
 
-        for (int i = 0; i <= voronoiPoints.Count; i++) {
-            fragmentExtents.Add(new Colouring());
+        for (short i = 1; i <= voronoiPoints.Count+1; i++) {
+            fragmentExtents.Add(i, new Colouring(i));
         }
 
         for (short x = 0; x < gridSize.x; ++x) {
             for (short y = 0; y < gridSize.y; ++y) {
                 for (short z = 0; z < gridSize.z; ++z) {
                     Vector3 voxel = new Vector3(x, y, z);
+                    short index = 0;
                     if (aabcGrid.IsAABCSet(x, y, z)) {
-                        int index = 0;
+
+                        bool main = false;
                         float magnitude = float.MaxValue;
 
                         for (short i = 0; i < voronoiPoints.Count; i++) {
@@ -163,35 +167,152 @@ public class ThreadedDestruction {
                             float thisMagnitude = (point - voxel).magnitude;
                             if (thisMagnitude < magnitude) {
                                 magnitude = thisMagnitude;
-                                index = i + 2;
+                                index = (short)(i + 2);
                             }
                         }
 
                         float radiusMagnitude = ((1.5f * calcRadius(hitForce)) / gridSize.side) - ((voxel - hit).magnitude);
                         if (radiusMagnitude < magnitude) {
                             index = 1;
+                            main = true;
                         }
 
-                        fragmentExtents[index].UpdateMinX(x);
-                        fragmentExtents[index].UpdateMinY(y);
-                        fragmentExtents[index].UpdateMinZ(z);
+                        Colouring colouring;
+                        bool found = fragmentExtents.TryGetValue(index, out colouring);
 
-                        fragmentExtents[index].UpdateMaxX(x);
-                        fragmentExtents[index].UpdateMaxY(y);
-                        fragmentExtents[index].UpdateMaxZ(z);
+                        colouring.UpdateMinX(x);
+                        colouring.UpdateMinY(y);
+                        colouring.UpdateMinZ(z);
 
-                        fragmentExtents[index].colour = index;
-                        fragmentExtents[index].number++;
+                        colouring.UpdateMaxX(x);
+                        colouring.UpdateMaxY(y);
+                        colouring.UpdateMaxZ(z);
 
-                        voronoiDiagram[x, y, z] = index;
+                        //colouring.colour = index;
+                        colouring.number++;
+
+                        colouring.main = main;
+
+                        colouring.vertices.Add(toWorldSpace(new Vertex3(x, y, z)));
 
                     }
+                    voronoiDiagram[x, y, z] = index;
                 }
             }
         }
 
         Debug.Log("Destruction Done " + Time.realtimeSinceStartup);
 
+    }
+
+    public void FindIslands() {
+
+        var gridSize = aabcGrid.GetSize();
+
+        Dictionary<short, Colouring> newDict = new Dictionary<short, Colouring>();
+
+        short i = (short)(fragmentExtents.Count + 10);
+
+        foreach (Colouring colouring in fragmentExtents.Values) {
+
+            //if (colouring.colour == 1) {
+            //    colouring.main = true;
+            //    newDict.Add(1, colouring);
+            //    continue;
+            //}
+
+            for (short x = colouring.minX; x <= colouring.maxX; x++) {
+                for (short y = colouring.minY; y <= colouring.maxY; y++) {
+                    for (short z = colouring.minZ; z <= colouring.maxZ; z++) {
+                        if (voronoiDiagram[x, y, z] == colouring.colour) {
+                            short newColour = (short)(i++);
+                            Colouring newColouring = new Colouring(newColour);
+                            newColouring.main = colouring.main;
+                            newDict.Add(newColour, newColouring);
+                            Flood(x, y, z, colouring.colour, newColour, newDict, newColouring);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        short biggestFragmentColour = 0;
+        int biggestFragment = int.MinValue;
+
+        foreach (Colouring colouring in newDict.Values) {
+            if (colouring.main) {
+                colouring.main = false;
+                if (colouring.number > biggestFragment) {
+                                biggestFragmentColour = colouring.colour;
+                                biggestFragment = colouring.number;
+                                
+                }
+            }
+            
+        }
+
+        Colouring biggest;
+        bool found = newDict.TryGetValue(biggestFragmentColour, out biggest);
+        biggest.main = true;
+
+        fragmentExtents = newDict;
+
+        Debug.Log("Islands Done " + Time.realtimeSinceStartup);
+
+    }
+
+    private void Flood(short x, short y, short z, short colour, short newColour, Dictionary<short, Colouring> newDict, Colouring colouring) {
+
+        Queue<Vector3> neighbours = new Queue<Vector3>();
+        HashSet<string> visited = new HashSet<string>();
+
+        neighbours.Enqueue(new Vector3(x, y, z));
+        visited.Add(x + "" + y + "" + z);
+
+        while (neighbours.Count > 0) {
+
+            Vector3 deq = neighbours.Dequeue();
+
+            x = (short)deq.x;
+            y = (short)deq.y;
+            z = (short)deq.z;
+
+            voronoiDiagram[x, y, z] = newColour;
+
+            colouring.UpdateMinX(x);
+            colouring.UpdateMinY(y);
+            colouring.UpdateMinZ(z);
+
+            colouring.UpdateMaxX(x);
+            colouring.UpdateMaxY(y);
+            colouring.UpdateMaxZ(z);
+
+            colouring.number++;
+
+            colouring.vertices.Add(toWorldSpace(new Vertex3(x, y, z)));
+
+            for (short i = -1; i <= 1; i++) {
+                for (short j = -1; j <= 1; j++) {
+                    for (short k = -1; k <= 1; k++) {
+                        short xi = (short)(x + i);
+                        short yj = (short)(y + j);
+                        short zk = (short)(z + k);
+
+                        if (xi < 0 || yj < 0 || zk < 0) continue;
+                        if (i == 0 && j == 0 && k == 0) continue;
+                        if (xi > voronoiDiagram.GetLength(0) || yj > voronoiDiagram.GetLength(1) || zk > voronoiDiagram.GetLength(2)) continue;
+
+                        if (voronoiDiagram[xi, yj, zk] == colour) {
+                            if (!(visited.Contains(xi + "" + yj + "" + zk))) {
+                                neighbours.Enqueue(new Vector3(xi, yj, zk));
+                                visited.Add(xi + "" + yj + "" + zk);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private float calcRadius(float hitForce) {
@@ -244,8 +365,10 @@ public class ThreadedDestruction {
 public class Colouring {
     public short minX, minY, minZ = short.MaxValue;
     public short maxX, maxY, maxZ = short.MinValue;
-    public int colour;
+    public short colour;
     public int number = 0;
+    public bool main = false;
+    public List<Vertex3> vertices = new List<Vertex3>();
 
     public void UpdateMinX(short x) {
         if (x < minX) minX = x;
@@ -269,5 +392,9 @@ public class Colouring {
 
     public void UpdateMaxZ(short z) {
         if (z > maxZ) maxZ = z;
+    }
+
+    public Colouring(short colour) {
+        this.colour = colour;
     }
 }

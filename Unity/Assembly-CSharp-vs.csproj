@@ -46,6 +46,26 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Convex Hull\Cell2.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Cell3.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\ConvexHull\Collections.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\ConvexHull\ConvexFace.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\ConvexHull\ConvexFaceInternal.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\ConvexHull\ConvexHull.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\ConvexHull\ConvexHullInternal.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\ConvexHull\IVertex.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\ConvexHull\MathHelper.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\ConvexHull\ObjectManager.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Face2.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Face3.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\ThreadedConvexHullDriver.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Triangulation\DelaunayTriangulation.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Triangulation\Triangulation.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Triangulation\TriangulationCell.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Triangulation\VoronoiEdge.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Triangulation\VoronoiMesh.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Vertex2.cs" />
+     <Compile Include="Assets\Scripts\Convex Hull\Vertex3.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\ManualMarchingCubes.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\ManualMarchingCubesDriver.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\MarchingCubes.cs" />

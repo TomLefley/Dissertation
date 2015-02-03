@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ThreadedMarchingCubesDriver {
 
-    public MeshInfo StartMarching(float[, ,] colouredVoxels, Colouring minMax, ThreadedVoxelisation.Voxelization.AABCGrid grid) {
+    public MeshInfo StartMarching(short[, ,] colouredVoxels, Colouring minMax, ThreadedVoxelisation.Voxelization.AABCGrid grid) {
 
         //Target is the value that represents the surface of mesh
         //For example the perlin noise has a range of -1 to 1 so the mid point is were we want the surface to cut through
@@ -24,9 +24,11 @@ public class ThreadedMarchingCubesDriver {
         float[, ,] voxels = new float[colouredVoxels.GetLength(0), colouredVoxels.GetLength(1), colouredVoxels.GetLength(2)];
 
         //Fill voxels with values. Im using perlin noise but any method to create voxels will work
-        /*for (short x = minMax.minX; x <= minMax.maxX; x++) {
-            for (short y = minMax.minY; y <= minMax.maxY; y++) {
-                for (short z = minMax.minZ; z <= minMax.maxZ; z++) {
+        for (short x = (short)(minMax.minX-2); x <= minMax.maxX+2; x++) {
+            for (short y = (short)(minMax.minY-2); y <= minMax.maxY+2; y++) {
+                for (short z = (short)(minMax.minZ-2); z <= minMax.maxZ+2; z++) {
+                    if (x < 0 || y < 0 || z < 0) continue;
+                    if (x >= colouredVoxels.GetLength(0) || y >= colouredVoxels.GetLength(1) || z >= colouredVoxels.GetLength(2)) continue;
                     if (colouredVoxels[x,y,z] == minMax.colour) {
                         voxels[x, y, z] = -1f;
                     } else {
@@ -34,9 +36,9 @@ public class ThreadedMarchingCubesDriver {
                     }
                 }
             }
-        }*/
+        }
 
-        for (short x = 0; x < colouredVoxels.GetLength(0); x++) {
+        /*for (short x = 0; x < colouredVoxels.GetLength(0); x++) {
             for (short y = 0; y < colouredVoxels.GetLength(1); y++) {
                 for (short z = 0; z < colouredVoxels.GetLength(2); z++) {
                     if (colouredVoxels[x, y, z] == minMax.colour) {
@@ -46,7 +48,7 @@ public class ThreadedMarchingCubesDriver {
                     }
                 }
             }
-        }
+        }*/
 
         MeshInfo mesh = ThreadedMarchingCubes.CreateMesh(voxels, minMax, grid);
 
