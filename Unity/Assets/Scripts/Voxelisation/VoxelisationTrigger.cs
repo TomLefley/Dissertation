@@ -21,8 +21,6 @@ namespace Voxelisation {
             if (collider.gameObject.Equals(gameObjectToVoxelise)) return;
             if (collider.rigidbody == null) return;
 
-            Debug.Log("Voxelisation Starting " + Time.realtimeSinceStartup);
-
             PhysicalProperties gameObjectToVoxelisePP = gameObjectToVoxelise.GetComponent<PhysicalProperties>();
             PhysicalProperties collidingPP = collider.gameObject.GetComponent<PhysicalProperties>();
 

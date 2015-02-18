@@ -605,8 +605,6 @@ namespace ThreadedVoxelisation {
                 }
             }
 
-            Debug.Log("Voxelisation Done " + Time.realtimeSinceStartup);
-
             return aABCGrid;
         }
 

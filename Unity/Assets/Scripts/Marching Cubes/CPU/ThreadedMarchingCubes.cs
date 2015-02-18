@@ -177,7 +177,7 @@ static public class ThreadedMarchingCubes {
                 vert = tetrahedronTriangles[flagIndex, 3 * i + windingOrder[j]];
 
                 Vector3 vertex = edgeVertex[vert];
-                string points = vertex.x + "" + vertex.y + "" + vertex.z;
+                string points = vertex.x + "," + vertex.y + "," + vertex.z;
                 int index = -1;
 
                 bool found = indices.TryGetValue(points, out index);

@@ -80,6 +80,7 @@
      <Compile Include="Assets\Scripts\Marching Tetrahedra\MarchingTetrahedra.cs" />
      <Compile Include="Assets\Scripts\Mesh\CombineChildren.cs" />
      <Compile Include="Assets\Scripts\Mesh\CombineChildrenExtended.cs" />
+     <Compile Include="Assets\Scripts\Mesh\ConstructiveSolidGeometry.cs" />
      <Compile Include="Assets\Scripts\Mesh\MeshCombineUtility.cs" />
      <Compile Include="Assets\Scripts\Physics\Bullet.cs" />
      <Compile Include="Assets\Scripts\Physics\Destruction.cs" />

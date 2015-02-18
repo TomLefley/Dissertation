@@ -95,6 +95,17 @@ public class ThreadedDestruction {
 
     }
 
+    private Vertex3[] getCubeFaces(Vertex3 voxelSpace, float extents) {
+        Vertex3[] faces = new Vertex3[6];
+        faces[0] = new Vertex3(voxelSpace.x + extents, voxelSpace.y, voxelSpace.z);
+        faces[1] = new Vertex3(voxelSpace.x - extents, voxelSpace.y, voxelSpace.z);
+        faces[2] = new Vertex3(voxelSpace.x, voxelSpace.y + extents, voxelSpace.z);
+        faces[3] = new Vertex3(voxelSpace.x, voxelSpace.y - extents, voxelSpace.z);
+        faces[4] = new Vertex3(voxelSpace.x, voxelSpace.y, voxelSpace.z + extents);
+        faces[5] = new Vertex3(voxelSpace.x, voxelSpace.y, voxelSpace.z - extents);
+        return faces;
+    }
+
     private Vertex3 toWorldSpace(Vertex3 voxelSpace) {
         ThreadedVoxelisation.GridSize gridSize = aabcGrid.GetSize();
         double x = (voxelSpace.x - (gridSize.x * 0.5f)) * gridSize.side;
@@ -193,15 +204,15 @@ public class ThreadedDestruction {
 
                         colouring.main = main;
 
-                        colouring.vertices.Add(toWorldSpace(new Vertex3(x, y, z)));
+                        foreach (Vertex3 face in getCubeFaces(new Vertex3(x, y, z), 0.75f)) {
+                            colouring.vertices.Add(toWorldSpace(face));
+                        }
 
                     }
                     voronoiDiagram[x, y, z] = index;
                 }
             }
         }
-
-        Debug.Log("Destruction Done " + Time.realtimeSinceStartup);
 
     }
 
@@ -214,12 +225,6 @@ public class ThreadedDestruction {
         short i = (short)(fragmentExtents.Count + 10);
 
         foreach (Colouring colouring in fragmentExtents.Values) {
-
-            //if (colouring.colour == 1) {
-            //    colouring.main = true;
-            //    newDict.Add(1, colouring);
-            //    continue;
-            //}
 
             for (short x = colouring.minX; x <= colouring.maxX; x++) {
                 for (short y = colouring.minY; y <= colouring.maxY; y++) {
@@ -244,8 +249,8 @@ public class ThreadedDestruction {
             if (colouring.main) {
                 colouring.main = false;
                 if (colouring.number > biggestFragment) {
-                                biggestFragmentColour = colouring.colour;
-                                biggestFragment = colouring.number;
+                    biggestFragmentColour = colouring.colour;
+                    biggestFragment = colouring.number;
                                 
                 }
             }
@@ -254,11 +259,21 @@ public class ThreadedDestruction {
 
         Colouring biggest;
         bool found = newDict.TryGetValue(biggestFragmentColour, out biggest);
-        biggest.main = true;
+        if (found) {
+            biggest.main = true;
+        }
+
+        Colouring destroyed = new Colouring(0);
+
+        foreach (Colouring colour in newDict.Values) {
+            if (!colour.main) {
+                destroyed.vertices.AddRange(colour.vertices);
+            }
+        }
+
+        newDict.Add(0, destroyed);
 
         fragmentExtents = newDict;
-
-        Debug.Log("Islands Done " + Time.realtimeSinceStartup);
 
     }
 
@@ -268,7 +283,7 @@ public class ThreadedDestruction {
         HashSet<string> visited = new HashSet<string>();
 
         neighbours.Enqueue(new Vector3(x, y, z));
-        visited.Add(x + "" + y + "" + z);
+        visited.Add(x + "," + y + "," + z);
 
         while (neighbours.Count > 0) {
 
@@ -290,7 +305,9 @@ public class ThreadedDestruction {
 
             colouring.number++;
 
-            colouring.vertices.Add(toWorldSpace(new Vertex3(x, y, z)));
+            foreach (Vertex3 face in getCubeFaces(new Vertex3(x, y, z), 0.75f)) {
+                colouring.vertices.Add(toWorldSpace(face));
+            }
 
             for (short i = -1; i <= 1; i++) {
                 for (short j = -1; j <= 1; j++) {
@@ -301,17 +318,77 @@ public class ThreadedDestruction {
 
                         if (xi < 0 || yj < 0 || zk < 0) continue;
                         if (i == 0 && j == 0 && k == 0) continue;
-                        if (xi > voronoiDiagram.GetLength(0) || yj > voronoiDiagram.GetLength(1) || zk > voronoiDiagram.GetLength(2)) continue;
+                        if (xi >= voronoiDiagram.GetLength(0) || yj >= voronoiDiagram.GetLength(1) || zk >= voronoiDiagram.GetLength(2)) continue;
 
                         if (voronoiDiagram[xi, yj, zk] == colour) {
-                            if (!(visited.Contains(xi + "" + yj + "" + zk))) {
+                            if (!(visited.Contains(xi + "," + yj + "," + zk))) {
                                 neighbours.Enqueue(new Vector3(xi, yj, zk));
-                                visited.Add(xi + "" + yj + "" + zk);
+                                visited.Add(xi + "," + yj + "," + zk);
                             }
                         }
                     }
                 }
             }
+            /*int i, j, k;
+            i = x - 1;
+            j = y;
+            k = z;
+            if (voronoiDiagram[i, j, k] == colour) {
+                if (!(visited.Contains(i + "" + j + "" + k))) {
+                    neighbours.Enqueue(new Vector3(i, j, k));
+                    visited.Add(i + "" + j + "" + k);
+                }
+            }
+
+            i = x + 1;
+            j = y;
+            k = z;
+            if (voronoiDiagram[i, j, k] == colour) {
+                if (!(visited.Contains(i + "" + j + "" + k))) {
+                    neighbours.Enqueue(new Vector3(i, j, k));
+                    visited.Add(i + "" + j + "" + k);
+                }
+            }
+
+            i = x;
+            j = y - 1;
+            k = z;
+            if (voronoiDiagram[i, j, k] == colour) {
+                if (!(visited.Contains(i + "" + j + "" + k))) {
+                    neighbours.Enqueue(new Vector3(i, j, k));
+                    visited.Add(i + "" + j + "" + k);
+                }
+            }
+
+            i = x;
+            j = y + 1;
+            k = z;
+            if (voronoiDiagram[i, j, k] == colour) {
+                if (!(visited.Contains(i + "" + j + "" + k))) {
+                    neighbours.Enqueue(new Vector3(i, j, k));
+                    visited.Add(i + "" + j + "" + k);
+                }
+            }
+
+            i = x;
+            j = y;
+            k = z - 1;
+            if (voronoiDiagram[i, j, k] == colour) {
+                if (!(visited.Contains(i + "" + j + "" + k))) {
+                    neighbours.Enqueue(new Vector3(i, j, k));
+                    visited.Add(i + "" + j + "" + k);
+                }
+            }
+
+            i = x;
+            j = y;
+            k = z + 1;
+            if (voronoiDiagram[i, j, k] == colour) {
+                if (!(visited.Contains(i + "" + j + "" + k))) {
+                    neighbours.Enqueue(new Vector3(i, j, k));
+                    visited.Add(i + "" + j + "" + k);
+                }
+            }*/
         }
     }
 
@@ -322,7 +399,7 @@ public class ThreadedDestruction {
 
     private int calcNumberOfPoints(float hitForce) {
         //TODO physics
-        return 10;
+        return 20;
     }
 
     public void Update() {
