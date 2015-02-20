@@ -56,7 +56,7 @@ namespace Voxelisation {
 
             if (aboveThreshold <= 0f) return;
 
-            gameObjectToVoxelise.GetComponent<ThreadedDestructionDriver>().Destroy(willCollidePoint.point, aboveThreshold, gameObjectToVoxelisePP);
+            gameObjectToVoxelise.GetComponent<ThreadedDestructionDriver>().SplitDestroy(willCollidePoint.point, aboveThreshold, gameObjectToVoxelisePP);
 
 
         }

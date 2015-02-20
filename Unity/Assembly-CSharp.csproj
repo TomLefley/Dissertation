@@ -66,6 +66,7 @@
      <Compile Include="Assets\Scripts\Convex Hull\Triangulation\VoronoiMesh.cs" />
      <Compile Include="Assets\Scripts\Convex Hull\Vertex2.cs" />
      <Compile Include="Assets\Scripts\Convex Hull\Vertex3.cs" />
+     <Compile Include="Assets\Scripts\Data Structures\KDTree.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\ManualMarchingCubes.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\ManualMarchingCubesDriver.cs" />
      <Compile Include="Assets\Scripts\Marching Cubes\CPU\MarchingCubes.cs" />
@@ -82,6 +83,7 @@
      <Compile Include="Assets\Scripts\Mesh\CombineChildrenExtended.cs" />
      <Compile Include="Assets\Scripts\Mesh\ConstructiveSolidGeometry.cs" />
      <Compile Include="Assets\Scripts\Mesh\MeshCombineUtility.cs" />
+     <Compile Include="Assets\Scripts\Mesh\ThreadedSplitMesh.cs" />
      <Compile Include="Assets\Scripts\Physics\Bullet.cs" />
      <Compile Include="Assets\Scripts\Physics\Destruction.cs" />
      <Compile Include="Assets\Scripts\Physics\PhysicalProperties.cs" />

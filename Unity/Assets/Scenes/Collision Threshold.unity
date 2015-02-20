@@ -139,7 +139,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 4829634}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.94710004, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -451,6 +451,7 @@ MonoBehaviour:
   createMultipleGrids: 1
   meshShellPositionFromObject: {x: 0, y: 0, z: 0}
   cubeSide: .075000003
+  hollow: 0
   debug: 0
   shader: {fileID: 7200000, guid: c6b140698890bf14e96c09531a1a59b3, type: 3}
   messages: []
@@ -626,7 +627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a3dbe5eddc69d428d31f463e3dfe33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strength: 1774
+  strength: 1770
   brittleness: 1
 --- !u!54 &1618308010
 Rigidbody:
@@ -661,6 +662,7 @@ MonoBehaviour:
   createMultipleGrids: 1
   meshShellPositionFromObject: {x: 0, y: 0, z: 0}
   cubeSide: .100000001
+  hollow: 1
   debug: 0
   shader: {fileID: 7200000, guid: c6b140698890bf14e96c09531a1a59b3, type: 3}
   messages: []
@@ -714,7 +716,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: strength
-      value: 1774
+      value: 1770
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: brittleness
