@@ -76,7 +76,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
                 bool found = fragments.TryGetValue(i, out itColouring);
 
                 if (found) {
-                    meshinfos.Add(new ThreadedMarchingCubesDriver().StartMarching(colouring, itColouring, grid));
+                    meshinfos.Add(new ThreadedMarchingCubesDriver().StartMarching(colouring, itColouring, grid, null, null));
                 }
 
             });
@@ -186,11 +186,11 @@ public class ThreadedDestructionDriver : MonoBehaviour {
 
             if (colour.main) {
                 //meshinfo = convexDriver.StartMeshing(colour);
-                meshinfo = marchingDriver.StartMarching(colouring, colour, grid);
+                meshinfo = marchingDriver.StartMarching(colouring, colour, grid, null, null);
                 //meshinfo = csg.StartMeshing(new MeshInfo(gameObject.GetComponent<MeshFilter>().mesh.vertices, gameObject.GetComponent<MeshFilter>().mesh.triangles, colour), fmeshinfo, colour, new List<Colouring>(fragments.Values), colouring, grid.GetSize());
             } else {
                 //meshinfo = convexDriver.StartMeshing(colour);
-                meshinfo = marchingDriver.StartMarching(colouring, colour, grid);
+                meshinfo = marchingDriver.StartMarching(colouring, colour, grid, null, null);
             }
 
             messages.Add("Meshing " + colour.colour + " " + colour.main + ": " + (Time.realtimeSinceStartup - time));
@@ -328,6 +328,8 @@ public class ThreadedDestructionDriver : MonoBehaviour {
                     }
                     if (exterior) {
                         borderColouring[i, j, k] = c;
+                        
+                    } else {
                         Colouring colour;
                         if (fragments.TryGetValue(c, out colour)) {
                             colour.vertices.Add(new Vertex3(i, j, k));
@@ -356,9 +358,17 @@ public class ThreadedDestructionDriver : MonoBehaviour {
 
                 MeshInfo meshinfo;
 
+                MeshInfo parent;
+                bool found = meshes.TryGetValue(colour.colour, out parent);
+
                 colors.Add(colour.colour, new Color(Random.value, Random.value, Random.value));
 
-                meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid);
+                KDTree surface = found ? KDTree.MakeFromPoints(parent.verts) : null;
+                if (false) {
+                    meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid, surface, parent.verts);
+                } else {
+                    meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid, null, null);
+                }
                 //meshinfo = convexDriver.StartMeshing(colour);
 
                 for (int c = 0; c < meshinfo.verts.Length; c++) {
@@ -371,8 +381,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
                 if (colour.colour == 0) {
                     continue;
                 } else {
-                    MeshInfo parent;
-                    if (meshes.TryGetValue(colour.colour, out parent)) {
+                     if (found) {
                         List<Vector3> verts = new List<Vector3>(parent.verts);
                         int count = verts.Count;
                         verts.AddRange(meshinfo.verts);
@@ -458,7 +467,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
             
             m_mesh.AddComponent<Rigidbody>();
             //m_mesh.rigidbody.isKinematic = true;
-            //m_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            m_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             m_mesh.renderer.material = m_material;
 
             if (mesh2.triangles.Length / 3 >= 255) {

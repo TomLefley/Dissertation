@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 static public class ThreadedMarchingCubes {
     //Function delegates, makes using functions pointers easier
-    delegate void MODE_FUNC(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices);
+    delegate void MODE_FUNC(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices, KDTree surface, Vector3[] parentVerts);
     //Function poiter to what mode to use, cubes or tetrahedrons
     static MODE_FUNC Mode_Func = MarchCube;
     //Set the mode to use
@@ -15,7 +15,7 @@ static public class ThreadedMarchingCubes {
     static public void SetTarget(float tar) { target = tar; }
     static public void SetWindingOrder(int v0, int v1, int v2) { windingOrder = new int[] { v0, v1, v2 }; }
 
-    static public MeshInfo CreateMesh(float[, ,] voxels, Colouring minMax, ThreadedVoxelisation.Voxelization.AABCGrid grid) {
+    static public MeshInfo CreateMesh(float[, ,] voxels, Colouring minMax, ThreadedVoxelisation.Voxelization.AABCGrid grid, KDTree surface, Vector3[] parentVerts) {
 
         Dictionary<string, int> indices = new Dictionary<string, int>();
 
@@ -32,7 +32,7 @@ static public class ThreadedMarchingCubes {
                     //Get the values in the 8 neighbours which make up a cube
                     FillCube(x, y, z, voxels, cube);
                     //Perform algorithm
-                    Mode_Func(new Vector3(x, y, z), cube, verts, index, grid, indices);
+                    Mode_Func(new Vector3(x, y, z), cube, verts, index, grid, indices, surface, parentVerts);
                 }
             }
         }
@@ -66,7 +66,7 @@ static public class ThreadedMarchingCubes {
     }
 
     //MarchCube performs the Marching Cubes algorithm on a single cube
-    static void MarchCube(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices) {
+    static void MarchCube(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices, KDTree surface, Vector3[] parentVerts) {
         int i, j, vert, idx;
         int flagIndex = 0;
         float offset = 0.0f;
@@ -135,7 +135,7 @@ static public class ThreadedMarchingCubes {
     }
 
     //MarchTetrahedron performs the Marching Tetrahedrons algorithm on a single tetrahedron
-    static void MarchTetrahedron(Vector3[] tetrahedronPosition, float[] tetrahedronValue, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices) {
+    static void MarchTetrahedron(Vector3[] tetrahedronPosition, float[] tetrahedronValue, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices, KDTree surface, Vector3[] parentVerts) {
 
         ThreadedVoxelisation.GridSize gridSize = grid.GetSize();
 
@@ -143,10 +143,15 @@ static public class ThreadedMarchingCubes {
         int flagIndex = 0, edgeFlags;
         float offset, invOffset;
 
+        bool boundary = false;
+
         Vector3[] edgeVertex = new Vector3[6];
 
         //Find which vertices are inside of the surface and which are outside
-        for (i = 0; i < 4; i++) if (tetrahedronValue[i] <= target) flagIndex |= 1 << i;
+        for (i = 0; i < 4; i++) {
+            if (tetrahedronValue[i] == -999) boundary = true;
+            if (tetrahedronValue[i] <= target) flagIndex |= 1 << i;
+        }
 
         //Find which edges are intersected by the surface
         edgeFlags = tetrahedronEdgeFlags[flagIndex];
@@ -165,6 +170,14 @@ static public class ThreadedMarchingCubes {
                 edgeVertex[i].x = (invOffset * tetrahedronPosition[vert0].x + offset * tetrahedronPosition[vert1].x - (gridSize.x * 0.5f)) * gridSize.side;
                 edgeVertex[i].y = (invOffset * tetrahedronPosition[vert0].y + offset * tetrahedronPosition[vert1].y - (gridSize.y * 0.5f)) * gridSize.side;
                 edgeVertex[i].z = (invOffset * tetrahedronPosition[vert0].z + offset * tetrahedronPosition[vert1].z - (gridSize.z * 0.5f)) * gridSize.side;
+            }
+        }
+
+        if (boundary) {
+            for (int c = 0; c<edgeVertex.Length; c++) {
+                edgeVertex[c].x = parentVerts[surface.FindNearest(edgeVertex[c]*2)].x*2;
+                edgeVertex[c].y = parentVerts[surface.FindNearest(edgeVertex[c]*2)].y * 2;
+                edgeVertex[c].z = parentVerts[surface.FindNearest(edgeVertex[c]*2)].z * 2;
             }
         }
 
@@ -196,7 +209,7 @@ static public class ThreadedMarchingCubes {
     }
 
     //MarchCubeTetrahedron performs the Marching Tetrahedrons algorithm on a single cube
-    static void MarchCubeTetrahedron(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices) {
+    static void MarchCubeTetrahedron(Vector3 pos, float[] cube, List<Vector3> vertList, List<int> indexList, ThreadedVoxelisation.Voxelization.AABCGrid grid, Dictionary<string, int> indices, KDTree surface, Vector3[] parentVerts) {
         int i, j, vertexInACube;
         Vector3[] cubePosition = new Vector3[8];
         Vector3[] tetrahedronPosition = new Vector3[4];
@@ -212,7 +225,7 @@ static public class ThreadedMarchingCubes {
                 tetrahedronValue[j] = cube[vertexInACube];
             }
 
-            MarchTetrahedron(tetrahedronPosition, tetrahedronValue, vertList, indexList, grid, indices);
+            MarchTetrahedron(tetrahedronPosition, tetrahedronValue, vertList, indexList, grid, indices, surface, parentVerts);
         }
     }
 

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ThreadedMarchingCubesDriver {
 
-    public MeshInfo StartMarching(short[, ,] colouredVoxels, Colouring minMax, ThreadedVoxelisation.Voxelization.AABCGrid grid) {
+    public MeshInfo StartMarching(short[, ,] colouredVoxels, Colouring minMax, ThreadedVoxelisation.Voxelization.AABCGrid grid, KDTree surface, Vector3[] parentVerts) {
 
         //Target is the value that represents the surface of mesh
         //For example the perlin noise has a range of -1 to 1 so the mid point is were we want the surface to cut through
@@ -38,6 +38,12 @@ public class ThreadedMarchingCubesDriver {
             }
         }
 
+        if (surface != null) {
+            foreach (Vertex3 v in minMax.vertices) {
+                voxels[(int)v.x, (int)v.y, (int)v.z] = -999;
+            }
+        }
+
         /*for (short x = 0; x < colouredVoxels.GetLength(0); x++) {
             for (short y = 0; y < colouredVoxels.GetLength(1); y++) {
                 for (short z = 0; z < colouredVoxels.GetLength(2); z++) {
@@ -50,7 +56,7 @@ public class ThreadedMarchingCubesDriver {
             }
         }*/
 
-        MeshInfo mesh = ThreadedMarchingCubes.CreateMesh(voxels, minMax, grid);
+        MeshInfo mesh = ThreadedMarchingCubes.CreateMesh(voxels, minMax, grid, surface, parentVerts);
 
         return mesh;
 
