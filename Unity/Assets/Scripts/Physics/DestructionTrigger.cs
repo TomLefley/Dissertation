@@ -2,7 +2,7 @@
 using System.Collections;
 
 namespace Voxelisation {
-    public class VoxelisationTrigger : MonoBehaviour {
+    public class DestructionTrigger : MonoBehaviour {
 
         public GameObject gameObjectToVoxelise;
 

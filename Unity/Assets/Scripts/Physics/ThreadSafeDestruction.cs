@@ -47,7 +47,7 @@ public class ThreadedDestruction {
 
     public List<Vector3> getVoronoiPoints() { return voronoiPoints; }
 
-    public short[,,] getVoronoiDiagram() { return voronoiDiagram; }
+    public short[, ,] getVoronoiDiagram() { return voronoiDiagram; }
 
     public Dictionary<short, Colouring> getFragmentExtents() { return fragmentExtents; }
 
@@ -159,7 +159,7 @@ public class ThreadedDestruction {
         var gridSize = aabcGrid.GetSize();
         voronoiDiagram = new short[gridSize.x, gridSize.y, gridSize.z];
 
-        for (short i = 1; i <= voronoiPoints.Count+1; i++) {
+        for (short i = 1; i <= voronoiPoints.Count + 1; i++) {
             fragmentExtents.Add(i, new Colouring(i));
         }
 
@@ -251,10 +251,10 @@ public class ThreadedDestruction {
                 if (colouring.number > biggestFragment) {
                     biggestFragmentColour = colouring.colour;
                     biggestFragment = colouring.number;
-                                
+
                 }
             }
-            
+
         }
 
         Colouring biggest;
@@ -437,41 +437,4 @@ public class ThreadedDestruction {
         }
     }
 
-}
-
-public class Colouring {
-    public short minX, minY, minZ = short.MaxValue;
-    public short maxX, maxY, maxZ = short.MinValue;
-    public short colour;
-    public int number = 0;
-    public bool main = false;
-    public List<Vertex3> vertices = new List<Vertex3>();
-
-    public void UpdateMinX(short x) {
-        if (x < minX) minX = x;
-    }
-
-    public void UpdateMinY(short y) {
-        if (y < minY) minY = y;
-    }
-
-    public void UpdateMinZ(short z) {
-        if (z < minZ) minZ = z;
-    }
-
-    public void UpdateMaxX(short x) {
-        if (x > maxX) maxX = x;
-    }
-
-    public void UpdateMaxY(short y) {
-        if (y > maxY) maxY = y;
-    }
-
-    public void UpdateMaxZ(short z) {
-        if (z > maxZ) maxZ = z;
-    }
-
-    public Colouring(short colour) {
-        this.colour = colour;
-    }
 }

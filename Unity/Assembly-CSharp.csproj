@@ -71,8 +71,10 @@
      <Compile Include="Assets\Scripts\Mesh\Convex Hull\Triangulation\VoronoiMesh.cs" />
      <Compile Include="Assets\Scripts\Mesh\Convex Hull\Vertex2.cs" />
      <Compile Include="Assets\Scripts\Mesh\Convex Hull\Vertex3.cs" />
+     <Compile Include="Assets\Scripts\Mesh\Fragment.cs" />
      <Compile Include="Assets\Scripts\Mesh\Marching Cubes\CPU\ThreadSafeMarchingCubes.cs" />
      <Compile Include="Assets\Scripts\Mesh\Marching Cubes\CPU\ThreadSafeMarchingCubesDriver.cs" />
+     <Compile Include="Assets\Scripts\Mesh\MeshInfo.cs" />
      <Compile Include="Assets\Scripts\Mesh\ThreadedSplitMesh.cs" />
      <Compile Include="Assets\Scripts\Physics\Bullet.cs" />
      <Compile Include="Assets\Scripts\Physics\DestructionTrigger.cs" />

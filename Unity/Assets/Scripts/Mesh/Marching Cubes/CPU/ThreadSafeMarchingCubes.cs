@@ -632,18 +632,3 @@ static public class ThreadedMarchingCubes {
 	    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 	};
 }
-
-public class MeshInfo {
-
-    public Vector3[] verts;
-    public int[] index;
-
-    public Colouring colour;
-
-    public MeshInfo(Vector3[] verts, int[] index, Colouring colour) {
-        this.verts = verts;
-        this.index = index;
-        this.colour = colour;
-    }
-
-}
