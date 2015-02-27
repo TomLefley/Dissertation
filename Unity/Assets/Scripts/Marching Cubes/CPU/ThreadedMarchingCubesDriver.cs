@@ -40,7 +40,7 @@ public class ThreadedMarchingCubesDriver {
 
         if (surface != null) {
             foreach (Vertex3 v in minMax.vertices) {
-                voxels[(int)v.x, (int)v.y, (int)v.z] = -999;
+                voxels[(int)v.x, (int)v.y, (int)v.z] = -999f;
             }
         }
 

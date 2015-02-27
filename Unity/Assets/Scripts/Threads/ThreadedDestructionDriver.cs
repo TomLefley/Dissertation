@@ -295,7 +295,12 @@ public class ThreadedDestructionDriver : MonoBehaviour {
         colouring = destruction.getVoronoiDiagram();
 
         foreach (Colouring c in fragments.Values) {
-            c.vertices = new List<Vertex3>();
+            c.vertices.Clear();
+        }
+        foreach (Colouring c in fragments.Values) {
+            foreach (Vertex3 v in c.vertices) {
+                Debug.Log(v.ToString());
+            }
         }
 
         short[, ,] borderColouring = new short[colouring.GetLength(0), colouring.GetLength(1), colouring.GetLength(2)];
@@ -314,22 +319,24 @@ public class ThreadedDestructionDriver : MonoBehaviour {
                             for (int z = -1; z <= 1; z++) {
                                 if (i + x < 0 || j + y < 0 || k + z < 0) continue;
                                 if (i + x >= colouring.GetLength(0) || j + y >= colouring.GetLength(1) || k + z >= colouring.GetLength(2)) continue;
-                                if (colouring[i + x, j + y, k + z] != c) {
+                                if (colouring[i + x, j + y, k + z] != c && colouring[i + x, j + y, k + z] != 0) {
                                     neighbours = true;
                                 }
-                                if (colouring[i + x, j + y, k + z] != c && colouring[i + x, j + y, k + z] != 0) {
+                                if (colouring[i + x, j + y, k + z] == 0) {
                                     exterior = true;
                                 }
                             }
                         }
                     }
-                    if (neighbours) {
-                        vectors.Add(new Vector3(i, j, k));
-                    }
                     if (exterior) {
+                        vectors.Add(new Vector3(i, j, k));
+
+                    }
+                    if (neighbours && !exterior) {
                         borderColouring[i, j, k] = c;
                         
-                    } else {
+                    }
+                    if (neighbours && exterior) {
                         Colouring colour;
                         if (fragments.TryGetValue(c, out colour)) {
                             colour.vertices.Add(new Vertex3(i, j, k));
@@ -363,9 +370,15 @@ public class ThreadedDestructionDriver : MonoBehaviour {
 
                 colors.Add(colour.colour, new Color(Random.value, Random.value, Random.value));
 
-                KDTree surface = found ? KDTree.MakeFromPoints(parent.verts) : null;
-                if (false) {
-                    meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid, surface, parent.verts);
+                if (found) {
+                    List<Vertex3> edges = parent.colour.vertices;
+                    Vector3[] vEdges = new Vector3[edges.Count];
+
+                    for (int i = 0; i < edges.Count; i++) {
+                        vEdges[i] = edges[i].ToVector3();
+                    }
+                    KDTree surface = KDTree.MakeFromPoints(vEdges);
+                    meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid, surface, vEdges);
                 } else {
                     meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid, null, null);
                 }
@@ -450,9 +463,9 @@ public class ThreadedDestructionDriver : MonoBehaviour {
                 vertex.Add(new Vertex3(v.x, v.y, v.z));
             }
 
-            coloured.vertices = vertex;
+            //coloured.vertices = vertex;
 
-            MeshInfo convex = convexDriver.StartMeshing(coloured);
+            //MeshInfo convex = convexDriver.StartMeshing(coloured);
 
             Mesh mesh2 = new Mesh();
 
@@ -466,7 +479,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
             m_mesh.AddComponent<MeshCollider>();
             
             m_mesh.AddComponent<Rigidbody>();
-            //m_mesh.rigidbody.isKinematic = true;
+            m_mesh.rigidbody.isKinematic = true;
             m_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             m_mesh.renderer.material = m_material;
 
@@ -501,7 +514,20 @@ public class ThreadedDestructionDriver : MonoBehaviour {
         Gizmos.color = new Color(1.0f, 0.0f, 0.0f, .5f);
         if (done) {
             //DrawMeshShell();
+            DrawVoxels();
         }
+    }
+
+    void DrawVoxels() {
+        var cubeSize = new Vector3(cubeSide, cubeSide, cubeSide);
+        var gridSize = grid.GetSize();
+        foreach (Colouring c in fragments.Values) {
+            foreach (Vertex3 v in c.vertices) {
+                Gizmos.color = Color.red;
+                Gizmos.DrawCube(new Vector3((float)v.x*2 / gridSize.x, (float)v.y*2 / gridSize.y, (float)v.z*2 / gridSize.z), cubeSize);
+            }
+        }
+        
     }
 
     void DrawMeshShell() {

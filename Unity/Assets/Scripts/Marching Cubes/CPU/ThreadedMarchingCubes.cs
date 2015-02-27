@@ -149,7 +149,9 @@ static public class ThreadedMarchingCubes {
 
         //Find which vertices are inside of the surface and which are outside
         for (i = 0; i < 4; i++) {
-            if (tetrahedronValue[i] == -999) boundary = true;
+            if (tetrahedronValue[i] == -999f) {
+                boundary = true;
+            }
             if (tetrahedronValue[i] <= target) flagIndex |= 1 << i;
         }
 
@@ -173,11 +175,14 @@ static public class ThreadedMarchingCubes {
             }
         }
 
+        Vector3[] oEdgeVertex = new Vector3[6];
+
         if (boundary) {
             for (int c = 0; c<edgeVertex.Length; c++) {
-                edgeVertex[c].x = parentVerts[surface.FindNearest(edgeVertex[c]*2)].x*2;
-                edgeVertex[c].y = parentVerts[surface.FindNearest(edgeVertex[c]*2)].y * 2;
-                edgeVertex[c].z = parentVerts[surface.FindNearest(edgeVertex[c]*2)].z * 2;
+                oEdgeVertex[c] = edgeVertex[c];
+                edgeVertex[c].x = parentVerts[surface.FindNearest(edgeVertex[c])].x*2;
+                edgeVertex[c].y = parentVerts[surface.FindNearest(edgeVertex[c])].y*2;
+                edgeVertex[c].z = parentVerts[surface.FindNearest(edgeVertex[c])].z*2;
             }
         }
 
@@ -190,7 +195,9 @@ static public class ThreadedMarchingCubes {
                 vert = tetrahedronTriangles[flagIndex, 3 * i + windingOrder[j]];
 
                 Vector3 vertex = edgeVertex[vert];
-                string points = vertex.x + "," + vertex.y + "," + vertex.z;
+
+                string points = boundary ? oEdgeVertex[vert].x + "," + oEdgeVertex[vert].y + "," + oEdgeVertex[vert].z : vertex.x + "," + vertex.y + "," + vertex.z;
+                
                 int index = -1;
 
                 bool found = indices.TryGetValue(points, out index);
