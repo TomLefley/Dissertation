@@ -53,93 +53,32 @@ public class ThreadSafeSplitMesh {
             } else {
                 Vector3 mid = Vector3.zero;
                 if (c1 == c2) {
-                    Dictionary<string, int> foundIndices;
-                    if (!(meshFoundIndices.TryGetValue(c1, out foundIndices))) {
-                        foundIndices = new Dictionary<string, int>();
-                        meshFoundIndices.Add(c1, foundIndices);
+                    List<Vector3> edges;
+                    if (!(meshEdges.TryGetValue(c1, out edges))) {
+                        edges = new List<Vector3>();
+                        meshEdges.Add(c1, edges);
                     }
-
-                    List<Vector3> vertices;
-                    if (!(meshVertices.TryGetValue(c1, out vertices))) {
-                        vertices = new List<Vector3>();
-                        meshVertices.Add(c1, vertices);
-                    }
-
-                    List<int> indices;
-                    if (!(meshIndices.TryGetValue(c1, out indices))) {
-                        indices = new List<int>();
-                        meshIndices.Add(c1, indices);
-                    }
-
-                    StoreVertex(v1, foundIndices, indices, vertices);
-                    StoreVertex(v2, foundIndices, indices, vertices);
-                    StoreVertex(mid, foundIndices, indices, vertices);
+                    edges.Add(v1);
+                    edges.Add(v2);
                 }
                 if (c1 == c3) {
-                    Dictionary<string, int> foundIndices;
-                    if (!(meshFoundIndices.TryGetValue(c1, out foundIndices))) {
-                        foundIndices = new Dictionary<string, int>();
-                        meshFoundIndices.Add(c1, foundIndices);
+                    List<Vector3> edges;
+                    if (!(meshEdges.TryGetValue(c1, out edges))) {
+                        edges = new List<Vector3>();
+                        meshEdges.Add(c1, edges);
                     }
-
-                    List<Vector3> vertices;
-                    if (!(meshVertices.TryGetValue(c1, out vertices))) {
-                        vertices = new List<Vector3>();
-                        meshVertices.Add(c1, vertices);
-                    }
-
-                    List<int> indices;
-                    if (!(meshIndices.TryGetValue(c1, out indices))) {
-                        indices = new List<int>();
-                        meshIndices.Add(c1, indices);
-                    }
-
-                    StoreVertex(v1, foundIndices, indices, vertices);
-                    StoreVertex(mid, foundIndices, indices, vertices);
-                    StoreVertex(v3, foundIndices, indices, vertices);
+                    edges.Add(v1);
+                    edges.Add(v3);
                 }
                 if (c2 == c3) {
-                    Dictionary<string, int> foundIndices;
-                    if (!(meshFoundIndices.TryGetValue(c2, out foundIndices))) {
-                        foundIndices = new Dictionary<string, int>();
-                        meshFoundIndices.Add(c2, foundIndices);
+                    List<Vector3> edges;
+                    if (!(meshEdges.TryGetValue(c1, out edges))) {
+                        edges = new List<Vector3>();
+                        meshEdges.Add(c1, edges);
                     }
-
-                    List<Vector3> vertices;
-                    if (!(meshVertices.TryGetValue(c2, out vertices))) {
-                        vertices = new List<Vector3>();
-                        meshVertices.Add(c2, vertices);
-                    }
-
-                    List<int> indices;
-                    if (!(meshIndices.TryGetValue(c2, out indices))) {
-                        indices = new List<int>();
-                        meshIndices.Add(c2, indices);
-                    }
-
-                    StoreVertex(mid, foundIndices, indices, vertices);
-                    StoreVertex(v2, foundIndices, indices, vertices);
-                    StoreVertex(v3, foundIndices, indices, vertices);
+                    edges.Add(v2);
+                    edges.Add(v3);
                 }
-
-                List<Vector3> edges;
-                if (!(meshEdges.TryGetValue(c1, out edges))) {
-                    edges = new List<Vector3>();
-                    meshEdges.Add(c1, edges);
-                }
-                edges.Add(v1);
-
-                if (!(meshEdges.TryGetValue(c2, out edges))) {
-                    edges = new List<Vector3>();
-                    meshEdges.Add(c2, edges);
-                }
-                edges.Add(v2);
-
-                if (!(meshEdges.TryGetValue(c3, out edges))) {
-                    edges = new List<Vector3>();
-                    meshEdges.Add(c3, edges);
-                }
-                edges.Add(v3);
             }
 
         }

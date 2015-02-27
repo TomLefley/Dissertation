@@ -137,11 +137,6 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
         foreach (Fragment c in fragments.Values) {
             c.vertices.Clear();
         }
-        foreach (Fragment c in fragments.Values) {
-            foreach (Vector3 v in c.vertices) {
-                Debug.Log(v.ToString());
-            }
-        }
 
         short[, ,] borderColouring = new short[colouring.GetLength(0), colouring.GetLength(1), colouring.GetLength(2)];
 
@@ -350,7 +345,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
         Gizmos.color = new Color(1.0f, 0.0f, 0.0f, .5f);
         if (done) {
             //DrawMeshShell();
-            DrawVoxels();
+            //DrawVoxels();
         }
     }
 

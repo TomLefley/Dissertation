@@ -76,6 +76,7 @@
      <Compile Include="Assets\Scripts\Mesh\Marching Cubes\CPU\ThreadSafeMarchingCubesDriver.cs" />
      <Compile Include="Assets\Scripts\Mesh\MeshInfo.cs" />
      <Compile Include="Assets\Scripts\Mesh\ThreadSafeSplitMesh.cs" />
+     <Compile Include="Assets\Scripts\Mesh\VertexPair.cs" />
      <Compile Include="Assets\Scripts\Physics\Bullet.cs" />
      <Compile Include="Assets\Scripts\Physics\DestructionTrigger.cs" />
      <Compile Include="Assets\Scripts\Physics\PhysicalProperties.cs" />
