@@ -5,33 +5,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ThreadedVoxelisation {
-    public class ThreadedVoxelisationDriver {
+namespace ThreadSafeVoxelisation {
+    public class ThreadSafeVoxelisationDriver {
 
-        public bool drawMeshShell = true;
-        public bool drawMeshInside = true;
-        public bool drawEmptyCube = false;
-        public bool includeChildren = true;
-        public bool createMultipleGrids = true;
-        public Vector3 meshShellPositionFromObject = Vector3.zero;
-        public float cubeSide = 0.1f;
-        private List<ThreadedVoxelisation.Voxelization.AABCGrid> aABCGrids;
+        bool drawMeshInside;
+
+        public bool includeChildren;
+        public bool createMultipleGrids;
+        public float cubeSide;
+        private List<ThreadSafeVoxelisation.Voxelization.AABCGrid> aABCGrids;
 
         public bool debug;
         public ComputeShader shader;
 
-        public void addGrid(List<ThreadedVoxelisation.Voxelization.AABCGrid> aABCGrids) {
+        public ThreadSafeVoxelisationDriver(bool drawMeshInside, bool includeChildren, bool createMultipleGrids, float cubeSide, bool debug, ComputeShader shader) {
+            this.drawMeshInside = drawMeshInside;
+            this.includeChildren = includeChildren;
+            this.createMultipleGrids = createMultipleGrids;
+            this.cubeSide = cubeSide;
+            this.debug = debug;
+            this.shader = shader;
+
+        }
+
+        public void addGrid(List<ThreadSafeVoxelisation.Voxelization.AABCGrid> aABCGrids) {
             this.aABCGrids = aABCGrids;
         }
 
-        public void addGrid(ThreadedVoxelisation.Voxelization.AABCGrid aABCGrid) {
+        public void addGrid(ThreadSafeVoxelisation.Voxelization.AABCGrid aABCGrid) {
             if (aABCGrids == null) {
-                aABCGrids = new List<ThreadedVoxelisation.Voxelization.AABCGrid>();
+                aABCGrids = new List<ThreadSafeVoxelisation.Voxelization.AABCGrid>();
             }
             this.aABCGrids.Add(aABCGrid);
         }
 
-        public ThreadedVoxelisation.Voxelization.AABCGrid GetGrid() {
+        public ThreadSafeVoxelisation.Voxelization.AABCGrid GetGrid() {
             return aABCGrids[0];
         }
 
@@ -44,38 +52,5 @@ namespace ThreadedVoxelisation {
             }
         }
 
-        void OnDrawGizmos() {
-            Gizmos.color = new Color(1.0f, 0.0f, 0.0f, .5f);
-            if (debug) {
-                //DrawMeshShell();
-            }
-        }
-
-        void DrawMeshShell() {
-            if (aABCGrids != null) {
-                foreach (Voxelization.AABCGrid aABCGrid in aABCGrids) {
-                    if (drawMeshShell && (aABCGrid != null)) {
-                        var cubeSize = new Vector3(cubeSide, cubeSide, cubeSide);
-                        var gridSize = aABCGrid.GetSize();
-                        for (short x = 0; x < gridSize.x; ++x) {
-                            for (short y = 0; y < gridSize.y; ++y) {
-                                for (short z = 0; z < gridSize.z; ++z) {
-                                    var cubeCenter = aABCGrid.GetAABCCenterFromGridCenter(x, y, z) +
-                                            aABCGrid.GetCenter() +
-                                                meshShellPositionFromObject;
-                                    if (aABCGrid.IsAABCSet(x, y, z)) {
-                                        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
-                                        Gizmos.DrawCube(cubeCenter, cubeSize);
-                                    } else if (drawEmptyCube) {
-                                        Gizmos.color = new Color(0f, 1f, 0f, 1f);
-                                        Gizmos.DrawCube(cubeCenter, cubeSize);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }

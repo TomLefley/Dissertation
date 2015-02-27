@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MIConvexHull;
 
-public class ThreadedConvexHullDriver {
+public class ThreadSafeConvexHullDriver {
 
     public enum MODE { CUBE_VOLUME, SPHERE_VOLUME, SPHERE_SURFACE };
 
@@ -22,9 +22,15 @@ public class ThreadedConvexHullDriver {
     bool drawHull = true;
 
     // Use this for initialization
-    public MeshInfo StartMeshing(Colouring colour) {
+    public MeshInfo StartMeshing(Fragment colour) {
 
-        ConvexHull<Vertex3, Face3> convexHull = ConvexHull.Create<Vertex3, Face3>(colour.vertices);
+        List<Vertex3> vertex = new List<Vertex3>();
+
+        foreach (Vector3 v in colour.vertices) {
+            vertex.Add(new Vertex3(v.x, v.y, v.z));
+        }
+
+        ConvexHull<Vertex3, Face3> convexHull = ConvexHull.Create<Vertex3, Face3>(vertex);
 
         convexHullVertices = new List<Vertex3>(convexHull.Points);
         Vector3[] convexHullVectors = new Vector3[convexHullVertices.Count];

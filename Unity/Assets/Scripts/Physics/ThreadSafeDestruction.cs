@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class ThreadedDestruction {
+public class ThreadSafeDestruction {
 
     private Vector3 hitPoint;
     private float hitForce;
@@ -15,15 +15,14 @@ public class ThreadedDestruction {
     private List<Vector3> voronoiPoints = new List<Vector3>();
     private List<Vector3> voronoiWorldPoints = new List<Vector3>();
 
-    private Dictionary<short, Colouring> fragmentExtents = new Dictionary<short, Colouring>();
+    private Dictionary<short, Fragment> fragmentExtents = new Dictionary<short, Fragment>();
     private short[, ,] voronoiDiagram;
 
-    private ThreadedVoxelisation.Voxelization.AABCGrid aabcGrid;
+    private ThreadSafeVoxelisation.Voxelization.AABCGrid aabcGrid;
 
     private List<Color> colors = new List<Color>();
 
-    public void Fragment(ThreadedVoxelisation.Voxelization.AABCGrid grid, Vector3 hitPoint, float hitForce, PhysicalProperties physicalProperties) {
-        Clear();
+    public Dictionary<short, Fragment> Fragment(ThreadSafeVoxelisation.Voxelization.AABCGrid grid, Vector3 hitPoint, float hitForce, PhysicalProperties physicalProperties) {
         this.aabcGrid = grid;
         this.hitPoint = hitPoint;
         this.hitForce = hitForce;
@@ -33,27 +32,16 @@ public class ThreadedDestruction {
         generateVoronoiPoints(calcRadius(hitForce), calcNumberOfPoints(hitForce));
         colourVoxels();
         FindIslands();
+        return fragmentExtents;
     }
-
-    private void Clear() {
-        voronoiPoints = new List<Vector3>();
-        voronoiWorldPoints = new List<Vector3>();
-
-        fragmentExtents = new Dictionary<short, Colouring>();
-
-    }
-
-    public Vector3 getHit() { return hit; }
-
-    public List<Vector3> getVoronoiPoints() { return voronoiPoints; }
 
     public short[, ,] getVoronoiDiagram() { return voronoiDiagram; }
 
-    public Dictionary<short, Colouring> getFragmentExtents() { return fragmentExtents; }
+    public Dictionary<short, Fragment> getFragmentExtents() { return fragmentExtents; }
 
     private void findHitVoxel(Vector3 hitPoint) {
 
-        ThreadedVoxelisation.GridSize gridSize = aabcGrid.GetSize();
+        ThreadSafeVoxelisation.GridSize gridSize = aabcGrid.GetSize();
         Vector3 center = aabcGrid.GetCenter();
 
         Vector3 difference = hitPoint - center;
@@ -95,23 +83,12 @@ public class ThreadedDestruction {
 
     }
 
-    private Vertex3[] getCubeFaces(Vertex3 voxelSpace, float extents) {
-        Vertex3[] faces = new Vertex3[6];
-        faces[0] = new Vertex3(voxelSpace.x + extents, voxelSpace.y, voxelSpace.z);
-        faces[1] = new Vertex3(voxelSpace.x - extents, voxelSpace.y, voxelSpace.z);
-        faces[2] = new Vertex3(voxelSpace.x, voxelSpace.y + extents, voxelSpace.z);
-        faces[3] = new Vertex3(voxelSpace.x, voxelSpace.y - extents, voxelSpace.z);
-        faces[4] = new Vertex3(voxelSpace.x, voxelSpace.y, voxelSpace.z + extents);
-        faces[5] = new Vertex3(voxelSpace.x, voxelSpace.y, voxelSpace.z - extents);
-        return faces;
-    }
-
-    private Vertex3 toWorldSpace(Vertex3 voxelSpace) {
-        ThreadedVoxelisation.GridSize gridSize = aabcGrid.GetSize();
-        double x = (voxelSpace.x - (gridSize.x * 0.5f)) * gridSize.side;
-        double y = (voxelSpace.y - (gridSize.y * 0.5f)) * gridSize.side;
-        double z = (voxelSpace.z - (gridSize.z * 0.5f)) * gridSize.side;
-        return new Vertex3(x, y, z);
+    private Vector3 toWorldSpace(Vector3 voxelSpace) {
+        ThreadSafeVoxelisation.GridSize gridSize = aabcGrid.GetSize();
+        float x = (voxelSpace.x - (gridSize.x * 0.5f)) * gridSize.side;
+        float y = (voxelSpace.y - (gridSize.y * 0.5f)) * gridSize.side;
+        float z = (voxelSpace.z - (gridSize.z * 0.5f)) * gridSize.side;
+        return new Vector3(x, y, z);
     }
 
     private Vector3 toVoxelSpace(Vector3 worldSpace) {
@@ -160,7 +137,7 @@ public class ThreadedDestruction {
         voronoiDiagram = new short[gridSize.x, gridSize.y, gridSize.z];
 
         for (short i = 1; i <= voronoiPoints.Count + 1; i++) {
-            fragmentExtents.Add(i, new Colouring(i));
+            fragmentExtents.Add(i, new Fragment(i));
         }
 
         for (short x = 0; x < gridSize.x; ++x) {
@@ -188,7 +165,7 @@ public class ThreadedDestruction {
                             main = true;
                         }
 
-                        Colouring colouring;
+                        Fragment colouring;
                         bool found = fragmentExtents.TryGetValue(index, out colouring);
 
                         colouring.UpdateMinX(x);
@@ -199,14 +176,7 @@ public class ThreadedDestruction {
                         colouring.UpdateMaxY(y);
                         colouring.UpdateMaxZ(z);
 
-                        //colouring.colour = index;
-                        colouring.number++;
-
-                        colouring.main = main;
-
-                        foreach (Vertex3 face in getCubeFaces(new Vertex3(x, y, z), 0.75f)) {
-                            colouring.vertices.Add(toWorldSpace(face));
-                        }
+                        colouring.vertices.Add(toWorldSpace(new Vector3(x, y, z)));
 
                     }
                     voronoiDiagram[x, y, z] = index;
@@ -220,19 +190,18 @@ public class ThreadedDestruction {
 
         var gridSize = aabcGrid.GetSize();
 
-        Dictionary<short, Colouring> newDict = new Dictionary<short, Colouring>();
+        Dictionary<short, Fragment> newDict = new Dictionary<short, Fragment>();
 
         short i = (short)(fragmentExtents.Count + 10);
 
-        foreach (Colouring colouring in fragmentExtents.Values) {
+        foreach (Fragment colouring in fragmentExtents.Values) {
 
             for (short x = colouring.minX; x <= colouring.maxX; x++) {
                 for (short y = colouring.minY; y <= colouring.maxY; y++) {
                     for (short z = colouring.minZ; z <= colouring.maxZ; z++) {
                         if (voronoiDiagram[x, y, z] == colouring.colour) {
                             short newColour = (short)(i++);
-                            Colouring newColouring = new Colouring(newColour);
-                            newColouring.main = colouring.main;
+                            Fragment newColouring = new Fragment(newColour);
                             newDict.Add(newColour, newColouring);
                             Flood(x, y, z, colouring.colour, newColour, newDict, newColouring);
                         }
@@ -242,42 +211,11 @@ public class ThreadedDestruction {
 
         }
 
-        short biggestFragmentColour = 0;
-        int biggestFragment = int.MinValue;
-
-        foreach (Colouring colouring in newDict.Values) {
-            if (colouring.main) {
-                colouring.main = false;
-                if (colouring.number > biggestFragment) {
-                    biggestFragmentColour = colouring.colour;
-                    biggestFragment = colouring.number;
-
-                }
-            }
-
-        }
-
-        Colouring biggest;
-        bool found = newDict.TryGetValue(biggestFragmentColour, out biggest);
-        if (found) {
-            biggest.main = true;
-        }
-
-        Colouring destroyed = new Colouring(0);
-
-        foreach (Colouring colour in newDict.Values) {
-            if (!colour.main) {
-                destroyed.vertices.AddRange(colour.vertices);
-            }
-        }
-
-        newDict.Add(0, destroyed);
-
         fragmentExtents = newDict;
 
     }
 
-    private void Flood(short x, short y, short z, short colour, short newColour, Dictionary<short, Colouring> newDict, Colouring colouring) {
+    private void Flood(short x, short y, short z, short colour, short newColour, Dictionary<short, Fragment> newDict, Fragment colouring) {
 
         Queue<Vector3> neighbours = new Queue<Vector3>();
         HashSet<string> visited = new HashSet<string>();
@@ -303,11 +241,8 @@ public class ThreadedDestruction {
             colouring.UpdateMaxY(y);
             colouring.UpdateMaxZ(z);
 
-            colouring.number++;
+            colouring.vertices.Add(new Vector3(x, y, z));
 
-            foreach (Vertex3 face in getCubeFaces(new Vertex3(x, y, z), 0.75f)) {
-                colouring.vertices.Add(toWorldSpace(face));
-            }
 
             for (short i = -1; i <= 1; i++) {
                 for (short j = -1; j <= 1; j++) {
@@ -329,66 +264,6 @@ public class ThreadedDestruction {
                     }
                 }
             }
-            /*int i, j, k;
-            i = x - 1;
-            j = y;
-            k = z;
-            if (voronoiDiagram[i, j, k] == colour) {
-                if (!(visited.Contains(i + "" + j + "" + k))) {
-                    neighbours.Enqueue(new Vector3(i, j, k));
-                    visited.Add(i + "" + j + "" + k);
-                }
-            }
-
-            i = x + 1;
-            j = y;
-            k = z;
-            if (voronoiDiagram[i, j, k] == colour) {
-                if (!(visited.Contains(i + "" + j + "" + k))) {
-                    neighbours.Enqueue(new Vector3(i, j, k));
-                    visited.Add(i + "" + j + "" + k);
-                }
-            }
-
-            i = x;
-            j = y - 1;
-            k = z;
-            if (voronoiDiagram[i, j, k] == colour) {
-                if (!(visited.Contains(i + "" + j + "" + k))) {
-                    neighbours.Enqueue(new Vector3(i, j, k));
-                    visited.Add(i + "" + j + "" + k);
-                }
-            }
-
-            i = x;
-            j = y + 1;
-            k = z;
-            if (voronoiDiagram[i, j, k] == colour) {
-                if (!(visited.Contains(i + "" + j + "" + k))) {
-                    neighbours.Enqueue(new Vector3(i, j, k));
-                    visited.Add(i + "" + j + "" + k);
-                }
-            }
-
-            i = x;
-            j = y;
-            k = z - 1;
-            if (voronoiDiagram[i, j, k] == colour) {
-                if (!(visited.Contains(i + "" + j + "" + k))) {
-                    neighbours.Enqueue(new Vector3(i, j, k));
-                    visited.Add(i + "" + j + "" + k);
-                }
-            }
-
-            i = x;
-            j = y;
-            k = z + 1;
-            if (voronoiDiagram[i, j, k] == colour) {
-                if (!(visited.Contains(i + "" + j + "" + k))) {
-                    neighbours.Enqueue(new Vector3(i, j, k));
-                    visited.Add(i + "" + j + "" + k);
-                }
-            }*/
         }
     }
 
@@ -407,33 +282,6 @@ public class ThreadedDestruction {
             foreach (Vector3 vector in voronoiWorldPoints) {
                 Debug.DrawLine(hitPoint, hitPoint + vector, Color.red);
             }
-        }
-    }
-
-    void OnDrawGizmos() {
-        Gizmos.color = new Color(1.0f, 0.0f, 0.0f, .5f);
-        //DrawColouring();
-    }
-
-    void DrawColouring() {
-        if (fragmentExtents.Count > 0) {
-            var gridSize = aabcGrid.GetSize();
-            var cubeSize = new Vector3(gridSize.side, gridSize.side, gridSize.side);
-
-            for (short x = 0; x < gridSize.x; x++) {
-                for (short y = 0; y < gridSize.y; y++) {
-                    for (short z = 0; z < gridSize.z; z++) {
-                        int i = (int)voronoiDiagram[x, y, z];
-                        if (i == 1) continue;
-                        Gizmos.color = colors[i];
-                        var cubeCenter = aabcGrid.GetAABCCenterFromGridCenter(x, y, z) +
-                                aabcGrid.GetCenter();
-                        Gizmos.DrawCube(cubeCenter, cubeSize);
-
-                    }
-                }
-            }
-
         }
     }
 

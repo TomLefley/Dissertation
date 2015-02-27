@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ThreadedSplitMesh {
+public class ThreadSafeSplitMesh {
 
     Dictionary<string, short> mappings = new Dictionary<string, short>();
 
-    public Dictionary<short, MeshInfo> Split(MeshInfo mesh, KDTree tree, List<Vector3> voxels, short[,,] colourings, ThreadedVoxelisation.GridSize size) {
+    public Dictionary<short, MeshInfo> Split(MeshInfo mesh, KDTree tree, List<Vector3> voxels, short[,,] colourings, ThreadSafeVoxelisation.GridSize size) {
 
         Dictionary<short, Dictionary<string, int>> meshFoundIndices = new Dictionary<short, Dictionary<string, int>>();
         Dictionary<short, List<Vector3>> meshVertices = new Dictionary<short, List<Vector3>>();
@@ -156,10 +156,9 @@ public class ThreadedSplitMesh {
             List<Vector3> edges;
             meshEdges.TryGetValue(s, out edges);
 
-            Colouring c = new Colouring(s);
-            foreach (Vector3 v in edges) {
-                c.vertices.Add(new Vertex3(v.x, v.y, v.z));
-            }
+            Fragment c = new Fragment(s);
+
+            c.vertices.AddRange(edges);
 
             output.Add(s, new MeshInfo(vertices.ToArray(), indices.ToArray(), c));
 
@@ -168,7 +167,7 @@ public class ThreadedSplitMesh {
         return output;
     }
 
-    private Vector3 toVoxelSpace(Vector3 worldSpace, ThreadedVoxelisation.GridSize size, float scale) {
+    private Vector3 toVoxelSpace(Vector3 worldSpace, ThreadSafeVoxelisation.GridSize size, float scale) {
         float side = size.side;
 
         Vector3 mid = new Vector3(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);

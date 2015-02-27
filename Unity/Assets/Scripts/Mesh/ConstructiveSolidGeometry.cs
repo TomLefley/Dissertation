@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class ConstructiveSolidGeometry {
 
 
-    public MeshInfo StartMeshing(MeshInfo mesh, MeshInfo minus, Colouring body, List<Colouring> fragments, short[,,] voxels, ThreadedVoxelisation.GridSize size) {
+    public MeshInfo StartMeshing(MeshInfo mesh, MeshInfo minus, Fragment body, List<Fragment> fragments, short[,,] voxels, ThreadSafeVoxelisation.GridSize size) {
 
         MeshInfo output;
 
@@ -62,7 +62,7 @@ public class ConstructiveSolidGeometry {
         return output;
     }
 
-    private Vector3 toVoxelSpace(Vector3 worldSpace, ThreadedVoxelisation.GridSize size, float scale) {
+    private Vector3 toVoxelSpace(Vector3 worldSpace, ThreadSafeVoxelisation.GridSize size, float scale) {
         float side = size.side;
 
         Vector3 mid = new Vector3(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);
@@ -72,7 +72,7 @@ public class ConstructiveSolidGeometry {
         
     }
 
-    private bool vertSet(Vector3 grid, Colouring body, List<Colouring> fragments, short[, ,] voxels) {
+    private bool vertSet(Vector3 grid, Fragment body, List<Fragment> fragments, short[, ,] voxels) {
         if (grid.x < 0 || grid.y < 0 || grid.z < 0) {
             return false;
         }
@@ -110,7 +110,7 @@ public class ConstructiveSolidGeometry {
         return false;
     }
 
-    private bool vertInside(Vector3 grid, Colouring body, List<Colouring> fragments, short[, ,] voxels) {
+    private bool vertInside(Vector3 grid, Fragment body, List<Fragment> fragments, short[, ,] voxels) {
         return true;
         if (grid.x < 0 || grid.y < 0 || grid.z < 0) {
             return false;

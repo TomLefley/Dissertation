@@ -13,7 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ThreadedVoxelisation {
+namespace ThreadSafeVoxelisation {
     public class GridSize {
 
         public int x;

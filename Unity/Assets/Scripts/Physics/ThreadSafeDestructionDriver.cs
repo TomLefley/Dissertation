@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ThreadedDestructionDriver : MonoBehaviour {
+public class ThreadSafeDestructionDriver : MonoBehaviour {
 
     public bool drawMeshShell = true;
     public bool drawMeshInside = true;
@@ -19,16 +19,16 @@ public class ThreadedDestructionDriver : MonoBehaviour {
 
     public List<string> messages = new List<string>();
 
-    ThreadedVoxelisation.ThreadedVoxelisationDriver voxelisationDriver;
-    ThreadedDestruction destruction;
-    ThreadedMarchingCubesDriver marchingDriver;
-    ThreadedConvexHullDriver convexDriver;
+    ThreadSafeVoxelisation.ThreadSafeVoxelisationDriver voxelisationDriver;
+    ThreadSafeDestruction destruction;
+    ThreadSafeMarchingCubesDriver marchingDriver;
+    ThreadSafeConvexHullDriver convexDriver;
     ConstructiveSolidGeometry csg;
-    ThreadedSplitMesh splitMesh;
+    ThreadSafeSplitMesh splitMesh;
 
-    ThreadedVoxelisation.Voxelization.AABCGrid grid;
+    ThreadSafeVoxelisation.Voxelization.AABCGrid grid;
 
-    Dictionary<short, Colouring> fragments;
+    Dictionary<short, Fragment> fragments;
     short[, ,] colouring;
 
     public Material m_material;
@@ -38,22 +38,12 @@ public class ThreadedDestructionDriver : MonoBehaviour {
     bool done = false;
 
     void Start() {
-        voxelisationDriver = new ThreadedVoxelisation.ThreadedVoxelisationDriver();
-        voxelisationDriver.drawMeshShell = drawMeshShell;
-        voxelisationDriver.drawMeshInside = drawMeshInside;
-        voxelisationDriver.drawEmptyCube = drawEmptyCube;
-        voxelisationDriver.includeChildren = includeChildren;
-        voxelisationDriver.createMultipleGrids = createMultipleGrids;
-        voxelisationDriver.meshShellPositionFromObject = meshShellPositionFromObject;
-        voxelisationDriver.cubeSide = cubeSide;
-        voxelisationDriver.debug = debug;
-        voxelisationDriver.shader = shader;
-
-        destruction = new ThreadedDestruction();
-        marchingDriver = new ThreadedMarchingCubesDriver();
-        convexDriver = new ThreadedConvexHullDriver();
+        voxelisationDriver = new ThreadSafeVoxelisation.ThreadSafeVoxelisationDriver(drawMeshInside, includeChildren, createMultipleGrids, cubeSide, debug, shader);
+        destruction = new ThreadSafeDestruction();
+        marchingDriver = new ThreadSafeMarchingCubesDriver();
+        convexDriver = new ThreadSafeConvexHullDriver();
         csg = new ConstructiveSolidGeometry();
-        splitMesh = new ThreadedSplitMesh();
+        splitMesh = new ThreadSafeSplitMesh();
     }
 
 
@@ -72,11 +62,11 @@ public class ThreadedDestructionDriver : MonoBehaviour {
         while(i < fragments.Count) {
             ThreadManager.RunAsync(() => {
 
-                Colouring itColouring;
+                Fragment itColouring;
                 bool found = fragments.TryGetValue(i, out itColouring);
 
                 if (found) {
-                    meshinfos.Add(new ThreadedMarchingCubesDriver().StartMarching(colouring, itColouring, grid, null, null));
+                    meshinfos.Add(new ThreadSafeMarchingCubesDriver().StartMarching(colouring, itColouring, grid));
                 }
 
             });
@@ -94,7 +84,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
 
                     Mesh mesh = new Mesh();
                     MeshInfo meshinfo = meshinfos[j];
-                    Colouring coloured = meshinfo.colour;
+                    Fragment coloured = meshinfo.colour;
 
                     mesh.vertices = meshinfo.verts;
                     mesh.triangles = meshinfo.index;
@@ -124,155 +114,6 @@ public class ThreadedDestructionDriver : MonoBehaviour {
         });
     }
 
-    public void Destroy(Vector3 hitPoint, float hitForce, PhysicalProperties physicalProperties) {
-
-        messages.Add("Starting");
-        float time = Time.realtimeSinceStartup;
-        float startTime = time;
-
-        voxelisationDriver.StartVoxelise(gameObject);
-
-        messages.Add("Voxelisation: " + (Time.realtimeSinceStartup - time));
-        time = Time.realtimeSinceStartup;
-
-        grid = voxelisationDriver.GetGrid();
-
-        destruction.Fragment(grid, hitPoint, hitForce, physicalProperties);
-
-        messages.Add("Destruction: " + (Time.realtimeSinceStartup - time));
-        time = Time.realtimeSinceStartup;
-
-        fragments = destruction.getFragmentExtents();
-        colouring = destruction.getVoronoiDiagram();
-
-        List<Vector3> vectors = new List<Vector3>();
-
-        for (int i = 0; i < colouring.GetLength(0); i++) {
-            for (int j = 0; j < colouring.GetLength(1); j++) {
-                for (int k = 0; k < colouring.GetLength(2); k++) {
-                    vectors.Add(new Vector3(i, j, k));
-                }
-            }
-        }
-
-        KDTree tree = KDTree.MakeFromPoints(vectors.ToArray());
-
-        messages.Add("KDTree: " + (Time.realtimeSinceStartup - time));
-        time = Time.realtimeSinceStartup;
-
-        bool main = false;
-
-        Colouring allFrags = new Colouring(999);
-
-        foreach (Colouring colour in fragments.Values) {
-            if (colour.main) continue;
-            allFrags.UpdateMinX(colour.minX);
-            allFrags.UpdateMinY(colour.minY);
-            allFrags.UpdateMinZ(colour.minZ);
-            allFrags.UpdateMaxX(colour.maxX);
-            allFrags.UpdateMaxY(colour.maxY);
-            allFrags.UpdateMaxZ(colour.maxZ);
-            allFrags.vertices.AddRange(colour.vertices);
-        }
-
-        MeshInfo fmeshinfo = convexDriver.StartMeshing(allFrags);
-
-        foreach (Colouring colour in fragments.Values) {
-            if (colour == null) continue;
-
-            MeshInfo meshinfo;
-
-            colors.Add(colour.colour, new Color(Random.value, Random.value, Random.value));
-
-            if (colour.main) {
-                //meshinfo = convexDriver.StartMeshing(colour);
-                meshinfo = marchingDriver.StartMarching(colouring, colour, grid, null, null);
-                //meshinfo = csg.StartMeshing(new MeshInfo(gameObject.GetComponent<MeshFilter>().mesh.vertices, gameObject.GetComponent<MeshFilter>().mesh.triangles, colour), fmeshinfo, colour, new List<Colouring>(fragments.Values), colouring, grid.GetSize());
-            } else {
-                //meshinfo = convexDriver.StartMeshing(colour);
-                meshinfo = marchingDriver.StartMarching(colouring, colour, grid, null, null);
-            }
-
-            messages.Add("Meshing " + colour.colour + " " + colour.main + ": " + (Time.realtimeSinceStartup - time));
-            time = Time.realtimeSinceStartup;
-
-            Mesh mesh = new Mesh();
-            Colouring coloured = meshinfo.colour;
-
-            mesh.vertices = meshinfo.verts;
-            mesh.triangles = meshinfo.index;
-
-            //The diffuse shader wants uvs so just fill with a empty array, there not actually used
-            mesh.uv = new Vector2[mesh.vertices.Length];
-            mesh.RecalculateNormals();
-
-            if (coloured.colour == 0) continue;
-            if (coloured.main) {
-                main = true;
-                //gameObject.GetComponent<MeshCollider>().convex = true;
-                gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
-                gameObject.GetComponent<MeshFilter>().mesh = mesh;   
-                foreach (Transform trans in transform) {
-                    Vector3 scale = trans.localScale;
-                    scale.x *= transform.localScale.x;
-                    scale.y *= transform.localScale.y;
-                    scale.z *= transform.localScale.z;
-                    trans.localScale = scale;
-                }
-                transform.localScale = Vector3.one;
-            } else {
-                GameObject m_mesh = new GameObject("Fragment" + coloured.colour);
-                m_mesh.AddComponent<MeshFilter>();
-                m_mesh.AddComponent<MeshRenderer>();
-                m_mesh.AddComponent<MeshCollider>();
-                m_mesh.GetComponent<MeshCollider>().convex = true;
-                m_mesh.AddComponent<Rigidbody>();
-                m_mesh.rigidbody.isKinematic = true;
-                m_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-                m_mesh.renderer.material = m_material;
-                m_mesh.GetComponent<MeshCollider>().sharedMesh = mesh;
-                m_mesh.GetComponent<MeshFilter>().mesh = mesh;
-            }
-
-            messages.Add("Building " + colour.colour + " " + colour.main + ": " + (Time.realtimeSinceStartup - time));
-            time = Time.realtimeSinceStartup;
-        }
-
-        /*Mesh fmesh = new Mesh();
-        Colouring fcoloured = fmeshinfo.colour;
-
-        fmesh.vertices = fmeshinfo.verts;
-        fmesh.triangles = fmeshinfo.index;
-
-        //The diffuse shader wants uvs so just fill with a empty array, there not actually used
-        fmesh.uv = new Vector2[fmesh.vertices.Length];
-        fmesh.RecalculateNormals();
-        GameObject fm_mesh = new GameObject("Fragment" + allFrags.colour);
-        fm_mesh.AddComponent<MeshFilter>();
-        fm_mesh.AddComponent<MeshRenderer>();
-        fm_mesh.AddComponent<MeshCollider>();
-        fm_mesh.GetComponent<MeshCollider>().convex = true;
-        fm_mesh.AddComponent<Rigidbody>();
-        fm_mesh.rigidbody.isKinematic = true;
-        fm_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-        fm_mesh.renderer.material = m_material;
-        fm_mesh.GetComponent<MeshCollider>().sharedMesh = fmesh;
-        fm_mesh.GetComponent<MeshFilter>().mesh = fmesh;*/
-
-
-
-        if (!main) {
-            GameObject.Destroy(gameObject);
-        }
-
-        messages.Add("Done :" + (Time.realtimeSinceStartup - startTime));
-
-        foreach (string str in messages) {
-            Debug.Log(str);
-        }
-
-        done = true;
-    }
     public void SplitDestroy(Vector3 hitPoint, float hitForce, PhysicalProperties physicalProperties) {
 
         messages.Add("Starting");
@@ -286,19 +127,18 @@ public class ThreadedDestructionDriver : MonoBehaviour {
 
         grid = voxelisationDriver.GetGrid();
 
-        destruction.Fragment(grid, hitPoint, hitForce, physicalProperties);
+        fragments = destruction.Fragment(grid, hitPoint, hitForce, physicalProperties);
 
         messages.Add("Destruction: " + (Time.realtimeSinceStartup - time));
         time = Time.realtimeSinceStartup;
 
-        fragments = destruction.getFragmentExtents();
         colouring = destruction.getVoronoiDiagram();
 
-        foreach (Colouring c in fragments.Values) {
+        foreach (Fragment c in fragments.Values) {
             c.vertices.Clear();
         }
-        foreach (Colouring c in fragments.Values) {
-            foreach (Vertex3 v in c.vertices) {
+        foreach (Fragment c in fragments.Values) {
+            foreach (Vector3 v in c.vertices) {
                 Debug.Log(v.ToString());
             }
         }
@@ -337,9 +177,9 @@ public class ThreadedDestructionDriver : MonoBehaviour {
                         
                     }
                     if (neighbours && exterior) {
-                        Colouring colour;
+                        Fragment colour;
                         if (fragments.TryGetValue(c, out colour)) {
-                            colour.vertices.Add(new Vertex3(i, j, k));
+                            colour.vertices.Add(new Vector3(i, j, k));
                         }
                     }
                 }
@@ -351,7 +191,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
         messages.Add("KDTree: " + (Time.realtimeSinceStartup - time));
         time = Time.realtimeSinceStartup;
 
-        MeshInfo original = new MeshInfo(gameObject.GetComponent<MeshFilter>().mesh.vertices, gameObject.GetComponent<MeshFilter>().mesh.triangles, new Colouring(0));
+        MeshInfo original = new MeshInfo(gameObject.GetComponent<MeshFilter>().mesh.vertices, gameObject.GetComponent<MeshFilter>().mesh.triangles, new Fragment(0));
 
         Dictionary<short, MeshInfo> meshes = splitMesh.Split(original, tree, vectors, colouring, grid.GetSize());
 
@@ -360,7 +200,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
 
 
         if (!hollow) {
-            foreach (Colouring colour in fragments.Values) {
+            foreach (Fragment colour in fragments.Values) {
                 if (colour == null) continue;
 
                 MeshInfo meshinfo;
@@ -371,16 +211,12 @@ public class ThreadedDestructionDriver : MonoBehaviour {
                 colors.Add(colour.colour, new Color(Random.value, Random.value, Random.value));
 
                 if (found) {
-                    List<Vertex3> edges = parent.colour.vertices;
-                    Vector3[] vEdges = new Vector3[edges.Count];
+                    List<Vector3> edges = parent.colour.vertices;
 
-                    for (int i = 0; i < edges.Count; i++) {
-                        vEdges[i] = edges[i].ToVector3();
-                    }
-                    KDTree surface = KDTree.MakeFromPoints(vEdges);
-                    meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid, surface, vEdges);
+                    KDTree surface = KDTree.MakeFromPoints(edges.ToArray());
+                    meshinfo = marchingDriver.StartMarchingClamp(borderColouring, colour, grid, surface, edges.ToArray());
                 } else {
-                    meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid, null, null);
+                    meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid);
                 }
                 //meshinfo = convexDriver.StartMeshing(colour);
 
@@ -388,7 +224,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
                     meshinfo.verts[c] = new Vector3(meshinfo.verts[c].x / transform.lossyScale.x, meshinfo.verts[c].y / transform.lossyScale.y, meshinfo.verts[c].z / transform.lossyScale.z);
                 }
 
-                messages.Add("Meshing " + colour.colour + " " + colour.main + ": " + (Time.realtimeSinceStartup - time));
+                messages.Add("Meshing " + colour.colour + ": " + (Time.realtimeSinceStartup - time));
                 time = Time.realtimeSinceStartup;
 
                 if (colour.colour == 0) {
@@ -419,7 +255,7 @@ public class ThreadedDestructionDriver : MonoBehaviour {
         foreach (MeshInfo meshinfo in meshes.Values) {
 
             Mesh mesh = new Mesh();
-            Colouring coloured = meshinfo.colour;
+            Fragment coloured = meshinfo.colour;
 
             fragments.TryGetValue(coloured.colour, out coloured);
 
@@ -521,8 +357,8 @@ public class ThreadedDestructionDriver : MonoBehaviour {
     void DrawVoxels() {
         var cubeSize = new Vector3(cubeSide, cubeSide, cubeSide);
         var gridSize = grid.GetSize();
-        foreach (Colouring c in fragments.Values) {
-            foreach (Vertex3 v in c.vertices) {
+        foreach (Fragment c in fragments.Values) {
+            foreach (Vector3 v in c.vertices) {
                 Gizmos.color = Color.red;
                 Gizmos.DrawCube(new Vector3((float)v.x*2 / gridSize.x, (float)v.y*2 / gridSize.y, (float)v.z*2 / gridSize.z), cubeSize);
             }
