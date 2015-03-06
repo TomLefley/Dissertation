@@ -23,8 +23,8 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
     ThreadSafeDestruction destruction;
     ThreadSafeMarchingCubesDriver marchingDriver;
     ThreadSafeConvexHullDriver convexDriver;
-    ConstructiveSolidGeometry csg;
     ThreadSafeSplitMesh splitMesh;
+    ThreadSafeHoleFill holefill;
 
     ThreadSafeVoxelisation.Voxelization.AABCGrid grid;
 
@@ -42,8 +42,8 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
         destruction = new ThreadSafeDestruction();
         marchingDriver = new ThreadSafeMarchingCubesDriver();
         convexDriver = new ThreadSafeConvexHullDriver();
-        csg = new ConstructiveSolidGeometry();
         splitMesh = new ThreadSafeSplitMesh();
+        holefill = new ThreadSafeHoleFill();
     }
 
 
@@ -167,7 +167,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
                         vectors.Add(new Vector3(i, j, k));
 
                     }
-                    if (neighbours && !exterior) {
+                    if (neighbours) {
                         borderColouring[i, j, k] = c;
                         
                     }
@@ -198,7 +198,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
             foreach (Fragment colour in fragments.Values) {
                 if (colour == null) continue;
 
-                MeshInfo meshinfo;
+                MeshInfo meshinfo, march;
 
                 MeshInfo parent;
                 bool found = meshes.TryGetValue(colour.colour, out parent);
@@ -207,17 +207,30 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
 
                 if (found) {
                     List<Vector3> edges = parent.colour.vertices;
+                    List<Vector3> exterior = new List<Vector3>();
+                    foreach (Vector3 v in colour.vertices) {
+                        exterior.Add(toWorldSpace(v));
+                    }
+
+                    Vector3 voxelMid = new Vector3((colour.maxX-colour.minX)/2, (colour.maxY-colour.minY)/2, (colour.maxZ-colour.minZ)/2);
+                    voxelMid.x = voxelMid.x / grid.GetSize().x;
+                    voxelMid.y = voxelMid.y / grid.GetSize().y;
+                    voxelMid.z = voxelMid.z / grid.GetSize().z;
+                    voxelMid *= 2;
 
                     KDTree surface = KDTree.MakeFromPoints(edges.ToArray());
-                    meshinfo = marchingDriver.StartMarchingClamp(borderColouring, colour, grid, surface, edges.ToArray());
+                    meshinfo = holefill.Stitch(edges, colour, exterior);
+
+                    meshinfo = marchingDriver.StartMarchingClamp(borderColouring, colour, grid, surface, edges);
                 } else {
                     meshinfo = marchingDriver.StartMarching(borderColouring, colour, grid);
+                    march = marchingDriver.StartMarching(borderColouring, colour, grid);
                 }
                 //meshinfo = convexDriver.StartMeshing(colour);
 
-                for (int c = 0; c < meshinfo.verts.Length; c++) {
+                /*for (int c = 0; c < meshinfo.verts.Length; c++) {
                     meshinfo.verts[c] = new Vector3(meshinfo.verts[c].x / transform.lossyScale.x, meshinfo.verts[c].y / transform.lossyScale.y, meshinfo.verts[c].z / transform.lossyScale.z);
-                }
+                }*/
 
                 messages.Add("Meshing " + colour.colour + ": " + (Time.realtimeSinceStartup - time));
                 time = Time.realtimeSinceStartup;
@@ -234,6 +247,13 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
                         foreach (int i in meshinfo.index) {
                             indices.Add(i + count);
                         }
+
+                        /*count = verts.Count;
+                        verts.AddRange(march.verts);
+
+                        foreach (int i in march.index) {
+                            indices.Add(i + count);
+                        }*/
 
                         parent.verts = verts.ToArray();
                         parent.index = indices.ToArray();
@@ -310,7 +330,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
             m_mesh.AddComponent<MeshCollider>();
             
             m_mesh.AddComponent<Rigidbody>();
-            m_mesh.rigidbody.isKinematic = true;
+            //m_mesh.rigidbody.isKinematic = true;
             m_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             m_mesh.renderer.material = m_material;
 
@@ -338,6 +358,20 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
         done = true;
 
         GameObject.Destroy(gameObject);
+    }
+
+    private Vector3 toWorldSpace(Vector3 voxelSpace) {
+        ThreadSafeVoxelisation.GridSize gridSize = grid.GetSize();
+        float x = (voxelSpace.x - (gridSize.x * 0.5f)) * gridSize.side/2;
+        float y = (voxelSpace.y - (gridSize.y * 0.5f)) * gridSize.side/2;
+        float z = (voxelSpace.z - (gridSize.z * 0.5f)) * gridSize.side/2;
+        return new Vector3(x, y, z);
+    }
+
+    private Vector3 toVoxelSpace(Vector3 worldSpace) {
+        float side = grid.GetSize().side;
+
+        return new Vector3(worldSpace.x / side, worldSpace.y / side, worldSpace.z / side);
     }
 
 

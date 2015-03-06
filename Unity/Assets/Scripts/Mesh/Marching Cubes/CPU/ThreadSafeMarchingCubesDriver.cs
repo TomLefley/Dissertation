@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ThreadSafeMarchingCubesDriver {
 
@@ -17,7 +18,7 @@ public class ThreadSafeMarchingCubesDriver {
 
     }
 
-    public MeshInfo StartMarchingClamp(short[, ,] colouredVoxels, Fragment minMax, ThreadSafeVoxelisation.Voxelization.AABCGrid grid, KDTree surface, Vector3[] parentVerts) {
+    public MeshInfo StartMarchingClamp(short[, ,] colouredVoxels, Fragment minMax, ThreadSafeVoxelisation.Voxelization.AABCGrid grid, KDTree surface, List<Vector3> parentVerts) {
 
         PrepareMarch();
 

@@ -51,7 +51,6 @@ public class ThreadSafeSplitMesh {
                 StoreVertex(v3, foundIndices, indices, vertices);
 
             } else {
-                Vector3 mid = Vector3.zero;
                 if (c1 == c2) {
                     List<Vector3> edges;
                     if (!(meshEdges.TryGetValue(c1, out edges))) {
@@ -60,6 +59,7 @@ public class ThreadSafeSplitMesh {
                     }
                     edges.Add(v1);
                     edges.Add(v2);
+                    edges.Add(new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity));
                 }
                 if (c1 == c3) {
                     List<Vector3> edges;
@@ -68,14 +68,16 @@ public class ThreadSafeSplitMesh {
                         meshEdges.Add(c1, edges);
                     }
                     edges.Add(v1);
+                    edges.Add(new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity));
                     edges.Add(v3);
                 }
                 if (c2 == c3) {
                     List<Vector3> edges;
-                    if (!(meshEdges.TryGetValue(c1, out edges))) {
+                    if (!(meshEdges.TryGetValue(c2, out edges))) {
                         edges = new List<Vector3>();
-                        meshEdges.Add(c1, edges);
+                        meshEdges.Add(c2, edges);
                     }
+                    edges.Add(new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity));
                     edges.Add(v2);
                     edges.Add(v3);
                 }
