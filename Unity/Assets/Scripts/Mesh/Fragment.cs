@@ -8,8 +8,9 @@ public class Fragment {
 
     public short colour;
 
-    //public int number = 0;
-    //public bool main = false;
+    public int number = 0;
+
+    public float mass = 0;
 
     public List<Vector3> vertices = new List<Vector3>();
 

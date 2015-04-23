@@ -80,6 +80,7 @@
      <Compile Include="Assets\Scripts\Physics\Bullet.cs" />
      <Compile Include="Assets\Scripts\Physics\DestructionTrigger.cs" />
      <Compile Include="Assets\Scripts\Physics\PhysicalProperties.cs" />
+     <Compile Include="Assets\Scripts\Physics\PresetDestructionTrigger.cs" />
      <Compile Include="Assets\Scripts\Physics\ThreadSafeDestruction.cs" />
      <Compile Include="Assets\Scripts\Physics\ThreadSafeDestructionDriver.cs" />
      <Compile Include="Assets\Scripts\Threads\ThreadManager.cs" />

@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="974c9d07-e832-424a-9c84-0457a488d45d" name="UMLClassDiagram1" linkedPackageId="2d0ecc33-4300-4afc-b85b-61fc9b68125a" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="0ae89b37-5524-47b1-bcb7-877d492a6e3f">
+      <profileInstance Id="71e4ec8d-b70d-4ebd-9453-d21a8d542033" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="6a1f76e6-7d7e-4820-a407-a2b1c2cdc083">
+      <profileInstance Id="d5373d38-689a-4cdd-b6ef-f229ab300caa" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="81b26dd2-d8b6-4cb3-9f83-db1e9cf377c6">
+      <profileInstance Id="4ea9d611-832a-4cd6-9fcf-d261058dcc5b" name="CSharpProfile">
+        <elementDefinition Id="c4e166e4-b66d-4377-a5c8-8b054c98a86a" />
+      </profileInstance>
+      <elementDefinition Id="b239567e-3ce3-43bd-9ef9-1efbebc15aa5" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="ad8c362f-1cf4-4e91-9ad8-59c1c2ce0e97" name="DestructionDriver" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="4719fabd-2177-48f0-b0f5-1e7b13483317" />
+        <targetEnds>
+          <association Id="9af43557-40f6-4a2e-8289-6931b5bd9f2c" isDerived="false" sourceEndRoleName="DestructionDriver" targetEndRoleName="VoxelisationDriver" isLeaf="false" isAbstract="false">
+            <classMoniker Id="fe5de3df-d0af-456e-9246-4ff86bc69ce0" LastKnownName="VoxelisationDriver" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a8646a92-68a7-4d38-aedd-bf6c92573882" name="DestructionDriver" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString Id="75e42849-355a-475a-8143-32206af938f3" name="Lower" value="0">
+                      <elementDefinition Id="38b2fafc-6798-4608-b27e-923384f0e6b0" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="74b59a05-0675-4b6e-9884-b9ebb92832df" name="Upper" value="0">
+                      <elementDefinition Id="41fbf71e-deab-441b-b3c1-2c4096789364" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="4768bfac-7706-4174-bbe9-8c65183ab282" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="fe1d5e05-5952-4399-87a9-2aae60d401f8" name="VoxelisationDriver" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="90b9a977-993a-487e-9fba-c5f5a9d73ea0" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="8c297f40-0747-467d-8a97-199f4644a0e5" />
+          </association>
+          <association Id="b5baf3b3-f634-4a97-bf06-d56eecf56b0e" isDerived="false" sourceEndRoleName="DestructionDriver" targetEndRoleName="Partitioner" isLeaf="false" isAbstract="false">
+            <classMoniker Id="781683b1-c784-47e7-b4ae-48cfcc71c3ba" LastKnownName="Partitioner" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="68614e15-11ed-4f57-b583-3fa4c29010eb" name="DestructionDriver" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString Id="e8b19e02-aa4f-43d9-9b69-d7554d0980c0" name="Lower" value="0">
+                      <elementDefinition Id="fffeeff5-db09-4638-9329-2d395888d1fc" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="92dca398-fe82-4580-98eb-ad05f42073ad" name="Upper" value="0">
+                      <elementDefinition Id="7f5d9e07-ad5c-460b-8545-a051fa8ae63f" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="c887c296-15c1-4ad3-8f13-b00886cd09c3" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6bf0b40e-729c-47be-9d66-452e475f2d90" name="Partitioner" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="199862f8-9035-4304-b976-9c7f38aace33" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3f7045f2-f22a-4f43-aab9-5e70332f9bd7" />
+          </association>
+          <association Id="d7b4babd-8830-42f3-9a33-bb78bc8fc092" isDerived="false" sourceEndRoleName="DestructionDriver" targetEndRoleName="MeshDriver" isLeaf="false" isAbstract="false">
+            <classMoniker Id="bc18097e-0c63-4605-827e-f690d2fbbaf6" LastKnownName="MeshDriver" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="71b70b3a-18b4-4a2b-9983-886feb17db0b" name="DestructionDriver" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString Id="ed828bf6-24cd-4d30-879e-6eaf356635b1" name="Lower" value="0">
+                      <elementDefinition Id="c78a5c55-39c4-4ad9-ab1a-208e0e778287" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="7321f10d-8bcd-4d25-a501-13aa89611556" name="Upper" value="0">
+                      <elementDefinition Id="290677e9-b1d7-447f-be8a-3dec28be98d0" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="2f648b82-7a23-49d4-b264-563964009e5b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dc4e4958-a2cb-4faf-8c78-3c8a75e0da3d" name="MeshDriver" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="6f218131-cda8-4ca2-b292-dfe0e230a626" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="759a70e4-d38f-4bcd-bf3e-b35dda91eb7d" />
+          </association>
+        </targetEnds>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="fe5de3df-d0af-456e-9246-4ff86bc69ce0" name="VoxelisationDriver" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="b5116f24-e8a1-4ab9-869b-139da5d4f87b" />
+        <suppliersInternal>
+          <dependency Id="db69a9fe-ac09-45a5-a80c-fe84f3516e4c">
+            <classMoniker Id="4e029455-11c1-4a44-9a1b-20368017e91b" LastKnownName="Voxeliser" />
+            <elementDefinition Id="9248d3cd-9ab9-4f4c-b4f1-c0b0be56d189" />
+          </dependency>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation Id="0d64c3ef-57d2-4a6a-9db4-2e8ea18adb29" name="Voxelise" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="61336075-94cf-42c6-9199-b0a08d1e3080" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="8b92386b-8599-41dc-bbe3-8fda2a5aecc9" direction="Return" isUnique="false">
+                  <elementDefinition Id="4df1cc4e-9897-4361-acf2-2c110867b1f0" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="f0672e13-b146-4054-8107-f2b8564f4fff" LastKnownName="Grid" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="1055e21f-7782-42ad-954f-373d628d457c" name="mesh" direction="In" isUnique="false">
+                  <elementDefinition Id="c95a033c-a73f-4a6b-8ea2-59a711d49e7e" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="45d84eda-4640-41b4-9b0a-eb5428dff233" LastKnownName="Mesh" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="781683b1-c784-47e7-b4ae-48cfcc71c3ba" name="Partitioner" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="ef7c8ba8-bbd6-4292-ad46-70c3570385f4" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="bc18097e-0c63-4605-827e-f690d2fbbaf6" name="MeshDriver" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="128fd0e4-e21c-4ab6-8575-94e779ebe52b" />
+        <suppliersInternal>
+          <dependency Id="656c699c-f999-445f-ba4a-05e7a4d34d43">
+            <classMoniker Id="d7a22713-a1c9-410c-b04d-7882eb893a71" LastKnownName="Mesher" />
+            <elementDefinition Id="386e470d-56e7-4bb6-96cd-c5a20013b94c" />
+          </dependency>
+        </suppliersInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="4e029455-11c1-4a44-9a1b-20368017e91b" name="Voxeliser" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="d1376182-cbdc-47df-832f-0b6af0063776" />
+        <ownedOperationsInternal>
+          <operation Id="dafe96d8-f92b-4a33-ab02-0bc827bcb697" name="Voxelise" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="85b52b22-5ff1-4ca4-b1e6-4c95236db964" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="d7a22713-a1c9-410c-b04d-7882eb893a71" name="Mesher" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="8fdb167d-d6d1-41c1-854a-98020f946b08" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="45d84eda-4640-41b4-9b0a-eb5428dff233" name="Mesh" isAbstract="false" isLeaf="false" cachedFullName="Mesh">
+        <elementDefinition Id="59662cbc-f7dc-4020-af4f-56a09ae6f389" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="f0672e13-b146-4054-8107-f2b8564f4fff" name="Grid" isAbstract="false" isLeaf="false" cachedFullName="Grid">
+        <elementDefinition Id="ad0b75b6-0697-4685-b562-5f9e22be54a4" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="2d0ecc33-4300-4afc-b85b-61fc9b68125a" name="ModelingProject2">
+    <elementDefinition Id="6983c336-9e38-450b-86fb-6b3ae4cc171a" />
+  </package>
+</logicalClassDesignerModel>

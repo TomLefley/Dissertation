@@ -7,12 +7,17 @@ public class Bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
-        rigidbody.AddForce(force);
+
+        rigidbody.isKinematic = true;
+        //rigidbody.AddForce(force);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+        if (Input.GetKeyUp("space")) {
+            rigidbody.isKinematic = false;
+            rigidbody.AddForce(force);
+        }
 	}
 }

@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ThreadSafeHoleFill : MonoBehaviour {
+//Unused basic hole filling methods
+public class ThreadSafeHoleFill {
 
     public MeshInfo FillHoleSimple(List<Vector3> edges, Fragment colour) {
 

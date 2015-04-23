@@ -33,6 +33,7 @@ namespace Voxelisation {
             Rigidbody willCollideWith = willCollidePoint.rigidbody;
 
             if (!willCollideWith) return;
+            //TODO does this ensure this rigidbody?
 
             Vector3 velocity1 = willCollideWith.velocity;
 

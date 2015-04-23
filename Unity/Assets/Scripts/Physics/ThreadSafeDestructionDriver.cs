@@ -18,6 +18,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
     public ComputeShader shader;
 
     public List<string> messages = new List<string>();
+    public List<string> csvList = new List<string>();
 
     ThreadSafeVoxelisation.ThreadSafeVoxelisationDriver voxelisationDriver;
     ThreadSafeDestruction destruction;
@@ -46,7 +47,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
         holefill = new ThreadSafeHoleFill();
     }
 
-
+    //Unused attempt at multithreading
     public void ThreadedDestroy(Vector3 hitPoint, float hitForce, PhysicalProperties physicalProperties) {
         voxelisationDriver.StartVoxelise(gameObject);
         grid = voxelisationDriver.GetGrid();
@@ -122,7 +123,9 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
 
         voxelisationDriver.StartVoxelise(gameObject);
 
+
         messages.Add("Voxelisation: " + (Time.realtimeSinceStartup - time));
+        csvList.Add((Time.realtimeSinceStartup - time)+" ");
         time = Time.realtimeSinceStartup;
 
         grid = voxelisationDriver.GetGrid();
@@ -130,6 +133,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
         fragments = destruction.Fragment(grid, hitPoint, hitForce, physicalProperties);
 
         messages.Add("Destruction: " + (Time.realtimeSinceStartup - time));
+        csvList.Add((Time.realtimeSinceStartup - time) + " ");
         time = Time.realtimeSinceStartup;
 
         colouring = destruction.getVoronoiDiagram();
@@ -191,10 +195,14 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
         Dictionary<short, MeshInfo> meshes = splitMesh.Split(original, tree, vectors, colouring, grid.GetSize());
 
         messages.Add("Split: " + (Time.realtimeSinceStartup - time));
+        csvList.Add((Time.realtimeSinceStartup - time) + " ");
         time = Time.realtimeSinceStartup;
 
 
         if (!hollow) {
+
+            csvList.Add("Meshing ");
+
             foreach (Fragment colour in fragments.Values) {
                 if (colour == null) continue;
 
@@ -219,7 +227,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
                     voxelMid *= 2;
 
                     KDTree surface = KDTree.MakeFromPoints(edges.ToArray());
-                    meshinfo = holefill.Stitch(edges, colour, exterior);
+                    //meshinfo = holefill.Stitch(edges, colour, exterior);
 
                     meshinfo = marchingDriver.StartMarchingClamp(borderColouring, colour, grid, surface, edges);
                 } else {
@@ -233,6 +241,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
                 }*/
 
                 messages.Add("Meshing " + colour.colour + ": " + (Time.realtimeSinceStartup - time));
+                csvList.Add((Time.realtimeSinceStartup - time) + " ");
                 time = Time.realtimeSinceStartup;
 
                 if (colour.colour == 0) {
@@ -257,6 +266,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
 
                         parent.verts = verts.ToArray();
                         parent.index = indices.ToArray();
+                        parent.colour.mass = meshinfo.colour.mass;
 
                     } else {
                         meshes.Add(colour.colour, meshinfo);
@@ -266,6 +276,8 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
 
             }
         }
+
+        csvList.Add("Building ");
 
         foreach (MeshInfo meshinfo in meshes.Values) {
 
@@ -330,8 +342,9 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
             m_mesh.AddComponent<MeshCollider>();
             
             m_mesh.AddComponent<Rigidbody>();
-            //m_mesh.rigidbody.isKinematic = true;
+            m_mesh.rigidbody.isKinematic = true;
             m_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            m_mesh.rigidbody.mass = coloured.mass;
             m_mesh.renderer.material = m_material;
 
             if (mesh2.triangles.Length / 3 >= 255) {
@@ -346,14 +359,23 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
             m_mesh.transform.localScale = transform.localScale;
 
             messages.Add("Built " + coloured.colour + ": " + (Time.realtimeSinceStartup - time));
+            csvList.Add((Time.realtimeSinceStartup - time) + " ");
             time = Time.realtimeSinceStartup;
         }
 
         messages.Add("Done:" + (Time.realtimeSinceStartup - startTime));
 
+        string csv = "";
+
+        foreach (string str in csvList) {
+            csv += str;
+        }
+
         foreach (string str in messages) {
             Debug.Log(str);
         }
+
+        //Debug.Log(csv);
 
         done = true;
 

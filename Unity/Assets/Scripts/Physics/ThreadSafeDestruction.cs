@@ -22,6 +22,8 @@ public class ThreadSafeDestruction {
 
     private List<Color> colors = new List<Color>();
 
+    private int voxels = 0;
+
     public Dictionary<short, Fragment> Fragment(ThreadSafeVoxelisation.Voxelization.AABCGrid grid, Vector3 hitPoint, float hitForce, PhysicalProperties physicalProperties) {
         this.aabcGrid = grid;
         this.hitPoint = hitPoint;
@@ -147,7 +149,7 @@ public class ThreadSafeDestruction {
                     short index = 0;
                     if (aabcGrid.IsAABCSet(x, y, z)) {
 
-                        bool main = false;
+                        voxels++;
                         float magnitude = float.MaxValue;
 
                         for (short i = 0; i < voronoiPoints.Count; i++) {
@@ -162,7 +164,6 @@ public class ThreadSafeDestruction {
                         float radiusMagnitude = ((1.5f * calcRadius(hitForce)) / gridSize.side) - ((voxel - hit).magnitude);
                         if (radiusMagnitude < magnitude) {
                             index = 1;
-                            main = true;
                         }
 
                         Fragment colouring;
@@ -176,12 +177,18 @@ public class ThreadSafeDestruction {
                         colouring.UpdateMaxY(y);
                         colouring.UpdateMaxZ(z);
 
+                        colouring.number++;
+
                         colouring.vertices.Add(toWorldSpace(new Vector3(x, y, z)));
 
                     }
                     voronoiDiagram[x, y, z] = index;
                 }
             }
+        }
+
+        foreach (Fragment c in fragmentExtents.Values) {
+            c.mass = physicalProperties.mass*((float)c.number/(float)voxels);
         }
 
     }
@@ -204,11 +211,11 @@ public class ThreadSafeDestruction {
                             Fragment newColouring = new Fragment(newColour);
                             newDict.Add(newColour, newColouring);
                             Flood(x, y, z, colouring.colour, newColour, newDict, newColouring);
+                            newColouring.mass = physicalProperties.mass * ((float)colouring.number / (float)voxels);
                         }
                     }
                 }
-            }
-
+            }  
         }
 
         fragmentExtents = newDict;
@@ -241,6 +248,8 @@ public class ThreadSafeDestruction {
             colouring.UpdateMaxY(y);
             colouring.UpdateMaxZ(z);
 
+            colouring.number++;
+
             colouring.vertices.Add(new Vector3(x, y, z));
 
 
@@ -268,13 +277,11 @@ public class ThreadSafeDestruction {
     }
 
     private float calcRadius(float hitForce) {
-        //TODO physics
         return Mathf.Pow(hitForce, 1f / 3f);
     }
 
     private int calcNumberOfPoints(float hitForce) {
-        //TODO physics
-        return 20;
+        return (int)(physicalProperties.brittleness * Mathf.Pow(hitForce, 1f / 3f));
     }
 
     public void Update() {
