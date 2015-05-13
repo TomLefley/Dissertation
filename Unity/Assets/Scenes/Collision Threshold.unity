@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 0
   brittleness: 0
+  mass: 0
 --- !u!54 &75134350
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -196,7 +197,6 @@ GameObject:
   - 4: {fileID: 100414847}
   - 135: {fileID: 100414846}
   - 54: {fileID: 100414845}
-  - 114: {fileID: 100414844}
   - 114: {fileID: 100414843}
   m_Layer: 2
   m_Name: Sphere
@@ -217,18 +217,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameObjectToVoxelise: {fileID: 1271388038}
---- !u!114 &100414844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 966a6530761a5024a9bf9e244c68da98,
-    type: 2}
-  m_PrefabInternal: {fileID: 116386673}
-  m_GameObject: {fileID: 100414842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f5ecab8dac4a22429365f1d7af97730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &100414845
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -304,6 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 0
   brittleness: 0
+  mass: 0
 --- !u!54 &115755568
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -331,7 +320,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5d37a293002398e41b2bca8fae1892b2, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -483,11 +472,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6500000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
     - {fileID: 11400002, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
+    - {fileID: 11400000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
   m_RootGameObject: {fileID: 1271388038}
   m_IsPrefabParent: 0
@@ -681,7 +671,6 @@ GameObject:
   - 4: {fileID: 661860722}
   - 135: {fileID: 661860721}
   - 54: {fileID: 661860720}
-  - 114: {fileID: 661860719}
   - 114: {fileID: 661860723}
   m_Layer: 2
   m_Name: Sphere
@@ -690,18 +679,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &661860719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 966a6530761a5024a9bf9e244c68da98,
-    type: 2}
-  m_PrefabInternal: {fileID: 1618308884}
-  m_GameObject: {fileID: 661860718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f5ecab8dac4a22429365f1d7af97730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &661860720
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -775,7 +752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &736321762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,6 +778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 0
   brittleness: 0
+  mass: 0
 --- !u!54 &736321764
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -968,11 +946,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6500000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
     - {fileID: 11400002, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
+    - {fileID: 11400000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
   m_RootGameObject: {fileID: 1927650708}
   m_IsPrefabParent: 0
@@ -997,7 +976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1121627398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,6 +1002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 0
   brittleness: 0
+  mass: 0
 --- !u!54 &1121627400
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1099,7 +1079,6 @@ GameObject:
   - 4: {fileID: 1170733007}
   - 135: {fileID: 1170733011}
   - 54: {fileID: 1170733010}
-  - 114: {fileID: 1170733009}
   - 114: {fileID: 1170733008}
   m_Layer: 2
   m_Name: Sphere
@@ -1132,18 +1111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameObjectToVoxelise: {fileID: 1927650708}
---- !u!114 &1170733009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 966a6530761a5024a9bf9e244c68da98,
-    type: 2}
-  m_PrefabInternal: {fileID: 1030452521}
-  m_GameObject: {fileID: 1170733006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f5ecab8dac4a22429365f1d7af97730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &1170733010
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1194,7 +1161,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1271388039
 Transform:
   m_ObjectHideFlags: 0
@@ -1221,6 +1188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 100
   brittleness: 0
+  mass: 0
 --- !u!114 &1271388041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1287,6 +1255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 1760
   brittleness: 1
+  mass: 1
 --- !u!23 &1271388045
 Renderer:
   m_ObjectHideFlags: 0
@@ -1377,6 +1346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 100
   brittleness: 0
+  mass: 0
 --- !u!23 &1618308007
 Renderer:
   m_ObjectHideFlags: 0
@@ -1419,7 +1389,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strength: 1773
-  brittleness: 1
+  brittleness: 20
+  mass: 1
 --- !u!54 &1618308010
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1512,7 +1483,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: brittleness
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
       propertyPath: cubeSide
@@ -1565,6 +1536,7 @@ Prefab:
     m_RemovedComponents:
     - {fileID: 6500000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
     - {fileID: 11400002, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
+    - {fileID: 11400000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 966a6530761a5024a9bf9e244c68da98, type: 2}
   m_RootGameObject: {fileID: 1618308003}
   m_IsPrefabParent: 0
@@ -1604,6 +1576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 100
   brittleness: 0
+  mass: 0
 --- !u!114 &1766003657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1670,6 +1643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 1770
   brittleness: 1
+  mass: 0
 --- !u!23 &1766003661
 Renderer:
   m_ObjectHideFlags: 0
@@ -1733,7 +1707,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1927650709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1747,6 +1721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 100
   brittleness: 0
+  mass: 0
 --- !u!114 &1927650710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1813,6 +1788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 1768
   brittleness: 1
+  mass: 1
 --- !u!23 &1927650714
 Renderer:
   m_ObjectHideFlags: 0

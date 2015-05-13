@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2012 Vincenzo Giovanni Comito
 // See the file license.txt for copying permission.
 
+//Translated to C# and modified by Tom Lefley 16/11/2014
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

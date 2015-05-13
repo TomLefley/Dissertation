@@ -15,6 +15,8 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
     public bool hollow;
 
     public bool debug;
+    public bool breakP;
+
     public ComputeShader shader;
 
     public List<string> messages = new List<string>();
@@ -294,6 +296,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
             //The diffuse shader wants uvs so just fill with a empty array, they're not actually used
             mesh.uv = new Vector2[mesh.vertices.Length];
             mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
 
             Mesh mesh1 = new Mesh();
 
@@ -330,29 +333,21 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
 
             //MeshInfo convex = convexDriver.StartMeshing(coloured);
 
-            Mesh mesh2 = new Mesh();
-
-            mesh2.vertices = meshinfo.verts;
-            mesh2.triangles = meshinfo.index;
-
-
             GameObject m_mesh = new GameObject("Fragment" + coloured.colour);
             m_mesh.AddComponent<MeshFilter>();
             m_mesh.AddComponent<MeshRenderer>();
-            m_mesh.AddComponent<MeshCollider>();
+            //MeshCollider col1 = m_mesh.AddComponent<MeshCollider>();
+            MeshCollider col2 = m_mesh.AddComponent<MeshCollider>();
             
             m_mesh.AddComponent<Rigidbody>();
-            m_mesh.rigidbody.isKinematic = true;
+            //m_mesh.rigidbody.isKinematic = true;
             m_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             m_mesh.rigidbody.mass = coloured.mass;
             m_mesh.renderer.material = m_material;
 
-            if (mesh2.triangles.Length / 3 >= 255) {
-                m_mesh.GetComponent<MeshCollider>().sharedMesh = mesh;
-            } else {
-                m_mesh.GetComponent<MeshCollider>().sharedMesh = mesh2;
-                m_mesh.GetComponent<MeshCollider>().convex = true;
-            }
+            //col1.sharedMesh = mesh;
+            col2.sharedMesh = mesh;
+            col2.convex = true;
             
             m_mesh.GetComponent<MeshFilter>().mesh = hollow ? mesh1 : mesh;
 
@@ -380,6 +375,7 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
         done = true;
 
         GameObject.Destroy(gameObject);
+        if (breakP) Debug.Break();
     }
 
     private Vector3 toWorldSpace(Vector3 voxelSpace) {

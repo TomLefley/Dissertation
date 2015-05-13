@@ -7,7 +7,7 @@
 // Thanks to Mike Vandelay for the 
 // AABB-Triangle SAT implementation in C++.
 
-//Translated to C# by Tom Lefley 16/11/2014
+//Translated to C# and modified by Tom Lefley 16/11/2014
 
 using System.Collections;
 using System.Collections.Generic;
