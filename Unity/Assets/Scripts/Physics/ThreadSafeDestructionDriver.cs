@@ -25,7 +25,6 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
     ThreadSafeVoxelisation.ThreadSafeVoxelisationDriver voxelisationDriver;
     ThreadSafeDestruction destruction;
     ThreadSafeMarchingCubesDriver marchingDriver;
-    ThreadSafeConvexHullDriver convexDriver;
     ThreadSafeSplitMesh splitMesh;
     ThreadSafeHoleFill holefill;
 
@@ -44,77 +43,8 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
         voxelisationDriver = new ThreadSafeVoxelisation.ThreadSafeVoxelisationDriver(drawMeshInside, includeChildren, createMultipleGrids, cubeSide, debug, shader);
         destruction = new ThreadSafeDestruction();
         marchingDriver = new ThreadSafeMarchingCubesDriver();
-        convexDriver = new ThreadSafeConvexHullDriver();
         splitMesh = new ThreadSafeSplitMesh();
         holefill = new ThreadSafeHoleFill();
-    }
-
-    //Unused attempt at multithreading
-    public void ThreadedDestroy(Vector3 hitPoint, float hitForce, PhysicalProperties physicalProperties) {
-        voxelisationDriver.StartVoxelise(gameObject);
-        grid = voxelisationDriver.GetGrid();
-
-        destruction.Fragment(grid, hitPoint, hitForce, physicalProperties);
-        fragments = destruction.getFragmentExtents();
-        colouring = destruction.getVoronoiDiagram();
-
-        List<MeshInfo> meshinfos = new List<MeshInfo>();
-
-        short i = 1;
-
-        while(i < fragments.Count) {
-            ThreadManager.RunAsync(() => {
-
-                Fragment itColouring;
-                bool found = fragments.TryGetValue(i, out itColouring);
-
-                if (found) {
-                    meshinfos.Add(new ThreadSafeMarchingCubesDriver().StartMarching(colouring, itColouring, grid));
-                }
-
-            });
-        }
-
-        ThreadManager.RunAsync(() => {
-
-            while (meshinfos.Count < fragments.Count - 1) {
-                
-            }
-
-            ThreadManager.QueueOnMainThread(() => {
-
-                for (int j = 0; j < meshinfos.Count; j++) {
-
-                    Mesh mesh = new Mesh();
-                    MeshInfo meshinfo = meshinfos[j];
-                    Fragment coloured = meshinfo.colour;
-
-                    mesh.vertices = meshinfo.verts;
-                    mesh.triangles = meshinfo.index;
-
-                    //The diffuse shader wants uvs so just fill with a empty array, there not actually used
-                    mesh.uv = new Vector2[mesh.vertices.Length];
-                    mesh.RecalculateNormals();
-
-                    if (coloured.colour == 1) {
-                        gameObject.GetComponent<MeshFilter>().mesh = mesh;
-                        gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
-                        transform.localScale = Vector3.one;
-                    } else {
-                        GameObject m_mesh = new GameObject("Fragment" + coloured.colour);
-                        m_mesh.AddComponent<MeshFilter>();
-                        m_mesh.AddComponent<MeshRenderer>();
-                        m_mesh.AddComponent<MeshCollider>();
-                        m_mesh.GetComponent<MeshCollider>().convex = true;
-                        m_mesh.AddComponent<Rigidbody>();
-                        m_mesh.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-                        m_mesh.renderer.material = m_material;
-                        m_mesh.GetComponent<MeshCollider>().sharedMesh = mesh;
-                        m_mesh.GetComponent<MeshFilter>().mesh = m_mesh.GetComponent<MeshCollider>().sharedMesh;
-                    }
-                }
-            });
-        });
     }
 
     public void SplitDestroy(Vector3 hitPoint, float hitForce, PhysicalProperties physicalProperties) {
@@ -323,15 +253,6 @@ public class ThreadSafeDestructionDriver : MonoBehaviour {
 
                 mesh1.normals = mesh.normals;
             }
-
-            List<Vertex3> vertex = new List<Vertex3>();
-            foreach (Vector3 v in mesh.vertices) {
-                vertex.Add(new Vertex3(v.x, v.y, v.z));
-            }
-
-            //coloured.vertices = vertex;
-
-            //MeshInfo convex = convexDriver.StartMeshing(coloured);
 
             GameObject m_mesh = new GameObject("Fragment" + coloured.colour);
             m_mesh.AddComponent<MeshFilter>();
