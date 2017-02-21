@@ -1,0 +1,134 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Implementation}{9}{chapter.3}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{loa}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Process}{9}{section.3.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Preprocessing}{9}{section.3.2}}
+\newlabel{sect:pre}{{3.2}{9}{Preprocessing}{section.3.2}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Collision extrapolation\relax }}{10}{algocf.1}}
+\newlabel{alg:extrap}{{1}{10}{Preprocessing}{algocf.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Assumptions}{10}{subsection.3.2.1}}
+\citation{Schwarz:2010:Vox}
+\citation{Engel:2012:GPA:2331213}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Voxelisation}{11}{section.3.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Data structures}{11}{subsection.3.3.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces The triangle (c) is represented by three consecutive indices, one for each vertex, in (b) which each point to the beginning of three consecutive floats which define that vertex in (a).\relax }}{11}{figure.caption.5}}
+\newlabel{fig:3.1}{{3.1}{11}{The triangle (c) is represented by three consecutive indices, one for each vertex, in (b) which each point to the beginning of three consecutive floats which define that vertex in (a).\relax }{figure.caption.5}{}}
+\citation{CPUVoxel}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Triangle Phase}{12}{subsection.3.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Propagation Phase}{12}{subsection.3.3.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Progress}{12}{subsection.3.3.4}}
+\newlabel{sect:voxprog}{{3.3.4}{12}{Progress}{subsection.3.3.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces The box (a) represents a voxel space of resolution $7\times 9\times 7$. (b) shows the same box in object relative coordinates.\relax }}{12}{figure.caption.6}}
+\newlabel{fig:3.2}{{3.2}{12}{The box (a) represents a voxel space of resolution $7\times 9\times 7$. (b) shows the same box in object relative coordinates.\relax }{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces The red triangle has been projected onto the $XZ$ plane and the intersecting voxel columns marked in green.\relax }}{13}{figure.caption.7}}
+\newlabel{fig:3.2.1}{{3.3}{13}{The red triangle has been projected onto the $XZ$ plane and the intersecting voxel columns marked in green.\relax }{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Voxelisation of the `Stanford Bunny' model, composed of 69,666 triangles. The voxelisation shown is lower resolution than that which is typically used in the final implementation resulting in 1,723 voxels shown in red.\relax }}{13}{figure.caption.8}}
+\newlabel{fig:3.3}{{3.4}{13}{Voxelisation of the `Stanford Bunny' model, composed of 69,666 triangles. The voxelisation shown is lower resolution than that which is typically used in the final implementation resulting in 1,723 voxels shown in red.\relax }{figure.caption.8}{}}
+\citation{Muller:2013:RTD:2461912.2461934}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Physical Destruction}{14}{section.3.4}}
+\newlabel{sect:destr}{{3.4}{14}{Physical Destruction}{section.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Data structures}{14}{subsection.3.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Finding Generating Points}{14}{subsection.3.4.2}}
+\citation{voronoipict}
+\citation{voronoipict}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Partitioning}{15}{subsection.3.4.3}}
+\newlabel{eq:3.1}{{3.3}{15}{Partitioning}{equation.3.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.4}Finding Islands}{15}{subsection.3.4.4}}
+\newlabel{sect:islands}{{3.4.4}{15}{Finding Islands}{subsection.3.4.4}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Flood initiation\relax }}{15}{algocf.2}}
+\newlabel{alg:flinit}{{2}{15}{Finding Islands}{algocf.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces A Voronoi diagram\cite  {voronoipict}.\relax }}{16}{figure.caption.9}}
+\newlabel{fig:3.4}{{3.5}{16}{A Voronoi diagram\cite {voronoipict}.\relax }{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces The blue Voronoi cell creates two unconnected partitions of the concave object.\relax }}{16}{figure.caption.10}}
+\newlabel{fig:3.5}{{3.6}{16}{The blue Voronoi cell creates two unconnected partitions of the concave object.\relax }{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces If the unconnected ears and body are a single mesh then the physics engine cannot act on the ears causing them to fall.\relax }}{16}{figure.caption.11}}
+\newlabel{fig:3.5.1}{{3.7}{16}{If the unconnected ears and body are a single mesh then the physics engine cannot act on the ears causing them to fall.\relax }{figure.caption.11}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces Flooding\relax }}{17}{algocf.3}}
+\newlabel{alg:flood}{{3}{17}{Finding Islands}{algocf.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.5}Progress}{18}{subsection.3.4.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.6}Advantages}{18}{subsection.3.4.6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces A visualisation of the Voronoi partitioning of the voxel structure of a cube.\relax }}{18}{figure.caption.14}}
+\newlabel{fig:3.6}{{3.8}{18}{A visualisation of the Voronoi partitioning of the voxel structure of a cube.\relax }{figure.caption.14}{}}
+\citation{kdtree}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Intermediate Processing}{19}{section.3.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Separating Border Voxels}{19}{subsection.3.5.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces A fragmented voxelised rectangle. The interior border voxels are green and the exterior voxels are blue. The unneeded interior voxels are red.\relax }}{19}{figure.caption.15}}
+\newlabel{fig:3.7}{{3.9}{19}{A fragmented voxelised rectangle. The interior border voxels are green and the exterior voxels are blue. The unneeded interior voxels are red.\relax }{figure.caption.15}{}}
+\citation{Lorensen:1987:MCH:37401.37422}
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Mesh Generation}{20}{section.3.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Data Structures}{20}{subsection.3.6.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Mesh Partitioning}{20}{subsection.3.6.2}}
+\newlabel{sect:part}{{3.6.2}{20}{Mesh Partitioning}{subsection.3.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces A partitioning of the Stanford Bunny mesh. The vertices which make up the border of the green submesh are highlighted in red. The gap between partitions is caused by the loss of triangles which have vertices in different partitions.\relax }}{20}{figure.caption.16}}
+\newlabel{fig:3.8}{{3.10}{20}{A partitioning of the Stanford Bunny mesh. The vertices which make up the border of the green submesh are highlighted in red. The gap between partitions is caused by the loss of triangles which have vertices in different partitions.\relax }{figure.caption.16}{}}
+\citation{ScrawkMarching}
+\citation{ScrawkMarching}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}Marching Tetrahedra}{21}{subsection.3.6.3}}
+\@writefile{toc}{\contentsline {subsubsection}{Marching Cubes}{21}{section*.17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces Marching tetrahedra applied to a scalar field generated from perlin noise\cite  {ScrawkMarching}.\relax }}{21}{figure.caption.18}}
+\newlabel{fig:3.9}{{3.11}{21}{Marching tetrahedra applied to a scalar field generated from perlin noise\cite {ScrawkMarching}.\relax }{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces Marching tetrahedra applied to the voxel grid of a fragmented Stanford Bunny.\relax }}{22}{figure.caption.19}}
+\newlabel{fig:3.10}{{3.12}{22}{Marching tetrahedra applied to the voxel grid of a fragmented Stanford Bunny.\relax }{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces The two possible surfaces for the imaginary square shown with dashed lines with two points inside the surface and two outside.\relax }}{22}{figure.caption.20}}
+\newlabel{fig:3.11}{{3.13}{22}{The two possible surfaces for the imaginary square shown with dashed lines with two points inside the surface and two outside.\relax }{figure.caption.20}{}}
+\citation{Tetrahedra}
+\citation{marchingpict}
+\citation{marchingpict}
+\@writefile{toc}{\contentsline {subsubsection}{Marching Tetrahedra}{23}{section*.21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.14}{\ignorespaces A cube split into six irregular tetrahedra\cite  {marchingpict}.\relax }}{23}{figure.caption.22}}
+\newlabel{fig:3.12}{{3.14}{23}{A cube split into six irregular tetrahedra\cite {marchingpict}.\relax }{figure.caption.22}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Modification}{24}{section*.23}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}Progress}{24}{subsection.3.6.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.15}{\ignorespaces The Stanford Bunny after the entire pipeline has completed.\relax }}{25}{figure.caption.24}}
+\newlabel{fig:3.13}{{3.15}{25}{The Stanford Bunny after the entire pipeline has completed.\relax }{figure.caption.24}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.16}{\ignorespaces The Stanford Bunny fractured as if it were a hollow object.\relax }}{25}{figure.caption.25}}
+\newlabel{fig:3.14}{{3.16}{25}{The Stanford Bunny fractured as if it were a hollow object.\relax }{figure.caption.25}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.7}Post-processing}{26}{section.3.7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}Physics}{26}{subsection.3.7.1}}
+\newlabel{sect:postphysics}{{3.7.1}{26}{Physics}{subsection.3.7.1}{}}
+\newlabel{eq:mass}{{3.4}{26}{Physics}{equation.3.7.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.2}Game-object Generation}{26}{subsection.3.7.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.8}Result}{26}{section.3.8}}
+\newlabel{sect:result}{{3.8}{26}{Result}{section.3.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.17}{\ignorespaces Fragments exploding out of the Stanford Bunny after a cubic projectile, shown in red, has been fired at it.\relax }}{27}{figure.caption.26}}
+\newlabel{fig:3.15}{{3.17}{27}{Fragments exploding out of the Stanford Bunny after a cubic projectile, shown in red, has been fired at it.\relax }{figure.caption.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.18}{\ignorespaces The biggest fragments after three Stanford Bunnies have been fragmented. Compared to the middle, the right was given a higher strength while the left was hit with a faster projectile.\relax }}{27}{figure.caption.27}}
+\newlabel{fig:3.16}{{3.18}{27}{The biggest fragments after three Stanford Bunnies have been fragmented. Compared to the middle, the right was given a higher strength while the left was hit with a faster projectile.\relax }{figure.caption.27}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.9}Conclusion}{28}{section.3.9}}
+\newlabel{point:pre}{{1}{28}{Conclusion}{Item.7}{}}
+\newlabel{point:vox}{{2}{28}{Conclusion}{Item.8}{}}
+\newlabel{point:mesh}{{3}{28}{Conclusion}{Item.9}{}}
+\newlabel{point:post}{{4}{28}{Conclusion}{Item.10}{}}
+\@setckpt{Implementation}{
+\setcounter{page}{29}
+\setcounter{equation}{4}
+\setcounter{enumi}{4}
+\setcounter{enumii}{0}
+\setcounter{enumiii}{0}
+\setcounter{enumiv}{0}
+\setcounter{footnote}{7}
+\setcounter{mpfootnote}{0}
+\setcounter{part}{0}
+\setcounter{chapter}{3}
+\setcounter{section}{9}
+\setcounter{subsection}{0}
+\setcounter{subsubsection}{0}
+\setcounter{paragraph}{0}
+\setcounter{subparagraph}{0}
+\setcounter{figure}{18}
+\setcounter{table}{0}
+\setcounter{Item}{10}
+\setcounter{Hfootnote}{9}
+\setcounter{bookmark@seq@number}{48}
+\setcounter{AlgoLine}{0}
+\setcounter{algocfline}{3}
+\setcounter{algocfproc}{3}
+\setcounter{algocf}{3}
+\setcounter{parentequation}{0}
+\setcounter{r@tfl@t}{0}
+\setcounter{ContinuedFloat}{0}
+\setcounter{section@level}{1}
+}

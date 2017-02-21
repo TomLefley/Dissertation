@@ -1,0 +1,244 @@
+\thispagestyle{empty}
+
+\rightline{\large\emph{Thomas Lefley}}
+\medskip
+\rightline{\large\emph{Girton College}}
+\medskip
+\rightline{\large\emph{tl364}}
+
+\vfil
+
+\centerline{\large Computer Science Part II Project Proposal}
+\vspace{0.4in}
+\begin{center}
+\Large\bf Mesh to voxel transformation for optimised physics-based interactions
+\end{center}
+\vspace{0.3in}
+\centerline{\large \emph{14/10/2014}}
+
+\vfil
+
+\eject
+
+\section*{Introduction and Description of the Work}
+
+Current trends in digital gaming are towards sandbox titles, where the player is encouraged to shape and manipulate the world, often by placing and breaking blocks\footnote{See \href{https://minecraft.net/}{Minecraft} by \href{http://mojang.com/}{Mojang}}. This is achieved by storing the state of the world as a three dimensional array of block identifiers, usually batched into `chunks' which are loaded and unloaded as the player approaches them. While this approach has been optimised for memory and CPU load, it presents several limitations with regards to player experience. Players are confined to placing and breaking blocks in a grid due to the underlying data structure and so are unable to create landscapes without object placement looking unnatural and formulaic. Furthermore, the data structure only allows location and type to be stored for each block, with location being derived from the block position within the array. This means that blocks cannot interact physically with the world and thus the world is very static.
+
+Solving these issues will be the goal of my project. My proposed solution is to create a hybrid between traditional polygonal mesh and sandbox engines. Game objects will exist primarily as mesh objects, however mesh to volumetric conversions will occur at appropriate physical cues. The updated meshes will then be reformed after the interaction has taken place. By treating objects as volumetric when interacted with (via physics or the player), the creative freedom of sandbox engines will be maintained, with all objects having the capacity to be reshaped. Objects existing as polygonal meshes for the remainder of the time will allow for both non discrete object placement\footnote{That is, objects do not have to remain snapped to the underlying array} and physically based movement.
+
+One main project focus will be physically based object deformation. As objects will be volumetric on collision, I will use this to simulate accurate reactions. Treating each voxel making up the object's volume as a unit of mass and forming rigid bonds between these units, I will propagate collision information through the bonds from the point of collision and calculate which should break or be otherwise changed. This will allow objects to be warped or broken apart depending on parameters such as the object's strength, brittleness or malleability as well as the force and position of impact. All of this will be calculated internally before any required game objects are created.
+
+For example, if a bullet hits a brick wall then you would expect units of mass to break off and fall to the ground as rubble. At the moment of impact, the wall will not disappear from the game world to be replaced by $x\times y\times z$ unit cubes bonded together, some of which breaking off before the updated wall reappears. Rather, the wall will compute its internal structure of voxels, work out which bonds should break, form new objects from the severed mass, apply vector quantities such as velocity to these and then update its own mesh using the remaining mass. This approach is taken because game objects are expensive and therefore to be optimal we should be lazy with their creation.
+
+Furthermore, computation of voxel structure should be both patch based and limited to impacts above a threshold. This is because not all impacts will result in deformation of the whole object, or any at all.\footnote{As dictated by the object in question's physical parameters} A block of wood dropped to the floor from a height of 1 inch will undergo no deformation. A steel block dropped into a field from a height of 6 feet would not require voxelization of the entire field, only a radius around the point of landing.
+
+
+\section*{Starting Point}
+
+I will be working using the Unity3D physics and game engine, with which I have prior experience. The engine will provide general features such as rendering, physics and game object management which I will expand upon to achieve my more specific goals. As Unity3D is a widely used commercial engine, its use will also allow for comparable evaluation against scenes implemented using only the base features.
+
+
+\section*{Substance and Structure of the Project}
+
+This project will involve writing a library for an existing mesh physics and rendering engine, Unity3D, which will perform mesh to voxel transitions efficiently at runtime, as well as exhibit the correct physical response amongst the individual voxels of the volumetric object.
+
+The project has the following main sections:
+
+\begin{enumerate}
+
+\item Runtime patch voxelization of polygonal meshes.
+
+\item Mesh updates and formation from volumetric structural changes. Presumably using an approach similar to the marching cubes algorithm.
+
+\item Physically based deformation of volumetric objects.
+
+\item Player based manipulation of volumetric objects.
+
+\item Writing the dissertation.
+
+\end{enumerate}
+
+If time allows, two further areas will be explored:
+
+\begin{enumerate}
+
+\item \textbf{Texture mapping.} Thus far I have only detailed physical deformation, with each object and any further objects formed via their destruction being uniform in texture\footnote{Likely a solid colour}. However, an ideal system would allow for more complex textures and deform these to mirror the physical mesh destruction.
+
+\item \textbf{Physics at rest.} The main focus of the project is physics caused by interaction such as two objects colliding. A further goal would be modelling the internal physics of resting objects. Take for example a wooden beam fixed at one end with a weight at the other, if this weight is too heavy, the beam should break at the correct point. This simulation is trickier as the cue for when to voxelize and resolve is not as obvious.
+\end{enumerate}
+
+
+\begin{comment}
+\section*{References}
+
+\begin{description}
+
+\item{[1]} User sp614x. (2011). \emph{Understanding Minecraft Performance.}\\ Available: http://optifog.blogspot.co.uk/2011/08/understanding-minecraft-performance.html. Last accessed 14th Oct 2014.
+
+\item{[2]} \emph{The Algorithmic Beauty of Plants}, P. Prusinkiewicz,
+A. Lindenmayer, Springer Verlag 1990 (reprinted 1996).
+
+\item{[3]} \emph{Developmental Models of Herbaceous Plants for
+    Computer Imagery Purposes},\break P.~Prusinkiewicz, A. Lindenmayer, J.
+  Hanan, \emph{SIGGRAPH~'88 Conference Proceedings}, pp.~141--150.
+
+\item{[4]} \emph{Generative Geometric Design}, J. Heisserman, \emph{IEEE
+Computer Graphics \& \break Applications}, March 1994, pp.~37--45.
+
+\end{description}
+\end{comment}
+
+
+\newpage
+
+\section*{Success Criteria}
+
+The following should be achieved:
+
+\begin{itemize}
+
+\item Implement and demonstrate runtime conversion between mesh and volumetric objects.
+
+\item Implement and demonstrate different and expected physical responses based on collision and material variations.
+
+\item Implement and demonstrate player modification of game objects.
+
+\end{itemize}
+
+The following are evaluation criteria:
+
+\begin{itemize}
+
+\item A scene with a reasonable number of objects should run well\footnote{I would define `well' to mean a framerate above 30FPS, with CPU and memory loads no more than $1.5\times$ those found when using standard techniques} on a computer with moderate specifications.
+	\begin{itemize}
+	\item Comparable scenes built using both conventional voxel only and mesh only approaches will be used for efficiency evaluation.
+	\item My own computer will provide a high specification test case, the MCS machines found in the Intel Lab at the William Gates Building will represent a mid range specification.
+	\end{itemize}
+
+\item Conversion between mesh and volumetric objects should not be noticeable to the player.
+	\begin{itemize}
+	\item There should be no obvious slowdown or lag when a conversion occurs.
+	\item The point at which any mass breaks from the parent object and the parent object mesh updates should not be jarring visually.
+	\end{itemize}
+
+\end{itemize}
+
+The following are stretch goals to be achieved if time allows:
+
+\begin{itemize}
+\item Improved texture capabilities.
+
+\item Simulating internal physics at rest.
+\end{itemize}
+
+My demonstration will consist of two parts. I will present the project from both a technical and end user standpoint. In the former I will show slowed down and annotated mesh to voxel conversions and subsequent physical reactions whereas the latter will consist of how a player might interact with a scene built with this system.
+
+
+
+\section*{Timetable and Milestones}
+
+\subsection*{Sprint 1 (24/10/14--7/11/14)}
+
+Study of algorithms involved in mesh to voxel conversions and the inverse. Basic implementation of these algorithms within the engine.
+
+Milestones: Some example code, which will probably not be
+used in the final project, and some example scenes demonstrating conversion.
+
+
+\subsection*{Sprint 2 (7/11/14--21/11/14)}
+
+Refactor the algorithms to be internal computation with no physical representation of voxels in the game world. Reimplement voxelization to be patch based.  
+
+Milestones: Working patch voxelization. Underlying data structure for voxels and inter-voxel bonds near finalised.
+
+
+\subsection*{Sprint 3 (28/11/14--5/12/14)}
+
+Hook the procedures to the correct physical cues. Optimise these algorithms
+
+Milestone: Algorithms which will likely be in their final form. Examples of conversion occurring on cue.
+
+
+\subsection*{Sprint 4 (5/12/14--16/1/15)}
+
+Review code and progress over the Christmas break. Ensure everything is well documented, including source and evaluation of current progress.
+
+
+\subsection*{Sprint 5 (16/1/15--30/1/15)}
+
+Write initial chapters of the dissertation. Write progress report
+
+Milestones: Preparation chapter of Dissertation complete. Submission of progress report
+
+
+\subsection*{Sprint 6 (30/1/15--13/2/15)}
+
+Begin to work on physically based destruction algorithms for the splitting apart of objects, including transferral of force only any `splinter' objects. Define parameters which will impact physical reactions.
+
+Milestones: Ability to define physical properties for game objects. Data confirming some level of impact propagation through voxel bonds.
+
+
+\subsection*{Sprint 7 (13/2/15--27/2/15)}
+
+Integrate voxel to mesh algorithm with the return from physically based destruction.
+
+Milestones: Able to see object split apart as the result of an impact of the correct magnitude.
+
+
+\subsection*{Sprint 8 (27/2/15--13/3/15)}
+
+Implement volumetric deformation of objects on physical cues.
+
+Milestones: Examples of malleable objects bending under force.
+
+
+\subsection*{Sprint 9 (13/3/15--27/3/15)}
+
+Implementation of player alteration to objects.
+
+Milestones: Example scene where playing is able to manipulate objects via physical and non-physical means.
+
+
+\subsection*{Sprint 10 (27/3/15--10/4/15)}
+
+Code review and code freeze. All success criteria should be implemented by this point. No new features will be written during this period, only bug fixes and optimisations.\\
+Further dissertation progress.
+
+
+\subsection*{Sprint 11 (10/4/15--24/4/15)}
+
+Creation of comparable scenes using pure voxel and mesh methods for profiling.\\
+Profiling against these scenes as well as on computers with varying specifications.
+
+
+\subsection*{Sprint 12 (24/4/15--8/5/15)}
+
+Finish dissertation, preparing graphs for insertion.  Review whole
+project, check the dissertation, and spend a final few days on
+whatever is in greatest need of attention.
+
+
+\subsection*{Final Sprint (8/5/15--15/5/15)}
+
+Final proofreading and submission of dissertation.
+
+Milestone: Submission of Dissertation. 
+
+
+\section*{Resources Required}
+
+I will be working with a free license of Unity3D installed on my own computer with the following specifications:
+\begin{itemize}
+\item 3.40GHz i5-4670k
+\item 8GB RAM
+\item 400GB remaining SSD storage
+\item 750GB remaining HDD storage
+\item AMD Radeon HD 7950 GPU
+	\begin{itemize}
+	\item 3GB GDDR5 Memory
+	\end{itemize}
+\end{itemize}
+
+I accept full responsibility for this machine and I have made contingency plans to protect myself against hardware and/or software failure.
+
+All source code will be be backed up and version controlled using Git with GitHub. Documentation, as well as any further resources, will be created and stored in a Microsoft SkyDrive cloud folder with regular backups to Google Drive as well as my own hard disk drive.

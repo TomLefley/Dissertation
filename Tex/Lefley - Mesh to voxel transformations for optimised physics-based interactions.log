@@ -1,0 +1,1136 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2014.10.10)  11 MAY 2015 00:05
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**"Lefley - Mesh to voxel transformations for optimised physics-based interacti
+ons.tex" -recorder
+
+(./Lefley - Mesh to voxel transformations for optimised physics-based interacti
+ons.tex
+LaTeX2e <2014/05/01>
+Babel <3.9l> and hyphenation patterns for 79 languages loaded.
+(c:/texlive/2014/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
+(c:/texlive/2014/texmf-dist/tex/latex/base/bk12.clo
+File: bk12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(c:/texlive/2014/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks14
+\verbatim@line=\toks15
+\verbatim@in@stream=\read1
+)
+(c:/texlive/2014/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+
+(c:/texlive/2014/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+
+
+(c:/texlive/2014/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
+Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+)
+(c:/texlive/2014/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/05/08 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(c:/texlive/2014/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+(c:/texlive/2014/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+(c:/texlive/2014/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen103
+\Hy@linkcounter=\count88
+\Hy@pagecounter=\count89
+
+(c:/texlive/2014/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count90
+
+(c:/texlive/2014/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4443.
+Package hyperref Info: Link nesting OFF on input line 4448.
+Package hyperref Info: Hyper index ON on input line 4451.
+Package hyperref Info: Plain pages OFF on input line 4458.
+Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4688.
+\c@Hy@tempcnt=\count91
+
+(c:/texlive/2014/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5041.
+\XeTeXLinkMargin=\dimen104
+\Fld@menulength=\count92
+\Field@Width=\dimen105
+\Fld@charsize=\dimen106
+Package hyperref Info: Hyper figures OFF on input line 6295.
+Package hyperref Info: Link nesting OFF on input line 6300.
+Package hyperref Info: Hyper index ON on input line 6303.
+Package hyperref Info: backreferencing OFF on input line 6310.
+Package hyperref Info: Link coloring OFF on input line 6315.
+Package hyperref Info: Link coloring with OCG OFF on input line 6320.
+Package hyperref Info: PDF/A mode OFF on input line 6325.
+LaTeX Info: Redefining \ref on input line 6365.
+LaTeX Info: Redefining \pageref on input line 6369.
+\Hy@abspage=\count93
+\c@Item=\count94
+\c@Hfootnote=\count95
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(c:/texlive/2014/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
+\Fld@listcount=\count96
+\c@bookmark@seq@number=\count97
+
+(c:/texlive/2014/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip43
+)
+(c:/texlive/2014/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+\Gm@cnth=\count98
+\Gm@cntv=\count99
+\c@Gm@tempcnt=\count100
+\Gm@bindingoffset=\dimen107
+\Gm@wd@mp=\dimen108
+\Gm@odd@mp=\dimen109
+\Gm@even@mp=\dimen110
+\Gm@layoutwidth=\dimen111
+\Gm@layoutheight=\dimen112
+\Gm@layouthoffset=\dimen113
+\Gm@layoutvoffset=\dimen114
+\Gm@dimlist=\toks17
+)
+(c:/texlive/2014/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/04/25 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+(c:/texlive/2014/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(c:/texlive/2014/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(c:/texlive/2014/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(c:/texlive/2014/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+\Gread@gobject=\count101
+))
+\Gin@req@height=\dimen115
+\Gin@req@width=\dimen116
+)
+(c:/texlive/2014/texmf-dist/tex/latex/datetime/datetime.sty
+Package: datetime 2013/09/10 v2.59 Date Time Package
+
+(c:/texlive/2014/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2011/01/03 v2.1 e-TeX tools for LaTeX
+
+(c:/texlive/2014/texmf-dist/tex/latex/etex-pkg/etex.sty
+Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
+\et@xins=\count102
+)
+\etb@tempcnta=\count103
+)
+(c:/texlive/2014/texmf-dist/tex/latex/fmtcount/fmtcount.sty
+Package: fmtcount 2014/07/18 v3.00
+
+(c:/texlive/2014/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(c:/texlive/2014/texmf-dist/tex/latex/fmtcount/fcprefix.sty
+Package: fcprefix 2012/09/28
+
+(c:/texlive/2014/texmf-dist/tex/latex/fmtcount/fcnumparser.sty
+Package: fcnumparser 2012/09/28
+\fc@digit@counter=\count104
+))
+(c:/texlive/2014/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks18
+\ex@=\dimen117
+)
+\c@padzeroesN=\count105
+\fc@tmpcatcode=\count106
+\@DT@modctr=\count107
+\@ordinalctr=\count108
+\@orgargctr=\count109
+\@strctr=\count110
+\@tmpstrctr=\count111
+\@DT@loopN=\count112
+\@DT@X=\count113
+
+(c:/texlive/2014/texmf-dist/tex/latex/fmtcount/fc-english.def
+File: fc-english.def 2013/08/17
+))
+(c:/texlive/2014/texmf-dist/tex/latex/datetime/datetime-defaults.sty
+Package: datetime-defaults 2013/09/10
+)
+\@day=\count114
+\@month=\count115
+\@year=\count116
+\c@HOUR=\count117
+\c@HOURXII=\count118
+\c@MINUTE=\count119
+\c@TOHOUR=\count120
+\c@TOMINUTE=\count121
+\c@SECOND=\count122
+\currenthour=\count123
+\currentminute=\count124
+\currentsecond=\count125
+Package datetime Info: No datetime.cfg file found, using default settings on in
+put line 308.
+\@dtctr=\count126
+\dayofyear=\count127
+\dayofweek=\count128
+LaTeX Info: Redefining \today on input line 736.
+\dt@a=\toks19
+\dt@b=\toks20
+)
+(c:/texlive/2014/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip44
+\fb@frw=\dimen118
+\fb@frh=\dimen119
+\FrameRule=\dimen120
+\FrameSep=\dimen121
+)
+(c:/texlive/2014/texmf-dist/tex/latex/import/import.sty
+Package: import 2009/03/23  v 5.1
+)
+(c:/texlive/2014/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
+Package: algorithm2e 2013/01/06 v5.00 algorithms environments
+\c@AlgoLine=\count129
+
+(c:/texlive/2014/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2009/10/20 v1.13 Space after command names (DPC,MH)
+)
+(c:/texlive/2014/texmf-dist/tex/latex/relsize/relsize.sty
+Package: relsize 2013/03/29 ver 4.1
+)
+********************************************************
+Package `algorithm2e' Release 5.0 -- january 06 2013 --
+- algorithm2e-announce@lirmm.fr mailing list for announcement about releases
+- algorithm2e-discussion@lirmm.fr mailing list for discussion about package
+subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
+- Author: Christophe Fiorio (cfiorio@um2.fr)
+********************************************************
+\skiptotal=\skip45
+\skiplinenumber=\skip46
+\skiprule=\skip47
+\skiphlne=\skip48
+\skiptext=\skip49
+\skiplength=\skip50
+\algomargin=\skip51
+\skipalgocfslide=\skip52
+\algowidth=\dimen122
+\inoutsize=\dimen123
+\inoutindent=\dimen124
+\interspacetitleruled=\dimen125
+\interspacealgoruled=\dimen126
+\interspacetitleboxruled=\dimen127
+\algocf@inoutbox=\box26
+\algocf@inputbox=\box27
+\AlCapSkip=\skip53
+\AlCapHSkip=\skip54
+\algoskipindent=\skip55
+\algocf@nlbox=\box28
+\algocf@hangingbox=\box29
+\algocf@untilbox=\box30
+\algocf@skipuntil=\skip56
+\algocf@capbox=\box31
+\algoheightruledefault=\skip57
+\algoheightrule=\skip58
+\algotitleheightruledefault=\skip59
+\algotitleheightrule=\skip60
+\c@algocfline=\count130
+\c@algocfproc=\count131
+\c@algocf=\count132
+\algocf@algoframe=\box32
+\algocf@algobox=\box33
+) (c:/texlive/2014/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip61
+
+For additional information on amsmath, use the `?' option.
+(c:/texlive/2014/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+)
+(c:/texlive/2014/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen128
+)
+(c:/texlive/2014/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count133
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count134
+\leftroot@=\count135
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count136
+\DOTSCASE@=\count137
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box34
+\strutbox@=\box35
+\big@size=\dimen129
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+\macc@depth=\count138
+\c@MaxMatrixCols=\count139
+\dotsspace@=\muskip11
+\c@parentequation=\count140
+\dspbrk@lvl=\count141
+\tag@help=\toks21
+\row@=\count142
+\column@=\count143
+\maxfields@=\count144
+\andhelp@=\toks22
+\eqnshift@=\dimen130
+\alignsep@=\dimen131
+\tagshift@=\dimen132
+\tagwidth@=\dimen133
+\totwidth@=\dimen134
+\lineht@=\dimen135
+\@envbody=\toks23
+\multlinegap=\skip62
+\multlinetaggap=\skip63
+\mathdisplay@stack=\toks24
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+)
+(c:/texlive/2014/texmf-dist/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 373.
+Package: cite 2010/09/10  v 5.3
+)
+(c:/texlive/2014/texmf-dist/tex/latex/base/flafter.sty
+Package: flafter 2014/04/24 v1.2n Standard LaTeX floats after reference (FMi)
+)
+(c:/texlive/2014/texmf-dist/tex/latex/placeins/placeins.sty
+Package: placeins 2005/04/18  v 2.2
+)
+(c:/texlive/2014/texmf-dist/tex/latex/rotating/rotating.sty
+Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
+\c@r@tfl@t=\count145
+\rotFPtop=\skip64
+\rotFPbot=\skip65
+\rot@float@box=\box36
+\rot@mess@toks=\toks25
+)
+(c:/texlive/2014/texmf-dist/tex/latex/tocbibind/tocbibind.sty
+Package: tocbibind 2010/10/13 v1.5k extra ToC listings
+Package tocbibind Info: The document has chapter divisions on input line 50.
+
+
+Package tocbibind Note: Using chapter style headings, unless overridden.
+
+) (c:/texlive/2014/texmf-dist/tex/latex/hvfloat/hvfloat.sty
+Package: hvfloat 2012/03/04 rotating of floating objects
+
+`hvfloat' v1.1, 2012/03/04 (Herbert Voss)
+(c:/texlive/2014/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(c:/texlive/2014/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen136
+\captionmargin@=\dimen137
+\captionwidth=\dimen138
+\caption@tempdima=\dimen139
+\caption@indent=\dimen140
+\caption@parindent=\dimen141
+\caption@hangindent=\dimen142
+)
+\c@ContinuedFloat=\count146
+Package caption Info: hyperref package is loaded.
+Package caption Info: rotating package is loaded.
+)
+\hvObjectWidth=\skip66
+\hvCapWidth=\skip67
+\hvMaxCapWidth=\skip68
+\hvObjectBox=\box37
+\hvCaptionBox=\box38
+\hvOBox=\box39
+\hvAboveCaptionSkip=\skip69
+\hvBelowCaptionSkip=\skip70
+)
+(./Lefley - Mesh to voxel transformations for optimised physics-based interacti
+ons.aux (./Introduction.aux) (./Preparation.aux) (./Implementation.aux)
+(./Evaluation.aux) (./Conclusions.aux) (./Bibliography.aux) (./Appendix.aux))
+\openout1 = `"Lefley - Mesh to voxel transformations for optimised physics-base
+d interactions.aux"'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+\AtBeginShipoutBox=\box40
+Package hyperref Info: Link coloring OFF on input line 21.
+
+(c:/texlive/2014/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+(c:/texlive/2014/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count147
+)
+LaTeX Info: Redefining \ref on input line 21.
+LaTeX Info: Redefining \pageref on input line 21.
+LaTeX Info: Redefining \nameref on input line 21.
+
+(./Lefley - Mesh to voxel transformations for optimised physics-based interacti
+ons.out)
+(./Lefley - Mesh to voxel transformations for optimised physics-based interacti
+ons.out)
+\@outlinefile=\write3
+\openout3 = `"Lefley - Mesh to voxel transformations for optimised physics-base
+d interactions.out"'.
+
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(41.82626pt, 492.94217pt, 62.73944pt)
+* v-part:(T,H,B)=(59.1543pt, 697.16106pt, 88.73149pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=492.94217pt
+* \textheight=697.16106pt
+* \oddsidemargin=-30.44373pt
+* \evensidemargin=-9.53055pt
+* \topmargin=-44.98949pt
+* \headheight=12.0pt
+* \headsep=19.8738pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=88.0pt
+* \marginparsep=7.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(c:/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count148
+\scratchdimen=\dimen143
+\scratchbox=\box41
+\nofMPsegments=\count149
+\nofMParguments=\count150
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count151
+\MPscratchDim=\dimen144
+\MPnumerator=\count152
+\makeMPintoPDFobject=\count153
+\everyMPtoPDFconversion=\toks27
+) (c:/texlive/2014/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(c:/texlive/2014/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(c:/texlive/2014/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+
+<cambridge.png, id=273, 2007.5pt x 2326.6925pt>
+File: cambridge.png Graphic file (type png)
+ <use cambridge.png>
+Package pdftex.def Info: cambridge.png used on input line 54.
+(pdftex.def)             Requested size: 80.28632pt x 93.05185pt.
+
+<girton.png, id=275, 401.5pt x 472.76625pt>
+File: girton.png Graphic file (type png)
+ <use girton.png>
+Package pdftex.def Info: girton.png used on input line 54.
+(pdftex.def)             Requested size: 79.0978pt x 93.13766pt.
+ [1
+
+
+{c:/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./cambridge.png
+> <./girton.png>]pdfTeX warning (ext4): destination with the same identifier (n
+ame{page.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.58 \cleardoublepage
+                      [2
+
+]pdfTeX warning (ext4): destination with the same identifier (name{page.}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.113 ...cleardoublepage\clearpage\tableofcontents
+                                                   [3]
+(./Lefley - Mesh to voxel transformations for optimised physics-based interacti
+ons.tocpdfTeX warning (ext4): destination with the same identifier (name{page.}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.27 ....3.2}Triangle Phase}{12}{subsection.3.3.2}
+                                                   [4
+
+]
+Underfull \vbox (badness 1412) has occurred while \output is active []
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.79 ...ne {4.3}Requirements Met}{47}{section.4.3}
+                                                   [5])
+\tf@toc=\write4
+\openout4 = `"Lefley - Mesh to voxel transformations for optimised physics-base
+d interactions.toc"'.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.114 \cleardoublepage
+                       [6]
+\openout2 = `Introduction.aux'.
+
+ (./Introduction.tex
+Chapter 1.
+[1
+
+
+
+] <point_inside_concave13.pdf, id=384, 582.42593pt x 441.26857pt>
+File: point_inside_concave13.pdf Graphic file (type pdf)
+
+<use point_inside_concave13.pdf>
+Package pdftex.def Info: point_inside_concave13.pdf used on input line 27.
+(pdftex.def)             Requested size: 232.96623pt x 176.50429pt.
+
+<diagram13.pdf, id=387, 396.682pt x 846.36201pt>
+File: diagram13.pdf Graphic file (type pdf)
+ <use diagram13.pdf>
+Package pdftex.def Info: diagram13.pdf used on input line 44.
+(pdftex.def)             Requested size: 238.01103pt x 507.82114pt.
+ [2 <./point_inside_concave13.pdf>] [3 <./diagram13.pdf>]) [4]
+\openout2 = `Preparation.aux'.
+
+ (./Preparation.tex
+Chapter 2.
+[5
+
+
+
+] [6]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 49.
+ (c:/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 49.
+
+<pipeline13.pdf, id=452, 463.81279pt x 770.96031pt>
+File: pipeline13.pdf Graphic file (type pdf)
+ <use pipeline13.pdf>
+Package pdftex.def Info: pipeline13.pdf used on input line 90.
+(pdftex.def)             Requested size: 139.1449pt x 231.28987pt.
+
+[7]) [8 <./pipeline13.pdf>]
+\openout2 = `Implementation.aux'.
+
+ (./Implementation.tex
+Chapter 3.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9
+
+
+
+]
+
+Package amsmath Warning: Foreign command \over;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 49.
+
+[10] <buffers13.pdf, id=495, 545.4779pt x 251.21855pt>
+File: buffers13.pdf Graphic file (type pdf)
+ <use buffers13.pdf>
+Package pdftex.def Info: buffers13.pdf used on input line 85.
+(pdftex.def)             Requested size: 272.73828pt x 125.60896pt.
+
+[11 <./buffers13.pdf>] <coordinates13.pdf, id=513, 531.2146pt x 274.7866pt>
+File: coordinates13.pdf Graphic file (type pdf)
+
+<use coordinates13.pdf>
+Package pdftex.def Info: coordinates13.pdf used on input line 101.
+(pdftex.def)             Requested size: 265.60664pt x 137.39296pt.
+ <projection13.pdf, id=516, 347.37779pt x 342.85089pt>
+File: projection13.pdf Graphic file (type pdf)
+
+<use projection13.pdf>
+Package pdftex.def Info: projection13.pdf used on input line 109.
+(pdftex.def)             Requested size: 173.68846pt x 171.42502pt.
+ [12 <./coordinates13.pdf>]
+<Stanford_Bunny_Voxelised.png, id=537, 376.40625pt x 376.40625pt>
+File: Stanford_Bunny_Voxelised.png Graphic file (type png)
+
+<use Stanford_Bunny_Voxelised.png>
+Package pdftex.def Info: Stanford_Bunny_Voxelised.png used on input line 129.
+(pdftex.def)             Requested size: 225.84547pt x 225.84547pt.
+ [13 <./projection13.pdf> <./Stanford_Bunny_Voxelised.png>] [14] <VoronoiEx.png
+, id=557, 702.625pt x 702.625pt>
+File: VoronoiEx.png Graphic file (type png)
+
+<use VoronoiEx.png>
+Package pdftex.def Info: VoronoiEx.png used on input line 176.
+(pdftex.def)             Requested size: 175.6558pt x 175.6558pt.
+ <island13.pdf, id=562, 541.04135pt x 425.85098pt>
+File: island13.pdf Graphic file (type pdf)
+
+<use island13.pdf>
+Package pdftex.def Info: island13.pdf used on input line 190.
+(pdftex.def)             Requested size: 270.52pt x 212.92496pt.
+ <islands.png, id=563, 288.3272pt x 288.3272pt>
+File: islands.png Graphic file (type png)
+
+<use islands.png>
+Package pdftex.def Info: islands.png used on input line 196.
+(pdftex.def)             Requested size: 144.16324pt x 144.16324pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `htbp') on input line 203.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `htbp') on input line 221.
+
+[15] [16 <./VoronoiEx.png (PNG copy)> <./island13.pdf> <./islands.png>]
+[17] <Voronoi.png, id=595, 301.125pt x 301.125pt>
+File: Voronoi.png Graphic file (type png)
+ <use Voronoi.png>
+Package pdftex.def Info: Voronoi.png used on input line 272.
+(pdftex.def)             Requested size: 301.12425pt x 301.12425pt.
+ [18 <./Voronoi.png>] <border213.pdf, id=603, 497.86pt x 256.96pt>
+File: border213.pdf Graphic file (type pdf)
+ <use border213.pdf>
+Package pdftex.def Info: border213.pdf used on input line 292.
+(pdftex.def)             Requested size: 448.06985pt x 231.26186pt.
+
+[19 <./border213.pdf>] <mesh_border.png, id=616, 301.125pt x 301.125pt>
+File: mesh_border.png Graphic file (type png)
+
+<use mesh_border.png>
+Package pdftex.def Info: mesh_border.png used on input line 314.
+(pdftex.def)             Requested size: 105.39532pt x 105.39532pt.
+ [20 <./mesh_border.png>]
+<marchingtetrahedrons.jpg, id=627, 28.37595pt x 28.37595pt>
+File: marchingtetrahedrons.jpg Graphic file (type jpg)
+
+<use marchingtetrahedrons.jpg>
+Package pdftex.def Info: marchingtetrahedrons.jpg used on input line 346.
+(pdftex.def)             Requested size: 227.00684pt x 227.00684pt.
+
+<Marching.png, id=630, 376.40625pt x 376.40625pt>
+File: Marching.png Graphic file (type png)
+ <use Marching.png>
+Package pdftex.def Info: Marching.png used on input line 351.
+(pdftex.def)             Requested size: 282.30399pt x 282.30399pt.
+
+<ambiguous.png, id=633, 747.79375pt x 501.875pt>
+File: ambiguous.png Graphic file (type png)
+ <use ambiguous.png>
+Package pdftex.def Info: ambiguous.png used on input line 359.
+(pdftex.def)             Requested size: 373.89595pt x 250.93687pt.
+ [21 <./marchingtetrahedrons.jpg>] [22 <./Marching.png> <./ambiguous.png>]
+<Marching_tetrahedrons.png, id=653, 501.875pt x 501.875pt>
+File: Marching_tetrahedrons.png Graphic file (type png)
+
+<use Marching_tetrahedrons.png>
+Package pdftex.def Info: Marching_tetrahedrons.png used on input line 372.
+(pdftex.def)             Requested size: 401.50053pt x 401.50053pt.
+ [23
+
+ <./Marching_tetrahedrons.png>]
+<collision.png, id=665, 425.33907pt x 323.70938pt>
+File: collision.png Graphic file (type png)
+ <use collision.png>
+Package pdftex.def Info: collision.png used on input line 385.
+(pdftex.def)             Requested size: 319.00351pt x 242.78143pt.
+
+<Porcelain2.png, id=668, 301.125pt x 301.125pt>
+File: Porcelain2.png Graphic file (type png)
+ <use Porcelain2.png>
+Package pdftex.def Info: Porcelain2.png used on input line 399.
+(pdftex.def)             Requested size: 301.12425pt x 301.12425pt.
+ [24
+
+]
+[25 <./collision.png> <./Porcelain2.png>]
+<voxel_exploded.png, id=686, 401.24907pt x 325.96782pt>
+File: voxel_exploded.png Graphic file (type png)
+
+<use voxel_exploded.png>
+Package pdftex.def Info: voxel_exploded.png used on input line 440.
+(pdftex.def)             Requested size: 280.87242pt x 228.1759pt.
+
+<voxel_exploded2.png, id=687, 309.40594pt x 332.74312pt>
+File: voxel_exploded2.png Graphic file (type png)
+
+<use voxel_exploded2.png>
+Package pdftex.def Info: voxel_exploded2.png used on input line 440.
+(pdftex.def)             Requested size: 212.25339pt x 228.26276pt.
+ <voxel_forces.png, id=689, 584.1825pt x 248.42813pt>
+File: voxel_forces.png Graphic file (type png)
+
+<use voxel_forces.png>
+Package pdftex.def Info: voxel_forces.png used on input line 448.
+(pdftex.def)             Requested size: 496.55746pt x 211.1649pt.
+ [26] [27 <./voxel_exploded.png> <./voxel_exploded2.png> <./voxel_forces.png>])
+ [28]
+\openout2 = `Evaluation.aux'.
+
+ (./Evaluation.tex
+Chapter 4.
+<fracture_bunny.png, id=715, 420.06938pt x 318.43968pt>
+File: fracture_bunny.png Graphic file (type png)
+
+<use fracture_bunny.png>
+Package pdftex.def Info: fracture_bunny.png used on input line 15.
+(pdftex.def)             Requested size: 315.05127pt x 238.82918pt.
+ [29
+
+
+
+]
+<voxel_sphere.png, id=727, 289.83281pt x 285.31593pt>
+File: voxel_sphere.png Graphic file (type png)
+ <use voxel_sphere.png>
+Package pdftex.def Info: voxel_sphere.png used on input line 38.
+(pdftex.def)             Requested size: 231.86655pt x 228.25305pt.
+
+<voxel_bunny.png, id=728, 321.45094pt x 313.9228pt>
+File: voxel_bunny.png Graphic file (type png)
+ <use voxel_bunny.png>
+Package pdftex.def Info: voxel_bunny.png used on input line 43.
+(pdftex.def)             Requested size: 241.0876pt x 235.44151pt.
+
+<fracture_non_concave.png, id=733, 321.45094pt x 271.76532pt>
+File: fracture_non_concave.png Graphic file (type png)
+
+<use fracture_non_concave.png>
+Package pdftex.def Info: fracture_non_concave.png used on input line 57.
+(pdftex.def)             Requested size: 321.45015pt x 271.76465pt.
+
+<fracture_non_concave2.png, id=734, 495.35063pt x 310.91156pt>
+File: fracture_non_concave2.png Graphic file (type png)
+
+<use fracture_non_concave2.png>
+Package pdftex.def Info: fracture_non_concave2.png used on input line 62.
+(pdftex.def)             Requested size: 371.51207pt x 233.18307pt.
+ [30 <./fracture_bunny.png>] [31 <./voxel_sphere.png> <./voxel_bunny.png>] [32 
+<./fracture_non_concave.png> <./fracture_non_concave2.png>] <fracture_same_shap
+e.png, id=755, 385.44pt x 183.68625pt>
+File: fracture_same_shape.png Graphic file (type png)
+
+<use fracture_same_shape.png>
+Package pdftex.def Info: fracture_same_shape.png used on input line 77.
+(pdftex.def)             Requested size: 308.35242pt x 146.94917pt.
+
+<fracture_same_shape2.png, id=756, 362.10281pt x 268.75406pt>
+File: fracture_same_shape2.png Graphic file (type png)
+
+<use fracture_same_shape2.png>
+Package pdftex.def Info: fracture_same_shape2.png used on input line 79.
+(pdftex.def)             Requested size: 307.78883pt x 228.44203pt.
+
+<voxel_different.png, id=757, 478.03593pt x 328.22626pt>
+File: voxel_different.png Graphic file (type png)
+
+<use voxel_different.png>
+Package pdftex.def Info: voxel_different.png used on input line 84.
+(pdftex.def)             Requested size: 334.62286pt x 229.7568pt.
+ [33
+
+ <./fracture_same_shape.png> <./fracture_same_shape2.png>] [34 <./voxel_differe
+nt.png>] [35]
+<../Logs/single_sphere_latency.png, id=787, 523.20468pt x 465.23813pt>
+File: ../Logs/single_sphere_latency.png Graphic file (type png)
+
+<use ../Logs/single_sphere_latency.png>
+Package pdftex.def Info: ../Logs/single_sphere_latency.png used on input line 1
+74.
+(pdftex.def)             Requested size: 392.40254pt x 348.92773pt.
+ [36
+
+ <../Logs/single_sphere_latency.png>] <../Logs/single_sphere_framerate.png, id=
+802, 460.72125pt x 307.90031pt>
+File: ../Logs/single_sphere_framerate.png Graphic file (type png)
+
+<use ../Logs/single_sphere_framerate.png>
+Package pdftex.def Info: ../Logs/single_sphere_framerate.png used on input line
+ 231.
+(pdftex.def)             Requested size: 460.72012pt x 307.89955pt.
+ [37
+
+ <../Logs/single_sphere_framerate.png>] <../Logs/single_sphere_frametime.png, i
+d=811, 459.96844pt x 310.15875pt>
+File: ../Logs/single_sphere_frametime.png Graphic file (type png)
+
+<use ../Logs/single_sphere_frametime.png>
+Package pdftex.def Info: ../Logs/single_sphere_frametime.png used on input line
+ 262.
+(pdftex.def)             Requested size: 459.96732pt x 310.15799pt.
+ [38
+
+ <../Logs/single_sphere_frametime.png>] <../Logs/single_bunny_latency.png, id=8
+19, 518.6878pt x 462.97969pt>
+File: ../Logs/single_bunny_latency.png Graphic file (type png)
+
+<use ../Logs/single_bunny_latency.png>
+Package pdftex.def Info: ../Logs/single_bunny_latency.png used on input line 30
+9.
+(pdftex.def)             Requested size: 492.75063pt x 439.8282pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[39
+
+] <../Logs/single_bunny_framerate.png, id=831, 944.7797pt x 315.42844pt>
+File: ../Logs/single_bunny_framerate.png Graphic file (type png)
+
+<use ../Logs/single_bunny_framerate.png>
+Package pdftex.def Info: ../Logs/single_bunny_framerate.png used on input line 
+357.
+(pdftex.def)             Requested size: 661.34128pt x 220.79839pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[40 <../Logs/single_bunny_latency.png>] [41 <../Logs/single_bunny_framerate.png
+>] <../Logs/single_bunny_frametime.png, id=847, 946.28531pt x 315.42844pt>
+File: ../Logs/single_bunny_frametime.png Graphic file (type png)
+
+<use ../Logs/single_bunny_frametime.png>
+Package pdftex.def Info: ../Logs/single_bunny_frametime.png used on input line 
+381.
+(pdftex.def)             Requested size: 662.3952pt x 220.79839pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[42 <../Logs/single_bunny_frametime.png>]
+<../Logs/double_bunny_latency.png, id=854, 519.44063pt x 462.22687pt>
+File: ../Logs/double_bunny_latency.png Graphic file (type png)
+
+<use ../Logs/double_bunny_latency.png>
+Package pdftex.def Info: ../Logs/double_bunny_latency.png used on input line 42
+8.
+(pdftex.def)             Requested size: 493.4658pt x 439.11304pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[43
+
+
+
+] <../Logs/double_bunny_framerate.png, id=867, 942.52126pt x 311.66437pt>
+File: ../Logs/double_bunny_framerate.png Graphic file (type png)
+
+<use ../Logs/double_bunny_framerate.png>
+Package pdftex.def Info: ../Logs/double_bunny_framerate.png used on input line 
+474.
+(pdftex.def)             Requested size: 659.76039pt x 218.16356pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[44 <../Logs/double_bunny_latency.png>] [45 <../Logs/double_bunny_framerate.png
+>] <../Logs/double_bunny_frametime.png, id=882, 942.52126pt x 313.17pt>
+File: ../Logs/double_bunny_frametime.png Graphic file (type png)
+
+<use ../Logs/double_bunny_frametime.png>
+Package pdftex.def Info: ../Logs/double_bunny_frametime.png used on input line 
+498.
+(pdftex.def)             Requested size: 659.76039pt x 219.21748pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[46 <../Logs/double_bunny_frametime.png>] [47
+
+
+] [48]) [49]
+\openout2 = `Conclusions.aux'.
+
+ (./Conclusions.tex
+[50
+
+
+]
+Chapter 5.
+File: voxel_exploded.png Graphic file (type png)
+<use voxel_exploded.png>
+Package pdftex.def Info: voxel_exploded.png used on input line 17.
+(pdftex.def)             Requested size: 280.87242pt x 228.1759pt.
+File: voxel_exploded2.png Graphic file (type png)
+ <use voxel_exploded2.png>
+Package pdftex.def Info: voxel_exploded2.png used on input line 17.
+(pdftex.def)             Requested size: 212.25339pt x 228.26276pt.
+) [51
+
+
+]
+\openout2 = `Bibliography.aux'.
+
+ (./Bibliography.tex
+[52
+
+
+]
+(./Lefley - Mesh to voxel transformations for optimised physics-based interacti
+ons.bbl [53
+
+
+]
+Underfull \hbox (badness 1418) in paragraph at lines 100--105
+[]\OT1/cmr/m/n/12 Scrawk.  March-ing cubes plu-gin for unity.  []$\OT1/cmtt/m/n
+/12 http : / / scrawkblog . com / 2013 / 04 / 01 /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 107--112
+[]\OT1/cmr/m/n/12 Scrawk.  march-ingte-tra-he-drons.jpg.  []$\OT1/cmtt/m/n/12 h
+ttp : / / scrawkblog . com / 2014 / 06 / 24 /
+ []
+
+)) [54]
+\openout2 = `Appendix.aux'.
+
+ (./Appendix.tex
+Appendix A.
+<../Logs/Instantiation.png, id=981, 525.46312pt x 33.12375pt>
+File: ../Logs/Instantiation.png Graphic file (type png)
+
+<use ../Logs/Instantiation.png>
+Package pdftex.def Info: ../Logs/Instantiation.png used on input line 7.
+(pdftex.def)             Requested size: 367.82167pt x 23.18645pt.
+
+<../Logs/Fracture_Single_Sphere/Latency.png, id=982, 627.84563pt x 65.49469pt>
+File: ../Logs/Fracture_Single_Sphere/Latency.png Graphic file (type png)
+
+<use ../Logs/Fracture_Single_Sphere/Latency.png>
+Package pdftex.def Info: ../Logs/Fracture_Single_Sphere/Latency.png used on inp
+ut line 13.
+(pdftex.def)             Requested size: 439.48894pt x 45.84595pt.
+
+<../Logs/Fracture_Single_Bunny/Latency.png, id=983, 627.84563pt x 65.49469pt>
+File: ../Logs/Fracture_Single_Bunny/Latency.png Graphic file (type png)
+
+<use ../Logs/Fracture_Single_Bunny/Latency.png>
+Package pdftex.def Info: ../Logs/Fracture_Single_Bunny/Latency.png used on inpu
+t line 19.
+(pdftex.def)             Requested size: 439.48894pt x 45.84595pt.
+
+<../Logs/Fracture_Two_Bunny/Latency.png, id=984, 525.46312pt x 33.12375pt>
+File: ../Logs/Fracture_Two_Bunny/Latency.png Graphic file (type png)
+
+<use ../Logs/Fracture_Two_Bunny/Latency.png>
+Package pdftex.def Info: ../Logs/Fracture_Two_Bunny/Latency.png used on input l
+ine 25.
+(pdftex.def)             Requested size: 367.82167pt x 23.18645pt.
+
+<../Logs/Voxel_Two_Bunny/Latency.png, id=985, 569.87906pt x 33.12375pt>
+File: ../Logs/Voxel_Two_Bunny/Latency.png Graphic file (type png)
+
+<use ../Logs/Voxel_Two_Bunny/Latency.png>
+Package pdftex.def Info: ../Logs/Voxel_Two_Bunny/Latency.png used on input line
+ 31.
+(pdftex.def)             Requested size: 398.91261pt x 23.18645pt.
+
+<../Logs/Voxel_Single_Bunny/Latency.png, id=986, 674.52pt x 867.99281pt>
+File: ../Logs/Voxel_Single_Bunny/Latency.png Graphic file (type png)
+
+<use ../Logs/Voxel_Single_Bunny/Latency.png>
+Package pdftex.def Info: ../Logs/Voxel_Single_Bunny/Latency.png used on input l
+ine 37.
+(pdftex.def)             Requested size: 492.39551pt x 633.62949pt.
+
+
+LaTeX Warning: Float too large for page by 14.46841pt on input line 40.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../Logs/Voxel_Single_Sphere/Latency.png, id=987, 674.52pt x 777.65532pt>
+File: ../Logs/Voxel_Single_Sphere/Latency.png Graphic file (type png)
+
+<use ../Logs/Voxel_Single_Sphere/Latency.png>
+Package pdftex.def Info: ../Logs/Voxel_Single_Sphere/Latency.png used on input 
+line 43.
+(pdftex.def)             Requested size: 492.39551pt x 567.68367pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) [55
+
+
+
+ <../Logs/Instantiation.png> <../Logs/Fracture_Single_Sphere/Latency.png> <../L
+ogs/Fracture_Single_Bunny/Latency.png> <../Logs/Fracture_Two_Bunny/Latency.png>
+ <../Logs/Voxel_Two_Bunny/Latency.png>] [56 <../Logs/Voxel_Single_Bunny/Latency
+.png>] [57 <../Logs/Voxel_Single_Sphere/Latency.png>]pdfTeX warning (ext4): des
+tination with the same identifier (name{page.}) has been already used, duplicat
+e ignored
+<to be read again> 
+                   \relax 
+l.136 \null\newpage
+                    [1
+
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 158.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 158.
+
+(./Lefley - Mesh to voxel transformations for optimised physics-based interacti
+ons.aux (./Introduction.aux) (./Preparation.aux) (./Implementation.aux)
+(./Evaluation.aux) (./Conclusions.aux) (./Bibliography.aux) (./Appendix.aux))
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 158.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 158.
+Package rerunfilecheck Info: File `"Lefley - Mesh to voxel transformations for 
+optimised physics-based interactions".out' has not changed.
+(rerunfilecheck)             Checksum: 50E13B876D24D74F7AF5F6B00C5DF535;4202.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 158.
+ ) 
+Here is how much of TeX's memory you used:
+ 10658 strings out of 493107
+ 159597 string characters out of 6138432
+ 296242 words of memory out of 5000000
+ 13637 multiletter control sequences out of 15000+600000
+ 14236 words of font info for 50 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 43i,24n,40p,1092b,522s stack positions out of 5000i,500n,10000p,200000b,80000s
+<c:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/tex
+live/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><c:/texlive/2014/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2014/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><c:/texlive/2014/texmf-dist/font
+s/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2014/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmmi12.pfb><c:/texlive/2014/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmmi8.pfb><c:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb><c:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><
+c:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/
+2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2014/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb><c:/texlive/2014/texmf-dist/font
+s/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2014/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmti10.pfb><c:/texlive/2014/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmti12.pfb><c:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmtt12.pfb>
+Output written on "Lefley - Mesh to voxel transformations for optimised physics
+-based interactions.pdf" (64 pages, 4703254 bytes).
+PDF statistics:
+ 1122 PDF objects out of 1200 (max. 8388607)
+ 939 compressed objects within 10 object streams
+ 258 named destinations out of 1000 (max. 500000)
+ 777 words of extra memory for PDF output out of 10000 (max. 10000000)
+

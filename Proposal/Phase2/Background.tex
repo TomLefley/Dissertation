@@ -1,0 +1,16 @@
+
+\section{Background}
+
+\subsection{Mesh/Voxel Conversion}
+
+\label{methods}
+
+Binary voxelisation of polygonal objects is a memory efficient method for defining occupied space and can be achieved in real-time on modern GPUs\cite{V,SW,OCL}. I will implement solid voxelisation as opposed to surface volexisation as I require the entire volume of an object to be modelled for my volumetric destruction.
+
+Marching cubes exists as an algorithm for constructing 3D surfaces from volumetric data\cite{MC}. the implementation of this algorithm I will be using runs in real-time on modern GPUs\cite{MCGPU}.
+
+\subsection{Related Work}
+
+Nie\ss{}ner et al present a method for real-time collision detection of patch based objects using mesh to voxel transformations \cite{RTC}. While their work is on collision detection, it does demonstrate that real-time mesh to voxel conversion is viable for use in resolving physics interactions.
+
+Miguel Cepero is developing a procedural voxel engine Voxel Farm\cite{PW}. His work includes volumetric destruction of objects in a manner similar to this project's aims\cite{AfD}.

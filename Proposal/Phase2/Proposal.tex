@@ -1,0 +1,59 @@
+% This is a LaTeX driving document to produce a standalone copy
+% of the project proposal held in propbody.tex.  Notice that
+% propbody can be used in this context as well as being incorporated
+% in the dissertation (see diss.tex).
+\documentclass[a4 paper,twoside,12pt]{article}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage[scale=0.825]{geometry}
+\usepackage{graphicx}
+
+\parindent 0pt
+\parskip 6pt
+
+\begin{document}
+
+\pagenumbering{gobble}
+
+\begin{titlepage}
+
+\rightline{\large\emph{Thomas Lefley}}
+\medskip
+\rightline{\large\emph{Girton College}}
+\medskip
+\rightline{\large\emph{tl364}}
+
+\vfil
+\centerline{\large Computer Science Part II Project Proposal}
+\vspace{0.4in}
+\begin{center}
+\Large\bf Mesh to voxel transformation for optimised physics-based interactions
+\end{center}
+\vspace{0.3in}
+\centerline{\large \emph{24/10/2014}}
+
+\vfil
+
+\eject
+
+\end{titlepage}
+
+\cleardoublepage
+
+\pagenumbering{arabic}
+
+\include{Introduction}
+
+\include{Background}
+
+\include{Methodology}
+
+\include{Evaluation}
+
+\include{Resources}
+
+\include{Timeline}
+
+\include{References}
+
+\end{document}

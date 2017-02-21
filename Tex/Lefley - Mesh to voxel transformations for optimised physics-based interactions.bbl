@@ -1,0 +1,113 @@
+\begin{thebibliography}{10}
+
+\bibitem{kdtree}
+Andeeeee.
+\newblock Point nearest neighbour search class.
+\newblock
+  \url{http://forum.unity3d.com/threads/point-nearest-neighbour-search-class.29923/}.
+\newblock Last Accessed: 2015-04-12.
+
+\bibitem{Ray-tracing}
+Alex Benton.
+\newblock Ray tracing - all the maths.
+\newblock Advanced Graphics Lecture, 2015.
+
+\bibitem{Tetrahedra}
+Paul Bourke.
+\newblock Polygonising a scalar field using tetrahedrons.
+\newblock \url{http://paulbourke.net/geometry/polygonise/}.
+\newblock Last Accessed: 2015-04-12.
+
+\bibitem{Appetite}
+Miguel Cepero.
+\newblock Appetite for destruction.
+\newblock
+  \url{http://procworld.blogspot.co.uk/2014/08/appetite-for-destruction.html}.
+\newblock Last Accessed: 2015-04-12.
+
+\bibitem{Procedural-World}
+Miguel Cepero.
+\newblock Procedural world.
+\newblock \url{http://procworld.blogspot.co.uk/}.
+\newblock Last Accessed: 2015-04-12.
+
+\bibitem{CPUVoxel}
+Vincenzo~Giovanni Comito.
+\newblock Voxelization in unity.
+\newblock
+  \url{http://nihilistdev.blogspot.co.uk/2012/08/voxelization-in-unity.html}.
+\newblock Last Accessed: 2015-04-12.
+
+\bibitem{voronoipict}
+Wikimedia Commons.
+\newblock Euclidean voronoi diagram.
+\newblock
+  \url{http://commons.wikimedia.org/wiki/File:Euclidean_Voronoi_diagram.svg}.
+\newblock Last Accessed: 2015-04-12.
+
+\bibitem{marchingpict}
+Wikimedia Commons.
+\newblock Marching tetrahedrons.
+\newblock
+  \url{http://commons.wikimedia.org/wiki/File:Marching_tetrahedrons.png}.
+\newblock Last Accessed: 2015-04-12.
+
+\bibitem{Engel:2012:GPA:2331213}
+Wolfgang Engel.
+\newblock {\em GPU PRO 3: Advanced Rendering Techniques}.
+\newblock A. K. Peters, Ltd., Natick, MA, USA, 1st edition, 2012.
+
+\bibitem{Gibson:1998:CES:646921.709482}
+Sarah F.~Frisken Gibson.
+\newblock Constrained elastic surface nets: Generating smooth surfaces from
+  binary segmented data.
+\newblock In {\em Proceedings of the First International Conference on Medical
+  Image Computing and Computer-Assisted Intervention}, MICCAI '98, pages
+  888--898, London, UK, UK, 1998. Springer-Verlag.
+
+\bibitem{Lorensen:1987:MCH:37401.37422}
+William~E. Lorensen and Harvey~E. Cline.
+\newblock Marching cubes: A high resolution 3d surface construction algorithm.
+\newblock In {\em Proceedings of the 14th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '87, pages 163--169, New York,
+  NY, USA, 1987. ACM.
+
+\bibitem{Meshinator}
+MD.
+\newblock Meshinator.
+\newblock \url{http://meshinator.blogspot.co.uk/}.
+\newblock Last Accessed: 2015-04-12.
+
+\bibitem{Muller:2013:RTD:2461912.2461934}
+Matthias M\"{u}ller, Nuttapong Chentanez, and Tae-Yong Kim.
+\newblock Real time dynamic fracture with volumetric approximate convex
+  decompositions.
+\newblock {\em ACM Trans. Graph.}, 32(4):115:1--115:10, July 2013.
+
+\bibitem{niessner2013collision}
+Matthias Nie{\ss}ner, Christian Siegl, Henry Sch\"afer, and Charles Loop.
+\newblock Real-time collision detection for dynamic hardware tessellated
+  objects.
+\newblock 2013.
+
+\bibitem{Schwarz:2010:Vox}
+Michael Schwarz and Hans-Peter Seidel.
+\newblock Fast parallel surface and solid voxelization on {GPUs}.
+\newblock {\em ACM Transactions on Graphics}, 29(6 (Proceedings of SIGGRAPH
+  Asia 2010)):179:1--179:9, December 2010.
+
+\bibitem{Tetrahedra-CPU}
+Scrawk.
+\newblock Marching cubes plugin for unity.
+\newblock
+  \url{http://scrawkblog.com/2013/04/01/marching-cubes-plugin-for-unity/}.
+\newblock Last Accessed: 2015-04-12.
+
+\bibitem{ScrawkMarching}
+Scrawk.
+\newblock marchingtetrahedrons.jpg.
+\newblock
+  \url{http://scrawkblog.com/2014/06/24/directcompute-tutorial-for-unity-introduction/}.
+\newblock Last Accessed: 2015-04-12.
+
+\end{thebibliography}

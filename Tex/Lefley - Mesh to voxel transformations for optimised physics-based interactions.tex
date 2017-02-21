@@ -1,0 +1,159 @@
+\documentclass[a4 paper,twoside,openright,12pt]{book}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage[scale=0.825]{geometry}
+\usepackage{graphicx}
+\usepackage{datetime}
+\usepackage{framed}
+\usepackage{import}
+\usepackage[]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{cite}
+\usepackage{flafter}
+\usepackage[section]{placeins}
+\usepackage{rotating}
+\usepackage[nottoc]{tocbibind}
+\usepackage{hvfloat}
+
+\parindent 0pt
+\parskip 6pt
+
+\begin{document}
+
+\pagenumbering{gobble}
+
+
+%-- TITLE PAGE --%
+
+\begin{titlepage}
+\begin{comment}
+\begin{minipage}[t]{0.35\textwidth}
+\vspace{0pt}
+\leftline{\includegraphics[scale=0.04]{cambridge.png}\hfill\includegraphics[scale=0.196]{girton.png}}
+\end{minipage}
+\end{comment}
+
+%\begin{minipage}[t]{0.65\textwidth}
+\vspace{0pt}
+\rightline{\large{Thomas Lefley}}
+\medskip
+\rightline{\emph{\large{Girton College}}}
+\medskip
+\rightline{\emph{\large{tl364}}}
+%\end{minipage}
+
+\vfil
+\centerline{\large Computer Science Part II Dissertation}
+\vspace{0.4in}
+\begin{center}
+\Large\bf{Dynamic Volumetric Fragmentation:\\\emph{Mesh to voxel transformation for optimised physics-based interactions}}
+\end{center}
+\vspace{0.8in}
+\centerline{\emph{\large{\today}}}
+\vspace{1.2in}
+\centerline{\includegraphics[scale=0.04]{cambridge.png}\hspace{0.3in}\includegraphics[scale=0.197]{girton.png}}
+
+\end{titlepage}
+
+\cleardoublepage
+
+
+%-- PROFORMA PAGE --%
+
+\centerline{\large{Thomas Lefley, Girton College}}
+\begin{center}
+	{\emph{\large{Dynamic Volumetric Fragmentation:\\Mesh to voxel transformation for optimised physics-based interactions}}}
+\end{center}
+
+\medskip
+\centerline{\large{Computer Science Part II, 2015}}
+\medskip
+\vspace{0.4in}
+\medskip
+\centerline{\emph{\large{$9,950$ Words}}}
+\medskip
+\vspace{0.4in}
+\medskip
+\centerline{\emph{\large{Project Originator}}}
+\medskip
+\centerline{\large Thomas Lefley}
+\medskip
+\centerline{\emph{\large{Project Supervisor}}}
+\medskip
+\centerline{\large Flora Ponjou-Tasse}
+\medskip
+\vspace{0.4in}
+\medskip
+\centerline{\large{\emph{Original Aims}}}
+\begin{center}
+	The project aimed to investigate the use of volumetric representations of rigid objects in physics-based simulations of model destruction.
+\end{center}
+\medskip
+\vspace{0.4in}
+\medskip
+\centerline{\large{\emph{Work Completed}}}
+\begin{center}
+	A voxelisation algorithm has been implemented to transform rigid meshes to their volumetric representation in addition to a voxel-to-mesh method. A method for object destruction based on an interpretation of the physical forces involved has also been achieved.
+\end{center}
+\vspace{0.4in}
+\medskip
+\centerline{\large{\emph{Special Difficulties}}}
+\begin{center}
+	None.
+\end{center}
+\vspace{0.4in}
+
+\begin{framed}
+I Thomas Lefley of Girton College, being a candidate for Part II of the Computer Science Tripos, hereby declare that this dissertation and the work described in it are my own work, unaided except as may be specified below, and that the dissertation does not contain material that has already been used to any substantial extent for a comparable purpose.\par Signed: Thomas Lefley\\ Date: \today
+\end{framed}
+
+
+%-- CONTENTS PAGE --%
+
+\let\cleardoublepage\clearpage\tableofcontents
+\cleardoublepage
+
+%-- CONTENT --%
+
+\pagenumbering{arabic}
+
+\include{Introduction}
+
+\include{Preparation}
+
+\include{Implementation}
+
+\include{Evaluation}
+
+\include{Conclusions}
+
+\include{Bibliography}
+
+\include{Appendix}
+
+\pagenumbering{gobble}
+
+\null\newpage
+
+
+%-- PROPOSAL --%
+
+\begin{comment}
+\subimport{../Proposal/Phase2/}{Introduction.tex}
+
+\subimport{../Proposal/Phase2/}{Background.tex}
+
+\subimport{../Proposal/Phase2/}{Methodology.tex}
+
+\subimport{../Proposal/Phase2/}{Evaluation.tex}
+
+\subimport{../Proposal/Phase2/}{Resources.tex}
+
+\subimport{../Proposal/Phase2/}{Timeline.tex}
+
+\subimport{../Proposal/Phase2/}{References.tex}
+\end{comment}
+
+
+\end{document}
+

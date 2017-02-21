@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="point_inside_concave.pdf">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3788"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3790" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3782"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#00007f;stop-opacity:1;"
+         offset="0"
+         id="stop3784" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="218.93693"
+     inkscape:cy="676.56468"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer3"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       id="rect5650"
+       width="698.01538"
+       height="549.52301"
+       x="6.0609155"
+       y="5.8441424" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 620.23366,72.514214 -508.10673,0 0,400.020406 505.07628,0 -349.55356,-201.81484 353.59417,0 0,-199.215719 z"
+       id="path2985"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:0.50000000000000000;fill:#007e00;fill-opacity:1;stroke:#007d00;stroke-width:10;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3780"
+       width="607.10168"
+       height="238.39601"
+       x="64.649765"
+       y="25.037045" />
+    <rect
+       style="opacity:0.50000000000000000;fill:#7d0000;fill-opacity:1;stroke:#7d0000;stroke-width:10;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3780-1"
+       width="607.10168"
+       height="238.39601"
+       x="64.144684"
+       y="277.57516" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path5358"
+       sodipodi:cx="457.09402"
+       sodipodi:cy="315.4559"
+       sodipodi:rx="8.586297"
+       sodipodi:ry="8.586297"
+       d="m 465.68032,315.4559 a 8.586297,8.586297 0 1 1 -17.17259,0 8.586297,8.586297 0 1 1 17.17259,0 z"
+       transform="translate(-92.934034,95.964492)" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5362"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(129.29953,3.0304576)"><flowRegion
+         id="flowRegion5364"><rect
+           id="rect5366"
+           width="57.578697"
+           height="56.568542"
+           x="254.55844"
+           y="384.65134" /></flowRegion><flowPara
+         id="flowPara5368">(b)</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5370"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(462.64987,-65.659916)"><flowRegion
+         id="flowRegion5372"><rect
+           id="rect5374"
+           width="57.578693"
+           height="72.73098"
+           x="221.2234"
+           y="286.66656" /></flowRegion><flowPara
+         id="flowPara5376">(a)</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:5.15193461999999960;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:10.30386969000000100, 5.15193485000000000;stroke-dashoffset:0;opacity:0.5"
+       d="m 18.190123,270.50411 677.804977,0 0,1.01016"
+       id="path5378"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

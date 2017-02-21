@@ -1,0 +1,27 @@
+Subject: Phase 1 - Lefley: Mesh to voxel transformation for 
+optimised physics-based interactions.
+
+Phase 1 Project Selection Status Report
+
+Name:        Thomas Lefley                                                    
+College:     Girton College                                                    
+User Identifier:          tl364                                       
+Director of Studies:       Chris Hadley                                      
+
+Please complete 1, 2 and 3 below.
+
+1. Please write 100 words on your current project ideas.
+Current sandbox game engines use ‘chunks’ of voxels to store their worlds and this imposes restrictions on both memory and the player experience, as players may only place voxels on a set grid and each one must store some amount of information. I intend to approach this problem by writing a library for an existing mesh physics and rendering engine, such as Unity, which will transform polygonal mesh objects into volumetric representations at the correct physical or player cues and rebuild the meshes afterwards. A main focus would be the physically based destruction of objects whilst volumetric. If I am successful I will have a library which allows users to add sandbox features to their projects with minimal effort and impact on efficiency. Furthermore, by resolving physical interactions on volumetric rather than polygonal mesh objects I expect to be able to produce more accurate outcomes, with the individual voxels within an object reacting differently based on the object's material for example.
+
+2. Please list names of potential project supervisors.
+Flora Ponjou-Tasse
+
+3. Is there any chance that your project will involve any
+computing resources other than the Computing Service's MCS and
+software that is already installed there, for example: your own
+machine, machines in College, special peripherals, imported
+software packages, special hardware, network access, substantial
+extra disc space on the MCS.
+If so indicate below what, and what it is needed for.
+I would like to use an existing engine in order to not have to implement physics and rendering from scratch. I have past experience with the Unity engine which has a free license and is installed on my machine. There is also a more feature rich full license and a student discount, however this is still £99 for a year and, while it would be possible, I'd prefer not to have to purchase this without any university subsidisation and believe that the free license should suffice.
+It would be helpful to have Unity installed on an MCS machine for supervisions as I do not own a laptop, however it would not be essential as I intend to work on my own machine (with effective backups).

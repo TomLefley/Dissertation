@@ -1,0 +1,55 @@
+This is BibTeX, Version 0.99d (TeX Live 2014/W32TeX)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: Lefley - Mesh to voxel transformations for optimised physics-based interactions.aux
+A level-1 auxiliary file: Introduction.aux
+A level-1 auxiliary file: Preparation.aux
+A level-1 auxiliary file: Implementation.aux
+A level-1 auxiliary file: Evaluation.aux
+A level-1 auxiliary file: Conclusions.aux
+A level-1 auxiliary file: Bibliography.aux
+The style file: plain.bst
+A level-1 auxiliary file: Appendix.aux
+Database file #1: Bibliography.bib
+Warning--empty journal in niessner2013collision
+You've used 17 entries,
+            2118 wiz_defined-function locations,
+            604 strings with 6914 characters,
+and the built_in function-call counts, 4560 in all, are:
+= -- 461
+> -- 158
+< -- 2
++ -- 65
+- -- 48
+* -- 209
+:= -- 752
+add.period$ -- 63
+call.type$ -- 17
+change.case$ -- 75
+chr.to.int$ -- 0
+cite$ -- 18
+duplicate$ -- 167
+empty$ -- 423
+format.name$ -- 48
+if$ -- 997
+int.to.chr$ -- 0
+int.to.str$ -- 17
+missing$ -- 7
+newline$ -- 98
+num.names$ -- 34
+pop$ -- 139
+preamble$ -- 1
+purify$ -- 58
+quote$ -- 0
+skip$ -- 123
+stack$ -- 0
+substring$ -- 222
+swap$ -- 34
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 66
+warning$ -- 1
+while$ -- 43
+width$ -- 19
+write$ -- 193
+(There was 1 warning)

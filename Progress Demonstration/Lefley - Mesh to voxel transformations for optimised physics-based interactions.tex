@@ -1,0 +1,173 @@
+\documentclass{beamer}
+
+\hypersetup{pdfstartview={Fit}}
+
+\begin{document}
+
+	\title[Crisis] % (optional, only for long titles)
+	{Mesh to Voxel Transformations for Optimised Physics-Based Interactions}
+	\subtitle{}
+	\author[Lefley, Ponjou-Tasse] % (optional, for multiple authors)
+	{T.~Lefley \and F.~Ponjou-Tasse}
+
+	\date[2015] % (optional)
+	{Progress Report, 2015}
+	\subject{Computer Science}
+
+	\frame{\titlepage}
+
+	\begin{frame}
+	\frametitle{Motivation}
+		\begin{columns}[T] % contents are top vertically aligned
+			\begin{column}[T]{5cm} % each column can also be its own environment
+				\begin{figure}
+					\centerline{\includegraphics[scale=0.2]{diagram.pdf}}
+					\caption{A simple collision and its volumetric resolution.}
+				\end{figure}
+			\end{column}
+			\begin{column}[T]{5cm} % alternative top-align that's better for graphics
+				\begin{itemize}
+				\item{Meshes only store surface information}
+				\item{Reasoning on interior difficult}
+				\item{Most destruction algorithms limited}
+					\begin{itemize}
+							\item{Only work on convex shapes}
+							\item{Or have to split concave shapes first}
+					\end{itemize}
+				\end{itemize}
+				\begin{itemize}
+				\item{By precomputing volume data we have an O(1) check for inside/outside a shape}
+				\end{itemize}
+			\end{column}
+		\end{columns}	
+	\end{frame}
+	\begin{frame}
+	\frametitle{Voxelisation}
+		\begin{columns}[T] % contents are top vertically aligned
+			\begin{column}[T]{5cm} % each column can also be its own environment
+				\begin{figure}
+					\centerline{\includegraphics[scale=0.4]{Voxelise.png}}
+					\caption{Voxelisation of the `Stanford Bunny' model, composed of 69,666 triangles.}
+				\end{figure}
+			\end{column}
+			\begin{column}[T]{5cm} % alternative top-align that's better for graphics
+				\begin{itemize}
+				\item{HLSL GPU implementation}
+				\item{Triangle phase}
+					\begin{itemize}
+						\item{Project triangle onto XZ plane}
+						\item{Find intersected voxel columns}
+						\item{Mark first voxel below triangle}
+					\end{itemize}
+				\item{Propagation phase}
+					\begin{itemize}
+						\item{Moves up Y plane}
+						\item{XORs with voxels below}
+					\end{itemize}
+				\end{itemize}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	\begin{frame}
+	\frametitle{Destruction}
+		\begin{columns}[T] % contents are top vertically aligned
+			\begin{column}[T]{5cm} % each column can also be its own environment
+				\begin{figure}
+					\centerline{\includegraphics[scale=0.5]{Voronoi.png}}
+					\caption{Labelling of voxels to their correct fragments.}
+				\end{figure}
+			\end{column}
+			\begin{column}[T]{5cm} % alternative top-align that's better for graphics
+				\begin{itemize}
+				\item{Process collision information}
+					\begin{itemize}
+						\item{Find collision point}
+						\item{Calculate force}
+						\item{Generate fragment points}
+					\end{itemize}
+				\item{Construct 3D voronoi diagram}
+					\begin{itemize}
+						\item{Label each voxel by nearest point}
+						\item{Within radius}
+					\end{itemize}
+				\item{Find islands}
+					\begin{itemize}
+						\item{Flood fill}
+					\end{itemize}
+				\end{itemize}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	\begin{frame}
+	\frametitle{Rebuilding the Mesh}
+	\framesubtitle{Marching Tetrahedrons}
+		\begin{columns}[T] % contents are top vertically aligned
+			\begin{column}[T]{5cm} % each column can also be its own environment
+				\begin{figure}
+					\centerline{\includegraphics[scale=0.3]{MarchingEx.png}}
+					\caption{A cube divided into six tetrahedra, with one tetrahedron shaded.}
+				\end{figure}
+			\end{column}
+			\begin{column}[T]{5cm} % alternative top-align that's better for graphics
+				\begin{itemize}
+				\item{Form triangles}
+					\begin{itemize}
+						\item{For each cube of 8 voxels}
+						\item{Look up correct triangle}
+					\end{itemize}
+				\end{itemize}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	\begin{frame}
+	\frametitle{Rebuilding the Mesh}
+	\framesubtitle{Marching Tetrahedrons}
+		\begin{columns}[T] % contents are top vertically aligned
+			\begin{column}[T]{5cm} % each column can also be its own environment
+				\begin{figure}
+					\centerline{\includegraphics[scale=0.4]{Marching.png}}
+					\caption{Fractured Stanford Bunny remeshed using the Marching Tetrahedrons algorithm.}
+				\end{figure}
+			\end{column}
+			\begin{column}[T]{5cm} % alternative top-align that's better for graphics
+				\begin{itemize}
+				\item{Form triangles}
+					\begin{itemize}
+						\item{For each cube of 8 voxels}
+						\item{Look up correct triangle}
+					\end{itemize}
+				\item{Problems}
+					\begin{itemize}
+						\item{Too slow (implementation?)}
+						\item{Wasted complexity on interior voxels}
+						\item{Detail loss}
+					\end{itemize}
+				\item{Working on new solution}
+				\end{itemize}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	\begin{frame}
+	\frametitle{The Next Steps}	
+		\begin{itemize}
+		\item{Implement new remeshing algorithm}
+		\item{Optimise for speed}
+			\begin{itemize}
+				\item{Multithreading}
+				\item{Remove unnecessary complexity}
+			\end{itemize}
+		\item{Post destruction calculations}
+			\begin{itemize}
+				\item{Fragment mass}
+			\end{itemize}
+		\item{Evaluation}
+			\begin{itemize}
+				\item{Framerate}
+				\item{Memory usage}
+				\item{Physical accuracy}
+			\end{itemize}
+		\item{Write-up}
+		\end{itemize}
+	\end{frame}
+
+\end{document}

@@ -1,0 +1,52 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces The green area shows all points `inside' line (a). The red areas shows all points `outside' line (a). Point (b) is `outside' line (a) but inside the defined concave shape.}}{3}{figure.1.1}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces A simple rigid mesh projectile is fired towards another rigid mesh (a). On collision the destructible body is voxelised (b) depending on the force of the projectile and physical parameters of the objects. It is determined which voxels will detach, shown in red. Meshes are reformed around all separate bodies and physical forces are applied (c).}}{4}{figure.1.2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces The proposed pipeline.}}{8}{figure.2.1}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces The triangle (c) is represented by three consecutive indices, one for each vertex, in (b) which each point to the beginning of three consecutive floats which define that vertex in (a).}}{11}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces The box (a) represents a voxel space of resolution $7\times 9\times 7$. (b) shows the same box in object relative coordinates.}}{12}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces The red triangle has been projected onto the $XZ$ plane and the intersecting voxel columns marked in green.}}{13}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Voxelisation of the `Stanford Bunny' model, composed of 69,666 triangles. The voxelisation shown is lower resolution than what is typically used in the final implementation resulting in 1,723 voxels shown in red.}}{14}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces A Voronoi diagram\cite {voronoipict}.}}{15}{figure.3.5}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces The blue Voronoi cell creates two unconnected partitions of the concave object.}}{16}{figure.3.6}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces If the unconnected ears and body are a single mesh then the physics engine cannot act on the ears causing them to fall.}}{16}{figure.3.7}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces A visualisation of the Voronoi partitioning of the voxel structure of a cube.}}{19}{figure.3.8}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces A fragmented voxelised rectangle. The interior border voxels are green and the exterior voxels are blue. The unneeded interior voxels are red.}}{19}{figure.3.9}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces A partitioning of the Stanford Bunny mesh. The vertices which make up the border of the green submesh are highlighted in red. The gap between partitions is caused by the loss of triangles which have vertices in different partitions.}}{21}{figure.3.10}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Marching tetrahedra applied to a scalar field generated from perlin noise\cite {ScrawkMarching}.}}{22}{figure.3.11}
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Marching tetrahedra applied to the voxel grid of a fragmented Stanford Bunny.}}{22}{figure.3.12}
+\contentsline {figure}{\numberline {3.13}{\ignorespaces The two possible surfaces for the imaginary square shown with dashed lines with two points inside the surface and two outside.}}{23}{figure.3.13}
+\contentsline {figure}{\numberline {3.14}{\ignorespaces A cube split into six irregular tetrahedra\cite {marchingpict}.}}{23}{figure.3.14}
+\contentsline {figure}{\numberline {3.15}{\ignorespaces The Stanford Bunny after the entire pipeline has completed.}}{25}{figure.3.15}
+\contentsline {figure}{\numberline {3.16}{\ignorespaces The Stanford Bunny fractured as if it were a hollow object.}}{25}{figure.3.16}
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Fragments exploding out of the Stanford Bunny after a cubic projectile, shown in red, has been fired at it.}}{27}{figure.3.17}
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Fragments exploding out of the Stanford Bunny after a cubic projectile, shown in red, has been fired at it.}}{27}{figure.3.18}
+\contentsline {figure}{\numberline {3.19}{\ignorespaces The biggest fragments after three Stanford Bunnies have been fragmented. Compared to the middle, the right was given a higher strength while the left was hit with a faster projectile.}}{28}{figure.3.19}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces The Stanford Bunny fractured into two fragments by the `Meshinator' library.}}{30}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces The sphere has a low triangle count and so when the original mesh is partitioned and triangles are lost, a larger volume is lost in the end result.}}{30}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces The Stanford Bunny has a higher triangle count and so less volume is lost in the end result.}}{31}{figure.4.3}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces The incorrect fragments generated when Meshinator shears across a concavity.}}{32}{figure.4.4}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces The incorrect fragments generated when Meshinator shears across a concavity. Seen from another angle.}}{32}{figure.4.5}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces When two identical objects are fragmented under the same forces using Meshinator the results are also identical.}}{33}{figure.4.6}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces When two identical objects are fragmented under the same forces using this solution the results are vary slightly as they would in the real world.}}{33}{figure.4.7}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces The mean time taken by each pipeline stage in seconds when fracturing a sphere consisting of 760 triangles over 10 runs. Figures \ref {fig:A.1.1} and \ref {fig:A.1} show the full tables.}}{36}{figure.4.8}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces The framerate when fracturing a sphere consisting of 760 triangles. The red line indicates the collision time.}}{37}{figure.4.9}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces The frametime when fracturing a sphere consisting of 760 triangles. The red line indicates the collision time.}}{38}{figure.4.10}
+\contentsline {figure}{\numberline {4.11}{\ignorespaces The mean time taken by each pipeline stage in seconds when fracturing the Stanford Bunny, consisting of 69,666 triangles, over 10 runs. Figures \ref {fig:A.2.1} and \ref {fig:A.2} show the full tables.}}{39}{figure.4.11}
+\contentsline {figure}{\numberline {4.12}{\ignorespaces The framerate when fracturing the Stanford Bunny, consisting of 69,666 triangles. The red line indicates the collision time.}}{40}{figure.4.12}
+\contentsline {figure}{\numberline {4.13}{\ignorespaces The frametime when fracturing the Stanford Bunny, consisting of 69,666 triangles. The red line indicates the collision time.}}{42}{figure.4.13}
+\contentsline {figure}{\numberline {4.14}{\ignorespaces The time taken in seconds to simultaneously fracture two Stanford Bunnies, each consisting of 69,666 triangles, over 10 runs. Figures \ref {fig:A.3.1} and \ref {fig:A.3} show the full tables.}}{43}{figure.4.14}
+\contentsline {figure}{\numberline {4.15}{\ignorespaces The framerate when simultaneously fracturing two Stanford Bunnies, each consisting of 69,666 triangles. The red line indicates the collision time.}}{44}{figure.4.15}
+\contentsline {figure}{\numberline {4.16}{\ignorespaces The frametime when simultaneously fracturing two Stanford Bunnies, each consisting of 69,666 triangles. The red line indicates the collision time.}}{46}{figure.4.16}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {A.1}{\ignorespaces The time taken in seconds to instantiate 22 precomputed fragments over 10 runs.}}{55}{figure.A.1}
+\contentsline {figure}{\numberline {A.2}{\ignorespaces The time in seconds when fracturing a sphere consisting of 760 triangles over 10 runs using Meshinator.}}{55}{figure.A.2}
+\contentsline {figure}{\numberline {A.3}{\ignorespaces The time in seconds when fracturing the Stanford Bunny, consisting of 69,666 triangles,s over 10 runs using Meshinator.}}{55}{figure.A.3}
+\contentsline {figure}{\numberline {A.4}{\ignorespaces The time taken in seconds to simultaneously fracture two Stanford Bunnies, each consisting of 69,666 triangles, over 10 runs using Meshinator.}}{55}{figure.A.4}
+\contentsline {figure}{\numberline {A.5}{\ignorespaces The time taken in seconds to simultaneously fracture two Stanford Bunnies, each consisting of 69,666 triangles, over 10 runs using DVF.}}{55}{figure.A.5}
+\contentsline {figure}{\numberline {A.6}{\ignorespaces The time in seconds by each pipeline stage when fracturing the Stanford Bunny, consisting of 69,666 triangles, over 10 runs using DVF. The number of generated fragments can vary slightly, resulting in the number of times the marching tetrahedra and instantiation phases are applied differing between runs.}}{56}{figure.A.6}
+\contentsline {figure}{\numberline {A.7}{\ignorespaces The time in seconds by each pipeline stage when fracturing a sphere consisting of 760 triangles over 10 runs using DVF. The number of generated fragments can vary slightly, resulting in the number of times the marching tetrahedra and instantiation phases are applied differing between runs.}}{57}{figure.A.7}

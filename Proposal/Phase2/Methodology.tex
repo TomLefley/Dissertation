@@ -1,0 +1,46 @@
+
+\section{Methodology}
+
+\subsection{Starting Point}
+
+I will be working using the Unity3D physics and game engine, with which I have prior experience. The engine will provide general features such as rendering, rigid mesh physics and game object management which I will expand upon to achieve my more specific goals. As Unity3D is a widely used commercial engine, its use will also allow for comparable evaluation against scenes implemented using only the base features.
+
+I will be using an existing implementation of the marching cubes algorithm on the GPU for voxel to mesh transformations\cite{MCGPU}.
+
+
+\subsection{Substance and Structure of the Project}
+
+This project will involve implementing mesh to voxel transformations efficiently at runtime based on existing methods\cite{V,SW,OCL}, as well as the calculation of correct physical responses amongst the individual voxels of the volumetric object. The nature of these physical responses will depend on the physical parameters of the parent object. These parameters and how they impact the physical destruction will have to be defined.
+
+Voxelisation will also be required to be lazy for efficiency. Objects should only be voxelised if the triggering collision is above a certain force threshold which will be defined by the object's physical parameters. If the impact force is not above this then it can be assumed that no damage will be done and there is no need to voxelise. Whole objects should not be voxelised, only a large enough portion to bound the damage that will be done. 
+
+The project has the following main sections:
+
+\begin{enumerate}
+
+\item Real-time voxelization of polygonal meshes on the GPU based on one of the methods cited above.
+
+\item Destruction of volumetric objects based on their physical parameters. By propagating collision information from each voxel to its orthogonal neighbours from the point of impact, it can be calculated which voxels should be dissociated from the parent object and become independent objects.
+
+\item Real-time user modification of objects by adding or removing voxels.
+
+\item Real-time mesh formation from volume data on the GPU using a plugin for Unity3D\cite{MCGPU}.
+
+\item Writing the dissertation.
+
+\end{enumerate}
+
+\clearpage
+\subsection{Further goals}
+
+\label{stretch}
+
+If time allows, two further areas will be explored:
+
+\begin{enumerate}
+
+\item \textbf{Object deformation} As well as modelling object destruction while volumetric, object deformation could also be simulated. By representing each voxel as being connected to its neighbours by a rigid bond, the orientation of these bonds can be changed to deform an object based on its malleability, brittleness, density, etc.~.
+
+\item \textbf{Structural integrity.} The main focus of the project is physics caused by interaction such as two objects colliding. A further goal would be modelling the internal physics of resting objects. Take for example a wooden beam fixed at one end with a weight at the other, if this weight is too heavy, the beam should break at the correct point. This simulation is trickier as the cue for when to voxelize and resolve is not as obvious.
+
+\end{enumerate}

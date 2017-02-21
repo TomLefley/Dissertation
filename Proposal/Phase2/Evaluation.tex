@@ -1,0 +1,61 @@
+
+\section{Evaluation}
+
+\subsection{Success Criteria}
+
+The following should be achieved:
+
+\begin{itemize}
+
+\item Implement and demonstrate realtime conversion between mesh and volumetric objects.
+
+\item Implement and demonstrate object destruction based on collision information and physical parameters. 
+
+\end{itemize}
+
+\subsection{Evaluation Criteria}
+
+The following are evaluation criteria:
+
+\begin{itemize}
+
+\item A scene with a reasonable number of collisions should run with a framerate above 30FPS and no less than half that of an identical scene using only traditional rigid body physics.
+	\begin{itemize}
+	\item Comparable scenes built using the base Unity3D rigid mesh physics engine will be used for efficiency evaluation. Metrics to be compared are physics realism, GPU VRAM usage and render thread time.
+	\item My own computer will provide a high specification test case, the MCS machines found in the Intel Lab at the William Gates Building will represent a mid range specification.
+	\end{itemize}
+
+\item Conversion between mesh and volumetric objects should not be noticeable.
+	\begin{itemize}
+	\item There should be no obvious slowdown or framerate drop when a conversion occurs.
+	\item The delta time between voxelisation and mesh reformation should be below $0.5$s.
+	\end{itemize}
+
+\end{itemize}
+
+\subsection{Further Goals}
+
+The following are stretch goals to be achieved if time allows:
+
+\begin{itemize}
+\item Volumetric deformation
+
+\item Structural integrity.
+\end{itemize}
+
+Further detail can be found in section \ref{stretch}
+
+\clearpage
+\subsection{Demonstration}
+
+\label{demo}
+
+At the progress meeting I will demonstrate a stuttered scene in which a bullet will be fired at a brick wall. The scene will be paused at the point of impact for explanation and highlighting of these processes involved:
+
+\begin{enumerate}
+\item A portion of the wall and bullet will be voxelised as determined by the force of impact, and the volumetric representations shown as in the video demonstration from Nie{\ss}ner et al\cite{RTCV}.
+\item As little progress will have been made on volumetric destruction at this point in the project, instead all the voxels will be removed.
+\item The wall's mesh will then be rebuilt from the updated volumetric representation.
+\end{enumerate}
+
+A second scene will also be demonstrated in which a ball is dropped from a low height onto another brick wall. It will be shown that no voxelisation takes place as the collision force is not great enough.

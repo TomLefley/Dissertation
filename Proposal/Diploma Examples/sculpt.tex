@@ -1,0 +1,369 @@
+%%%%%%%%%%%% By Neil Dodgson %%%%%%%%%%%%%%%%%
+\documentclass[12pt]{article}
+\usepackage{a4wide}
+
+\newcommand{\al}{$<$}
+\newcommand{\ar}{$>$}
+
+\parindent 0pt
+\parskip 6pt
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\rightline{\large\al\emph{name}\ar}
+\medskip
+\rightline{\large\al\emph{College}\ar}
+\medskip
+\rightline{\large\al\emph{CRSID}\ar}
+
+\vfil
+
+\centerline{\large Diploma in Computer Science Project Proposal}
+\vspace{0.4in}
+\centerline{\Large\bf Interactive Sculpting of 3D Objects}
+\vspace{0.3in}
+\centerline{\large \al\emph{date}\ar}
+
+\vfil
+
+{\bf Project Originator:} This is a Model Project Proposal
+
+\vspace{0.1in}
+
+{\bf Resources Required:} See attached Project Resource Form
+
+\vspace{0.5in}
+
+{\bf Project Supervisor:} \al\emph{name}\ar
+
+\vspace{0.2in}
+
+{\bf Signature:}
+
+\vspace{0.5in}
+
+{\bf Director of Studies:}  \al\emph{name}\ar
+
+\vspace{0.2in}
+
+{\bf Signature:}
+
+\vspace{0.5in}
+
+{\bf Overseers:} \al\emph{name}\ar\ and \al\emph{name}\ar
+
+\vspace{0.2in}
+
+{\bf Signatures:} \al\emph{no need to obtain Overseers' signatures yourself}\ar
+
+\vfil
+\eject
+
+\al\emph{This proposal refers to the language Java.  This language is
+  used only as an example; it is perfectly reasonable to use a
+  different language.  Likewise other specific features described may
+  be taken simply as examples.}\ar
+
+
+\section*{Introduction and Description of the Work}
+
+This project involves the implementation of a system that will allow
+the user to interact with a three-dimensional object, sculpting the
+object with a variety of tools.
+
+Such a system is described in the paper referenced below [1]. It
+allows the user to take a basic polygon mesh model (such as a sphere)
+and use simple tools to deform the mesh. The basic deformations are
+either pushes or pulls of the surface. Furthermore, sections of the
+surface can be selected for mesh refinement to give finer control of
+the shape. The basic actions are augmented with several models
+describing how the adjoining areas of the mesh are affected by the
+deformation of their neighbours.
+
+
+\section*{Resources Required}
+
+No special resources will be required unless a ray tracer is employed
+in an extension to the project.  The public domain ray tracer
+\emph{POVray} is available for download from {\tt www.povray.org}.
+Output images can be viewed using a standard viewing tool.
+
+
+\section*{Starting Point}
+
+\al\emph{This is the place to declare any prior knowledge relevant
+to the project: for example any relevant courses taken prior to
+the start of the Diploma year.}\ar
+
+
+\section*{Substance and Structure of the Project}
+
+The project would involve writing software to maintain the polygon
+mesh structure, load and save it to disk, and pass the primitives to
+the rendering routines. The tools (e.g.\ sphere, cylinder, and box)
+have to be tracked and any collisions with the mesh detected. This can
+be done with a varying degree of intelligence, with obvious tradeoffs
+between complexity of program and data structure and speed. The
+results of actions on the mesh would also need to be implemented.
+
+The mesh refinement could be implemented either explicitly or
+automatically where polygons become too large, or surfaces too curved,
+with both mesh refinement and surface interpolation techniques
+required. To reduce rendering costs, sections of the mesh could be
+selected for display only, again using the selection tool.
+
+The viewing direction would also need to be controlled, so that the
+user could move the model around to look at it from various directions.
+
+The project has the following main sections:
+
+\begin{enumerate}
+
+\item A study of the algorithms required for generating the objects,
+  refining the polygon mesh, displaying the mesh, detecting
+  intersections between the tool and the mesh, and deforming the mesh.
+  A number of references are given in the Bibliography of the 1996
+  Diploma Dissertation, \emph{Computer Sculpting of 3-D Objects}, by
+  Richard Nevill.
+
+\item A study of the facilities for developing a graphical
+user-interface in Java.
+
+\item Developing and testing the code for the algorithms
+referred to in (1).
+
+\item Evaluation and the preparation of examples to demonstrate
+that the implementation has been successful.
+
+\item Writing the dissertation.
+
+\end{enumerate}
+
+If time allows there is scope for arranging that output could be sent
+as input to a higher quality renderer such as the ray tracer
+\emph{POVray} ({\tt www.povray.org}).  Another extension would be to
+allow the user to paint colours on to the mesh with a paintbrush tool.
+
+
+\section*{Reference}
+
+\begin{description}
+\item {[1]} \emph{Computer Sculpting of Polygonal Models using Virtual
+Tools}, J. R. Bill and S. K. Lodha, Technical Report, University of
+California, Santa Cruz, UCSC-CRL-94-27.\\
+({\tt http://citeseer.ist.psu.edu/166785.html})
+\end{description}
+
+
+\section*{Success Criteria}
+
+The following should be achieved:
+
+\begin{itemize}
+
+\item Store and display polygon meshes
+
+\item Read polygon meshes from files on disk and write them to files on disk
+
+\item Implement at least two separate tools
+
+\item Demonstrate that these tools interact appropriately with the polygon
+mesh
+
+\item Demonstrate mesh refinement
+
+\end{itemize}
+
+\section*{Timetable and Milestones}
+
+\al\emph{In the following scheme, weeks are numbered so that the week
+  starting on the day on which Project Proposals are handed in is
+  Week~1.  The year's timetable means that the deadline for submitting
+  dissertations is in Week~34.}\ar
+
+\al\emph{In the Project Proposal that you hand in, {\rm actual dates}
+  should be used instead of week numbers and you should show how these
+  dates relate to the periods in which lectures take place. Week~1
+  starts immediately after submission of the Project Proposal.}\ar
+
+\al\emph{The timetable and milestones given below refer to just one
+  particular interpretation of this document.  Even if you select
+  exactly this interpretation you will need to review the suggested
+  timetable and adjust the dates to allow as precisely as you can for
+  the amount of programming and other related experience that you have
+  at the start of the year.  Take account of the dates you and your
+  Supervisor will be working in Cambridge outside Lecture Term.  Note
+  that some candidates write the Introduction and Preparation chapters
+  of their dissertations quite early in the year, while others will do
+  all their writing in one burst near the end}.\ar
+
+
+\subsection*{Before Proposal submission}
+
+\al\emph{This section will not appear in your Project Proposal.}\ar
+ 
+Submission of Phase~1 Report Form. Discussion with Overseers and
+Director of Studies.  Allocation of and discussion with Project
+Supervisor, preliminary reading, choice of the variant on the project
+and language \al\emph{Java in this example\/}\ar, writing Project
+Proposal.  Discussion with Supervisor to arrange a schedule of regular
+meetings for obtaining support during the course of the year.
+
+Milestones: Phase~1 Report Form (on the Monday immediately following
+the main Briefing Lecture), then a Project Proposal complete with as
+realistic a timetable as possible, approval from Overseers and
+confirmed availability of any special resources needed. Signatures
+from Supervisor and Director of Studies.
+
+
+\subsection*{Weeks 1 to 5}
+
+\al\emph{Real work on the project starts here (as distinct from just
+  work on the proposal).  A significant problem for Diploma candidates
+  is that this critical period largely coincides with the Christmas
+  vacation.  There is no guarantee that supervisors will be available
+  outside Lecture Term, but Diploma students take much less of a
+  Christmas break than undergraduates do, and so have some opportunity
+  for uninterrupted reading and initial practical work at this stage.
+  It is important to have completed some serious work on the project
+  before the pressures of the Lent Term become all too apparent.}\ar
+
+Study of the relevant algorithms.  Generation of some simple test
+Java code to get a feel for what can be done. It is critical that you
+get to grips with Java's 3D graphics library.
+
+Milestones: Simple test code which demonstrates an understanding of
+Java and its user-interface libraries.  This code will probably
+not be used in the final project implementation.
+
+
+\subsection*{Weeks 6 and 7}
+
+Design data structures for storing the polygon mesh.  Implement
+algorithms for managing this data structure.  Implement simple
+prototype method of displaying the polygon mesh.  Design an implement
+a test scenario.
+
+Milestones: Working code to manage the data structure, demonstration
+of the program displaying a test polygon mesh.
+
+
+\subsection*{Weeks 8 to 10}
+
+Refine display algorithm.  Begin implementation of sculpting tools.
+
+Milestones: Demonstration of the user interacting with an object on
+the screen in a simplistic way and demonstration of the user
+interacting with an object on the screen with one or more tools.
+
+
+\subsection*{Weeks 11 and 12}
+
+Refine the code already written.  Review remainder of project plan in
+view of program development to date and adjust as necessary.  Write
+the Progress Report drawing attention to the code already written,
+incorporating some examples, and recording any augmentations which at
+this stage seem reasonably likely to be incorporated.
+
+Milestones: Basic code now working, but probably with some serious
+inefficiencies, Progress Report submitted and entire project reviewed
+both personally and with Overseers.
+
+
+\subsection*{Weeks 13 to 19 (including Easter vacation)}
+
+Implementation of mesh refinement algorithms.  Ensure that routines to
+read objects from and write objects to files are written.
+
+\al\emph{The Easter break from lectures can provide a time to work on
+  a substantial challenge (perhaps going beyond your initial plan)
+  where an uninterrupted week can allow you to get to grips with a
+  complex task.  This is a good time to put in some quiet work (while
+  your Supervisor is busy on other things) writing the Preparation and
+  Implementation chapters of the Dissertation.  By this stage the form
+  of the final implementation should be sufficiently clear that most
+  of that chapter can be written, even if the code is incomplete.
+  Describing clearly what the code will do can often be a way of
+  sharpening your own understanding of how to implement it.}\ar
+
+Milestones: Demonstrations of improved interaction with the object,
+mesh refinement of an object, saving an object to a file, and
+restoring an object from a file.  Preparation chapter of Dissertation
+complete, Implementation chapter at least half complete, code performs
+tolerably well and should be in a state that in the worst case it
+would satisfy the examiners with at most cosmetic adjustment.
+
+
+\subsection*{Weeks 20 to 26}
+
+\al\emph{Since your project is, by now, in fairly good shape there is
+  a chance to use the immediate run-up to examinations to attend to
+  small rationalisations and to implement things that are useful but
+  fairly straightforward.  It is generally not a good idea to drop all
+  project work over the revision season; if you do, the code will feel
+  amazingly unfamiliar when you return to it.  Equally, first priority
+  has to go to the examinations, so do not schedule anything too
+  demanding on the project front here.  The fact that the
+  Implementation chapter of the Dissertation is in draft will mean
+  that you should have a very clear view of the work that remains, and
+  so can schedule it rationally.}\ar
+
+Work on the project will be kept ticking over during this period but
+undoubtedly the Easter Term lectures and examination revision will
+take priority.
+
+
+\subsection*{Weeks 27 to 31}
+
+\al\emph{Getting back to work after the examinations and May Week
+  calls for discipline.  Setting a timetable can help stiffen your
+  resolve!}\ar
+
+Evaluation and testing.  Finish off otherwise ragged parts of the
+code.  Write the Introduction chapter and draft the Evaluation and
+Conclusions chapters of the Dissertation, complete the Implementation
+chapter.
+
+Milestones: Examples and test cases run and results collected,
+Dissertation essentially complete, with large sections of it
+proof-read by Supervisor and possibly friends and/or Director of
+Studies.
+
+
+\subsection*{Weeks 32 and 33}
+
+Finish Dissertation, preparing diagrams for insertion.  Review whole
+project, check the Dissertation, and spend a final few days on
+whatever is in greatest need of attention.
+
+\al\emph{In many cases, once a Dissertation is complete (but not
+  before) it will become clear where the biggest weakness in the
+  entire work is.  In some cases this will be that some feature of the
+  code has not been completed or debugged, in other cases it will be
+  that more sample output is needed to show the project's capabilities
+  on larger test cases.  In yet other cases it will be that the
+  Dissertation is not as neatly laid out or well written as would be
+  ideal.  There is much to be said for reserving a small amount of
+  time right at the end of the project (when your skills are most
+  developed) to put in a short but intense burst of work to try to
+  improve matters.  Doing this when the Dissertation is already
+  complete is good: you have a clearly limited amount of time to work,
+  and if your efforts fail you still have something to hand in!  If
+  you succeed you may be able to replace that paragraph where you
+  apologise for not getting feature X working into a brief note
+  observing that you can indeed do X as well as all the other things
+  you have talked about.}\ar
+
+
+\subsection*{Week 34}
+
+\al\emph{Aim to submit the dissertation at least a week before the
+  deadline. Be ready to check whether you will be needed for a\/ {\rm
+    viva voce} examination}.\ar
+
+Milestone: Submission of Dissertation. 
+
+\end{document}
+
